@@ -18,4 +18,74 @@
  *           divided (items separated by 1px line, no backgrounds); item data-open / data-disabled (Base UI)
  */
 
-/* TODO(builder D): implement */
+.io-accordion {
+  display: grid;
+  gap: var(--io-space-8);
+  min-width: 0;
+}
+
+.io-accordion-header { margin: 0; }
+
+.io-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--io-space-12);
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px var(--io-space-16);
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: var(--io-color-text);
+  font-family: var(--io-font-body);
+  font-size: var(--io-text-base);
+  font-weight: var(--io-weight-semibold);
+  text-align: left;
+  cursor: pointer;
+}
+
+.io-accordion-item[data-disabled] .io-accordion-trigger { opacity: 0.5; cursor: not-allowed; }
+
+.io-accordion-icon {
+  flex: none;
+  color: var(--io-color-text-muted);
+  transition: transform var(--io-motion-duration-normal) var(--io-motion-ease-standard);
+}
+
+.io-accordion-trigger[data-panel-open] .io-accordion-icon { transform: rotate(180deg); }
+
+.io-accordion-panel {
+  height: var(--accordion-panel-height);
+  overflow: hidden;
+  transition: height var(--io-motion-duration-normal) var(--io-motion-ease-standard);
+}
+
+.io-accordion-panel[data-starting-style],
+.io-accordion-panel[data-ending-style] { height: 0; }
+
+.io-accordion-content {
+  padding: 0 var(--io-space-16) var(--io-space-16);
+  font-size: var(--io-text-md);
+  color: var(--io-color-text-muted);
+}
+
+/* Separated: each item is a card */
+.io-accordion[data-variant="separated"] .io-accordion-item {
+  border-radius: var(--io-radius-row);
+  background: var(--io-color-surface);
+  box-shadow: var(--io-shadow-card);
+}
+
+.io-accordion[data-variant="separated"] .io-accordion-trigger:hover {
+  background: color-mix(in srgb, var(--io-color-text) var(--io-tint-hover), transparent);
+}
+
+/* Divided: lines between items */
+.io-accordion[data-variant="divided"] { gap: 0; }
+
+.io-accordion[data-variant="divided"] .io-accordion-item + .io-accordion-item {
+  border-top: 1px solid var(--io-color-line);
+}
+
+.io-accordion[data-variant="divided"] .io-accordion-trigger { border-radius: var(--io-radius-item); }

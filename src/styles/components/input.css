@@ -21,4 +21,106 @@
  * Notes:    placeholder color text-subtle. Combobox reuses io-input for its box.
  */
 
-/* TODO(builder B): implement */
+.io-input {
+  --_height: var(--io-size-control-md);
+  --_pad: 14px;
+  --_bg: var(--io-color-surface);
+  --_border: var(--io-color-line);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: var(--_height);
+  padding-inline: var(--_pad);
+  border: 1px solid var(--_border);
+  border-radius: var(--io-radius-field);
+  background: var(--_bg);
+  color: var(--io-color-text);
+  font-size: var(--io-text-md);
+  transition: border-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-input[data-size="sm"] {
+  --_height: var(--io-size-control-sm);
+  --_pad: 12px;
+  font-size: var(--io-text-sm);
+}
+
+.io-input[data-size="lg"] {
+  --_height: var(--io-size-control-lg);
+  --_pad: 16px;
+}
+
+.io-input[data-appearance="soft"] {
+  --_bg: var(--io-color-surface-soft);
+  --_border: transparent;
+  border-radius: var(--io-radius-control);
+}
+
+.io-input:hover:not([data-disabled], [data-invalid]) {
+  --_border: var(--io-color-line-strong);
+}
+
+.io-input[data-appearance="soft"]:hover:not([data-disabled], [data-invalid]) {
+  --_border: transparent;
+}
+
+.io-input:focus-within:not([data-invalid], [data-appearance="soft"]) {
+  --_border: var(--io-color-accent);
+}
+
+.io-input[data-invalid] {
+  --_border: var(--io-color-bad);
+}
+
+.io-input[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.io-input-control {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  appearance: none;
+  text-overflow: ellipsis;
+}
+
+.io-input-control::placeholder {
+  color: var(--io-color-text-subtle);
+}
+
+.io-input-control:disabled {
+  cursor: not-allowed;
+}
+
+.io-input[data-mono] .io-input-control {
+  font-family: var(--io-font-mono);
+}
+
+.io-input-slot {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--io-color-text-muted);
+}
+
+@media (max-width: 47.99rem) {
+  .io-input[data-size="sm"],
+  .io-input[data-size="md"] {
+    min-height: var(--io-size-touch);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-input {
+    transition: none;
+  }
+}

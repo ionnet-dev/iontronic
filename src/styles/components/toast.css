@@ -5,13 +5,16 @@
  *   <div class="io-toast-viewport">                                             (fixed; bottom-right desktop,
  *                                                                               bottom-center above the tab bar on phone)
  *     <div class="io-toast" data-tone="ok" data-type="loading">                 (Toast.Root)
- *       <span class="io-toast-icon io-hue" data-tone="ok"><svg class="io-icon"/></span>
- *       <div class="io-toast-content">
- *         <div class="io-toast-title">Silenced web-01 for 1 hour</div>
- *         <div class="io-toast-description">…</div>
+ *       <div class="io-toast-body">                                             (Toast.Content; optional wrapper, fades
+ *                                                                               when the toast is stacked behind a newer one)
+ *         <span class="io-toast-icon io-hue" data-tone="ok"><svg class="io-icon"/></span>
+ *         <div class="io-toast-content">
+ *           <div class="io-toast-title">Silenced web-01 for 1 hour</div>
+ *           <div class="io-toast-description">…</div>
+ *         </div>
+ *         <button class="io-toast-action">Undo</button>
+ *         <button class="io-toast-close" aria-label="Dismiss"><svg/></button>
  *       </div>
- *       <button class="io-toast-action">Undo</button>
- *       <button class="io-toast-close" aria-label="Dismiss"><svg/></button>
  *     </div>
  *   </div>
  *
@@ -25,4 +28,212 @@
  *           text-md; width min(24rem, 100vw - 32px); z toast.
  */
 
-/* TODO(builder C): implement */
+.io-toast-viewport {
+  --_width: min(24rem, 100vw - 2 * var(--io-space-16));
+  --_gap: var(--io-space-12);
+  position: fixed;
+  right: var(--io-space-16);
+  bottom: var(--io-space-16);
+  z-index: var(--io-z-toast);
+  width: var(--_width);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-12);
+  box-sizing: border-box;
+  width: var(--_width, min(24rem, 100vw - 2 * var(--io-space-16)));
+  padding: var(--io-space-12) var(--io-space-14) var(--io-space-12) var(--io-space-16);
+  background: var(--io-color-inverse);
+  color: var(--io-color-on-inverse);
+  border-radius: var(--io-radius-card);
+  box-shadow: var(--io-shadow-card);
+  font-size: var(--io-text-md);
+  line-height: var(--io-leading-snug);
+}
+
+/* Stacking inside the viewport: the newest toast is in front, older ones peek out behind it */
+.io-toast-viewport .io-toast {
+  --_peek: var(--io-space-12);
+  --_scale: calc(max(0, 1 - var(--toast-index) * 0.1));
+  --_height: var(--toast-frontmost-height, var(--toast-height));
+  --_offset: calc(
+    var(--toast-offset-y) * -1 + var(--toast-index) * var(--_gap) * -1 + var(--toast-swipe-movement-y, 0px)
+  );
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: var(--_height);
+  z-index: calc(1000 - var(--toast-index));
+  user-select: none;
+  cursor: default;
+  transform-origin: bottom center;
+  transform:
+    translateX(var(--toast-swipe-movement-x, 0px))
+    translateY(calc(
+      var(--toast-swipe-movement-y, 0px) - var(--toast-index) * var(--_peek) - (1 - var(--_scale)) * var(--_height)
+    ))
+    scale(var(--_scale));
+  transition:
+    transform var(--io-motion-duration-slow) var(--io-motion-ease-out),
+    opacity var(--io-motion-duration-slow) var(--io-motion-ease-out),
+    height var(--io-motion-duration-slow) var(--io-motion-ease-out);
+}
+
+/* Fills the gap between stacked toasts so hover does not flicker */
+.io-toast-viewport .io-toast::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(var(--_gap) + 1px);
+}
+
+.io-toast-viewport .io-toast[data-expanded] {
+  height: var(--toast-height);
+  transform:
+    translateX(var(--toast-swipe-movement-x, 0px))
+    translateY(var(--_offset));
+}
+
+.io-toast-viewport .io-toast[data-starting-style],
+.io-toast-viewport .io-toast[data-ending-style] {
+  transform: translateY(150%);
+}
+
+.io-toast-viewport .io-toast[data-limited] {
+  opacity: 0;
+}
+
+.io-toast-viewport .io-toast[data-ending-style] {
+  opacity: 0;
+}
+
+.io-toast-viewport .io-toast[data-ending-style][data-swipe-direction="right"] {
+  transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--_offset));
+}
+
+.io-toast-viewport .io-toast[data-ending-style][data-swipe-direction="left"] {
+  transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--_offset));
+}
+
+.io-toast-viewport .io-toast[data-ending-style][data-swipe-direction="down"] {
+  transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
+}
+
+.io-toast-viewport .io-toast[data-ending-style][data-swipe-direction="up"] {
+  transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
+}
+
+/* Wrapper that Base UI fades out while the toast is stacked behind a newer one */
+.io-toast-body {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--io-space-12);
+  min-width: 0;
+  transition: opacity var(--io-motion-duration-slow) var(--io-motion-ease-out);
+}
+
+.io-toast-body[data-behind] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.io-toast-body[data-expanded] {
+  opacity: 1;
+}
+
+.io-toast-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--io-size-icon-lg);
+  height: var(--io-size-icon-lg);
+  color: var(--io-hue);
+}
+
+.io-toast-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--io-space-2);
+  min-width: 0;
+}
+
+.io-toast-title {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: var(--io-weight-semibold);
+}
+
+.io-toast-description {
+  margin: 0;
+  font-size: var(--io-text-sm);
+  opacity: 0.75;
+}
+
+.io-toast-action {
+  flex: none;
+  padding: var(--io-space-4) var(--io-space-6);
+  background: none;
+  border: 0;
+  border-radius: var(--io-radius-sm);
+  color: inherit;
+  font: inherit;
+  font-weight: var(--io-weight-bold);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.io-toast-close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--io-size-icon-xl);
+  height: var(--io-size-icon-xl);
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--io-radius-full);
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-toast-close:hover {
+  opacity: 1;
+}
+
+.io-toast-action:focus-visible,
+.io-toast-close:focus-visible {
+  outline: var(--io-focus-width) solid var(--io-color-focus);
+  outline-offset: var(--io-focus-offset);
+}
+
+/* Promise toasts: the icon slot holds a spinner while loading */
+.io-toast[data-type="loading"] .io-toast-icon {
+  color: inherit;
+}
+
+/* Phone layout: bottom-centre, above the tab bar */
+@media (max-width: 47.99rem) {
+  .io-toast-viewport {
+    right: 50%;
+    bottom: calc(env(safe-area-inset-bottom) + 4.5rem);
+    transform: translateX(50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-toast-viewport .io-toast {
+    transition-duration: 1ms;
+  }
+}

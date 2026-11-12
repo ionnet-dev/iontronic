@@ -9,4 +9,42 @@
  * Look:     circle; background var(--io-hue); color on-solid; font display bold; text scales with size.
  */
 
-/* TODO(builder C): implement */
+.io-avatar {
+  --_size: 38px;
+  --_text: var(--io-text-md);
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--_size);
+  height: var(--_size);
+  overflow: hidden;
+  background: var(--io-hue);
+  color: var(--io-color-on-solid);
+  border-radius: var(--io-radius-full);
+  font-family: var(--io-font-display);
+  font-size: var(--_text);
+  font-weight: var(--io-weight-bold);
+  line-height: var(--io-leading-none);
+  vertical-align: middle;
+  user-select: none;
+}
+
+.io-avatar[data-size="sm"] { --_size: 28px; --_text: var(--io-text-xs); }
+.io-avatar[data-size="md"] { --_size: 38px; --_text: var(--io-text-md); }
+.io-avatar[data-size="lg"] { --_size: 48px; --_text: var(--io-text-lg); }
+
+.io-avatar-image {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.io-avatar-fallback {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+}

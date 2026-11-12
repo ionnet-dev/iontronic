@@ -14,4 +14,86 @@
  * Look:     background surface-raised; radius panel; shadow overlay; padding 16px; max-width 22rem; gap 8px.
  */
 
-/* TODO(builder C): implement */
+.io-popover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-8);
+  box-sizing: border-box;
+  max-width: min(22rem, var(--available-width, 22rem));
+  padding: var(--io-space-16);
+  background: var(--io-color-surface-raised);
+  color: var(--io-color-text);
+  border-radius: var(--io-radius-panel);
+  box-shadow: var(--io-shadow-overlay);
+  font-size: var(--io-text-md);
+  outline: none;
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--io-motion-duration-fast) var(--io-motion-ease-out),
+    transform var(--io-motion-duration-fast) var(--io-motion-ease-out);
+}
+
+.io-popover[data-starting-style],
+.io-popover[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.io-popover-title {
+  margin: 0;
+  font-size: var(--io-text-md);
+  font-weight: var(--io-weight-semibold);
+}
+
+.io-popover-description {
+  margin: 0;
+  color: var(--io-color-text-muted);
+  font-size: var(--io-text-sm);
+  line-height: var(--io-leading-normal);
+}
+
+.io-popover-arrow {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--io-color-surface-raised);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.io-popover-arrow[data-side="top"] {
+  bottom: -5px;
+  transform: rotate(45deg);
+}
+
+.io-popover-arrow[data-side="bottom"] {
+  top: -5px;
+  transform: rotate(45deg);
+}
+
+.io-popover-arrow[data-side="left"] {
+  right: -5px;
+  transform: rotate(45deg);
+}
+
+.io-popover-arrow[data-side="right"] {
+  left: -5px;
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-popover {
+    transition-duration: 1ms;
+  }
+
+  .io-popover[data-starting-style],
+  .io-popover[data-ending-style] {
+    transform: none;
+  }
+}
+
+/* Popovers can open from inside a dialog, so they sit above the modal layer */
+.io-popover-positioner {
+  z-index: var(--io-z-toast);
+}

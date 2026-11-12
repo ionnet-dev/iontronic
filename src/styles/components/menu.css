@@ -14,4 +14,18 @@
  * Parts:    io-menu (scoped tweaks only; min-width 12rem)
  */
 
-/* TODO(builder C): implement */
+.io-menu {
+  min-width: 12rem;
+}
+
+/* Menus can open from inside a dialog, so they sit above the modal layer */
+.io-menu-positioner {
+  z-index: var(--io-z-toast);
+}
+
+/* Keeps check marks aligned: unchecked items still reserve the indicator slot */
+.io-menu .io-popup-item-indicator[hidden],
+.io-menu .io-popup-item-indicator[data-unchecked] {
+  display: inline-flex;
+  visibility: hidden;
+}

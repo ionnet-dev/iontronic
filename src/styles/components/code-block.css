@@ -20,4 +20,87 @@
  * Look:     background surface-soft; radius row; overflow hidden.
  */
 
-/* TODO(builder D): implement */
+.io-code-block {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--io-radius-row);
+  background: var(--io-color-surface-soft);
+  color: var(--io-color-text);
+}
+
+.io-code-block-header {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-10);
+  padding: var(--io-space-8) var(--io-space-8) var(--io-space-8) var(--io-space-16);
+  border-bottom: 1px solid var(--io-color-line);
+  font-size: var(--io-text-sm);
+}
+
+.io-code-block-title { font-weight: var(--io-weight-semibold); }
+
+.io-code-block-language {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-2xs);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-none);
+  letter-spacing: var(--io-tracking-label);
+  text-transform: uppercase;
+  color: var(--io-color-text-muted);
+}
+
+.io-code-block-copy {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--io-radius-full);
+  background: transparent;
+  color: var(--io-color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-code-block-copy:hover {
+  background: color-mix(in srgb, var(--io-color-text) var(--io-tint-hover), transparent);
+  color: var(--io-color-text);
+}
+
+.io-code-block-copy[data-copied] { color: var(--io-color-ok); }
+
+.io-code-block-pre {
+  margin: 0;
+  padding: 14px var(--io-space-16);
+  max-height: var(--_max-height, none);
+  overflow: auto;
+}
+
+.io-code-block-code {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-md);
+  line-height: var(--io-leading-normal);
+  tab-size: 2;
+}
+
+.io-code-block[data-wrap] .io-code-block-pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.io-code-block-pre[data-line-numbers] { counter-reset: io-line; }
+
+.io-code-block-pre[data-line-numbers] .io-code-block-line { display: block; }
+
+.io-code-block-pre[data-line-numbers] .io-code-block-line::before {
+  counter-increment: io-line;
+  content: counter(io-line);
+  display: inline-block;
+  min-width: 2ch;
+  margin-right: var(--io-space-16);
+  text-align: right;
+  user-select: none;
+  color: var(--io-color-text-subtle);
+}

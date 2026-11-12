@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
+import { Field as BaseField } from "@base-ui/react/field";
 import { cx } from "../../../cx";
-import type { FieldBaseProps } from "../Field/Field";
+import { Field, type FieldBaseProps } from "../Field/Field";
 
 /**
  * Props for {@link Textarea}. Native `<textarea>` attributes (and `ref`) go to the textarea.
@@ -23,9 +24,24 @@ export interface TextareaProps extends ComponentProps<"textarea">, FieldBaseProp
  */
 export function Textarea(props: TextareaProps) {
   const { mono, resize = "vertical", label, description, error, required, disabled, fieldClassName, className, ...rest } = props;
-  // TODO(builder B): wrap in <Field> when label/description/error is given
+  const control = (
+    <BaseField.Control
+      render={<textarea />}
+      className={cx("io-textarea io-focus", className)}
+      data-mono={mono || undefined}
+      data-resize={resize}
+      data-invalid={error != null || undefined}
+      required={required}
+      disabled={disabled}
+      aria-invalid={error != null || undefined}
+      {...(rest as object)}
+    />
+  );
+  if (label == null && description == null && error == null) return control;
   return (
-    <textarea className={cx("io-textarea io-focus", className)} data-mono={mono || undefined} data-resize={resize} data-invalid={error != null || undefined} required={required} disabled={disabled} {...rest} />
+    <Field label={label} description={description} error={error} required={required} disabled={disabled} name={rest.name} className={fieldClassName}>
+      {control}
+    </Field>
   );
 }
 

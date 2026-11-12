@@ -24,4 +24,77 @@
  *           --io-color-text-muted → sidebar-muted and --io-color-line → sidebar-line so generic content reads correctly.
  */
 
-/* TODO(builder D): implement */
+.io-sidebar {
+  --io-color-text: var(--io-color-sidebar-fg);
+  --io-color-text-muted: var(--io-color-sidebar-muted);
+  --io-color-line: var(--io-color-sidebar-line);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  padding: var(--io-space-18) var(--io-space-12);
+  overflow-y: auto;
+  border-radius: var(--io-radius-panel);
+  background: var(--io-color-sidebar-bg);
+  color: var(--io-color-sidebar-fg);
+}
+
+.io-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-10);
+  padding: var(--io-space-2) var(--io-space-8) var(--io-space-16);
+  font-family: var(--io-font-display);
+  font-size: var(--io-text-xl);
+  font-weight: var(--io-weight-display);
+  letter-spacing: var(--io-tracking-display);
+}
+
+.io-sidebar-logo {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--io-radius-full);
+  background: var(--io-gradient-logo-fill);
+  color: var(--io-color-on-accent);
+}
+
+.io-sidebar-name { min-width: 0; }
+
+.io-sidebar-nav {
+  display: grid;
+  gap: var(--io-space-4);
+  align-content: start;
+}
+
+.io-sidebar-footer { margin-top: auto; padding-top: var(--io-space-16); }
+
+.io-nav-section {
+  display: grid;
+  gap: var(--io-space-4);
+}
+
+.io-nav-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--io-space-8);
+  padding: var(--io-space-20) var(--io-space-10) var(--io-space-6);
+}
+
+.io-nav-section-label {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-2xs);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-none);
+  letter-spacing: var(--io-tracking-label);
+  text-transform: uppercase;
+  color: var(--io-color-sidebar-muted);
+}
+
+.io-nav-section-action {
+  display: inline-flex;
+  color: var(--io-color-sidebar-muted);
+}

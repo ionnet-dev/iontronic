@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Progress as BaseProgress } from "@base-ui/react/progress";
 import { cx } from "../../../cx";
 import type { Tone } from "../../../semantic";
 
@@ -41,12 +42,21 @@ export interface ProgressProps {
  * @example <Progress label="Uploading" value={40} showValue />
  */
 export function Progress(props: ProgressProps) {
-  const { value, size = "md", tone = "accent", className } = props;
-  // TODO(builder C): Base UI Progress.Root/Track/Indicator/Label/Value
+  const { value, max = 100, label, showValue, format, size = "md", tone = "accent", className, "aria-label": ariaLabel } = props;
+  const formatValue = format ?? ((current: number, total: number) => `${Math.round(current / total * 100)}%`);
+  const hasHeader = label != null || (showValue && value !== null);
   return (
-    <div className={cx("io-progress io-hue", className)} data-tone={tone} data-size={size} data-indeterminate={value === null || undefined}>
-      <div className="io-progress-track"><div className="io-progress-indicator" /></div>
-    </div>
+    <BaseProgress.Root className={cx("io-progress io-hue", className)} value={value} max={max} data-tone={tone} data-size={size} data-indeterminate={value === null || undefined} aria-label={ariaLabel} getAriaValueText={(_formatted, current) => (current === null ? "Loading" : formatValue(current, max))}>
+      {hasHeader && (
+        <div className="io-progress-header">
+          {label != null && <BaseProgress.Label className="io-progress-label">{label}</BaseProgress.Label>}
+          {showValue && value !== null && <BaseProgress.Value className="io-progress-value">{() => formatValue(value, max)}</BaseProgress.Value>}
+        </div>
+      )}
+      <BaseProgress.Track className="io-progress-track">
+        <BaseProgress.Indicator className="io-progress-indicator" />
+      </BaseProgress.Track>
+    </BaseProgress.Root>
   );
 }
 

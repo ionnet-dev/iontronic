@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
+import { Check } from "lucide-react";
 import { Button, type ButtonProps } from "../Button/Button";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link MenuTrigger}. Renders a {@link Button} unless `render` is given.
@@ -81,7 +83,7 @@ export function MenuContent(props: MenuContentProps) {
   const { side = "bottom", align = "start", sideOffset = 6, container, className, ...rest } = props;
   return (
     <BaseMenu.Portal container={container}>
-      <BaseMenu.Positioner className="io-popup-positioner" side={side} align={align} sideOffset={sideOffset}>
+      <BaseMenu.Positioner className="io-popup-positioner io-menu-positioner" side={side} align={align} sideOffset={sideOffset}>
         <BaseMenu.Popup className={cx("io-popup io-menu", className)} {...rest} />
       </BaseMenu.Positioner>
     </BaseMenu.Portal>
@@ -93,8 +95,13 @@ export function MenuContent(props: MenuContentProps) {
  */
 export function MenuItem(props: MenuItemProps) {
   const { icon, shortcut, tone, className, children, ...rest } = props;
-  // TODO(builder C): icon (io-popup-item-icon) and shortcut parts
-  return <BaseMenu.Item className={cx("io-popup-item", className)} data-tone={tone} {...rest}>{children}</BaseMenu.Item>;
+  return (
+    <BaseMenu.Item className={cx("io-popup-item", className)} data-tone={tone} {...rest}>
+      {icon && <Icon icon={icon} className="io-popup-item-icon" />}
+      {children}
+      {shortcut != null && <span className="io-popup-item-shortcut">{shortcut}</span>}
+    </BaseMenu.Item>
+  );
 }
 
 /**
@@ -102,8 +109,13 @@ export function MenuItem(props: MenuItemProps) {
  */
 export function MenuCheckboxItem(props: MenuCheckboxItemProps) {
   const { shortcut, className, children, ...rest } = props;
-  // TODO(builder C): io-popup-item-indicator with a Check icon, shortcut
-  return <BaseMenu.CheckboxItem className={cx("io-popup-item", className)} {...rest}>{children}</BaseMenu.CheckboxItem>;
+  return (
+    <BaseMenu.CheckboxItem className={cx("io-popup-item", className)} {...rest}>
+      <BaseMenu.CheckboxItemIndicator className="io-popup-item-indicator" keepMounted><Icon icon={Check} /></BaseMenu.CheckboxItemIndicator>
+      {children}
+      {shortcut != null && <span className="io-popup-item-shortcut">{shortcut}</span>}
+    </BaseMenu.CheckboxItem>
+  );
 }
 
 /**
@@ -111,8 +123,13 @@ export function MenuCheckboxItem(props: MenuCheckboxItemProps) {
  */
 export function MenuRadioItem(props: MenuRadioItemProps) {
   const { shortcut, className, children, ...rest } = props;
-  // TODO(builder C): io-popup-item-indicator with a dot, shortcut
-  return <BaseMenu.RadioItem className={cx("io-popup-item", className)} {...rest}>{children}</BaseMenu.RadioItem>;
+  return (
+    <BaseMenu.RadioItem className={cx("io-popup-item", className)} {...rest}>
+      <BaseMenu.RadioItemIndicator className="io-popup-item-indicator" keepMounted><Icon icon={Check} /></BaseMenu.RadioItemIndicator>
+      {children}
+      {shortcut != null && <span className="io-popup-item-shortcut">{shortcut}</span>}
+    </BaseMenu.RadioItem>
+  );
 }
 
 /**

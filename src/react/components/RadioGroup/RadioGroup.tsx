@@ -1,4 +1,7 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
+import { Field as BaseField } from "@base-ui/react/field";
+import { Radio as BaseRadio } from "@base-ui/react/radio";
+import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { cx } from "../../../cx";
 import type { FieldBaseProps } from "../Field/Field";
 
@@ -48,20 +51,50 @@ export interface RadioProps<Value extends string = string> {
  * </RadioGroup>
  */
 export function RadioGroup<Value extends string = string>(props: RadioGroupProps<Value>) {
-  const { orientation = "vertical", className, children } = props;
-  // TODO(builder B): Base UI RadioGroup inside <Field> (label/description/error)
-  return <div role="radiogroup" className={cx("io-radio-group", className)} data-orientation={orientation}>{children}</div>;
+  const { value, defaultValue, onValueChange, orientation = "vertical", name, label, description, error, required, disabled, fieldClassName, className, children } = props;
+  const labelId = useId();
+  const group = (
+    <BaseRadioGroup
+      className={cx("io-radio-group", className)}
+      data-orientation={orientation}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange ? (next) => onValueChange(next as Value) : undefined}
+      name={name}
+      required={required}
+      disabled={disabled}
+      aria-labelledby={label != null ? labelId : undefined}
+      aria-invalid={error != null || undefined}
+    >
+      {children}
+    </BaseRadioGroup>
+  );
+  if (label == null && description == null && error == null) return group;
+  return (
+    <BaseField.Root className={cx("io-field", fieldClassName)} disabled={disabled} invalid={error != null || undefined}>
+      {label != null && (
+        <div id={labelId} className="io-field-label">
+          {label}
+          {required && <span className="io-field-required" aria-hidden="true">*</span>}
+        </div>
+      )}
+      {group}
+      {description != null && <BaseField.Description className="io-field-description">{description}</BaseField.Description>}
+      {error != null && <BaseField.Error className="io-field-error" match>{error}</BaseField.Error>}
+    </BaseField.Root>
+  );
 }
 
 /**
  * One option of a {@link RadioGroup} (Base UI Radio).
  */
 export function Radio<Value extends string = string>(props: RadioProps<Value>) {
-  const { label, description, disabled, className } = props;
-  // TODO(builder B): Base UI Radio.Root + Indicator
+  const { value, label, description, disabled, className } = props;
   return (
     <label className={cx("io-check", className)} data-disabled={disabled || undefined}>
-      <span className="io-radio io-focus"><span className="io-radio-indicator" /></span>
+      <BaseRadio.Root className="io-radio io-focus" value={value} disabled={disabled}>
+        <BaseRadio.Indicator className="io-radio-indicator" />
+      </BaseRadio.Root>
       {(label != null || description != null) && (
         <span className="io-check-text">
           {label != null && <span className="io-check-label">{label}</span>}

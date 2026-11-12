@@ -17,4 +17,70 @@
  * Data:     as Input, plus data-popup-open (Base UI)
  */
 
-/* TODO(builder B): implement */
+.io-combobox {
+  gap: 4px;
+  padding-inline-end: 8px;
+}
+
+.io-combobox-input {
+  text-overflow: ellipsis;
+}
+
+.io-combobox-clear,
+.io-combobox-trigger {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--io-radius-full);
+  background: transparent;
+  color: var(--io-color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-combobox-clear:hover,
+.io-combobox-trigger:hover {
+  background: var(--io-color-surface-soft);
+  color: var(--io-color-text);
+}
+
+.io-combobox-clear[data-disabled],
+.io-combobox-trigger[data-disabled] {
+  cursor: not-allowed;
+}
+
+.io-combobox-clear[hidden] {
+  display: none;
+}
+
+.io-combobox-trigger .io-icon {
+  transition: transform var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-combobox-trigger[data-popup-open] .io-icon {
+  transform: rotate(180deg);
+}
+
+.io-combobox-popup {
+  max-height: min(22rem, var(--available-height));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-combobox-clear,
+  .io-combobox-trigger,
+  .io-combobox-trigger .io-icon {
+    transition: none;
+  }
+}
+
+/* The indicator stays mounted to keep the leading slot; only the selected item shows its mark */
+.io-combobox-popup .io-popup-item-indicator:not([data-selected]) {
+  visibility: hidden;
+}

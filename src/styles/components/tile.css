@@ -12,4 +12,39 @@
  *           Lay tiles out with <Grid columns={4} gap="8">.
  */
 
-/* TODO(builder D): implement */
+.io-tile {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--io-space-6);
+  box-sizing: border-box;
+  min-height: var(--io-size-touch);
+  padding: var(--io-space-12) var(--io-space-4);
+  border: 0;
+  border-radius: var(--io-radius-tile);
+  background: var(--io-color-surface);
+  color: var(--io-color-text);
+  cursor: pointer;
+  transition: background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-tile:hover {
+  background: color-mix(in srgb, var(--io-color-text) var(--io-tint-hover), var(--io-color-surface));
+}
+
+.io-tile[data-active],
+.io-tile[data-active]:hover { background: var(--io-color-accent-soft); }
+
+.io-tile[data-disabled],
+.io-tile:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.io-tile-label {
+  font-family: var(--io-font-body);
+  font-size: var(--io-text-xs);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-none);
+  text-align: center;
+}

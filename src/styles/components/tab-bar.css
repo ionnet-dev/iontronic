@@ -18,4 +18,61 @@
  * Look:     background surface; border-top 1px line; padding 10px 8px max(18px, env(safe-area-inset-bottom)).
  */
 
-/* TODO(builder D): implement */
+.io-tab-bar {
+  display: grid;
+  grid-template-columns: repeat(var(--_count, 4), 1fr);
+  padding: var(--io-space-10) var(--io-space-8) max(var(--io-space-18), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--io-color-line);
+  background: var(--io-color-surface);
+}
+
+.io-tab-bar-item {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 5px;
+  min-height: var(--io-size-touch);
+  padding: var(--io-space-6) 0;
+  border-radius: var(--io-radius-full);
+  color: var(--io-color-text-muted);
+  font-size: var(--io-text-2xs);
+  font-weight: var(--io-weight-semibold);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.io-tab-bar-item[data-active] { color: var(--io-color-text); }
+
+.io-tab-bar-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 30px;
+  border-radius: var(--io-radius-full);
+  transition: background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-tab-bar-item[data-active] .io-tab-bar-icon {
+  background: var(--io-color-accent-soft);
+  color: var(--io-color-accent);
+}
+
+.io-tab-bar-label { line-height: var(--io-leading-none); }
+
+.io-tab-bar-badge {
+  position: absolute;
+  top: -3px;
+  right: 3px;
+  min-width: 16px;
+  box-sizing: border-box;
+  padding: 2px 4px;
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-spark);
+  color: var(--io-color-on-solid);
+  font-family: var(--io-font-mono);
+  font-size: 10px;
+  font-weight: var(--io-weight-semibold);
+  line-height: 1;
+  text-align: center;
+}

@@ -22,4 +22,101 @@
  *           justify space-between; text-md.
  */
 
-/* TODO(builder B): implement */
+.io-select {
+  --_height: var(--io-size-control-md);
+  --_pad: 14px;
+  --_border: var(--io-color-line);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  height: var(--_height);
+  padding: 0 var(--_pad);
+  border: 1px solid var(--_border);
+  border-radius: var(--io-radius-field);
+  background: var(--io-color-surface);
+  color: var(--io-color-text);
+  font-family: var(--io-font-body);
+  font-size: var(--io-text-md);
+  text-align: start;
+  cursor: pointer;
+  transition: border-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-select[data-size="sm"] {
+  --_height: var(--io-size-control-sm);
+  --_pad: 12px;
+  font-size: var(--io-text-sm);
+}
+
+.io-select[data-size="lg"] {
+  --_height: var(--io-size-control-lg);
+  --_pad: 16px;
+}
+
+.io-select:hover:not(:disabled, [data-disabled], [data-invalid]) {
+  --_border: var(--io-color-line-strong);
+}
+
+.io-select[data-popup-open]:not([data-invalid]) {
+  --_border: var(--io-color-accent);
+}
+
+.io-select[data-invalid] {
+  --_border: var(--io-color-bad);
+}
+
+.io-select:disabled,
+.io-select[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.io-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.io-select-value[data-placeholder] {
+  color: var(--io-color-text-subtle);
+}
+
+.io-select-icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--io-color-text-muted);
+  transition: transform var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-select[data-popup-open] .io-select-icon {
+  transform: rotate(180deg);
+}
+
+.io-select-popup {
+  max-height: min(22rem, var(--available-height));
+}
+
+@media (max-width: 47.99rem) {
+  .io-select[data-size="sm"],
+  .io-select[data-size="md"] {
+    min-height: var(--io-size-touch);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-select,
+  .io-select-icon {
+    transition: none;
+  }
+}
+
+/* The indicator stays mounted to keep the leading slot; only the selected item shows its mark */
+.io-select-popup .io-popup-item-indicator:not([data-selected]) {
+  visibility: hidden;
+}

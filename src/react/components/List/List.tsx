@@ -3,6 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
 import type { HueProps } from "../../utils/hue";
+import { IconTile } from "../IconTile/IconTile";
 
 /**
  * Props for {@link ListGroup}.
@@ -52,6 +53,10 @@ export interface ListItemProps extends Omit<useRender.ComponentProps<"article">,
    */
   selected?: boolean;
   /**
+   * Tighter padding and an unclamped description.
+   */
+  dense?: boolean;
+  /**
    * Hover and pointer affordance. Default is `true` when `onClick` or `render` is set.
    */
   interactive?: boolean;
@@ -87,8 +92,8 @@ export function ListGroup(props: ListGroupProps) {
  *   description="No heartbeat for more than 5 min." meta={<span className="io-mono">grid.alerts</span>} trailing="17:00" unread selected />
  */
 export function ListItem(props: ListItemProps) {
-  const { render, icon, leading, title, badges, description, meta, trailing, unread, selected, interactive, tone, priority, category, color, className, ...rest } = props;
-  // TODO(builder D): leading IconTile, main/top/title/badges/description/meta, trailing, unread dot per list.css
+  const { render, icon, leading, title, badges, description, meta, trailing, unread, selected, dense, interactive, tone, priority, category, color, className, ...rest } = props;
+  const leadingNode = leading ?? (icon && <IconTile icon={icon} size="md" tone={tone} priority={priority} category={category} color={color} />);
   return useRender({
     render,
     defaultTagName: "article",
@@ -98,8 +103,27 @@ export function ListItem(props: ListItemProps) {
       className: cx("io-list-item io-focus", className),
       "data-selected": selected || undefined,
       "data-unread": unread || undefined,
+      "data-dense": dense || undefined,
       "data-interactive": (interactive ?? Boolean(rest.onClick || render)) || undefined,
-      children: title,
+      children: (
+        <>
+          {leadingNode != null && leadingNode !== false && <div className="io-list-item-leading">{leadingNode}</div>}
+          <div className="io-list-item-main">
+            <div className="io-list-item-top">
+              <span className="io-list-item-title">{title}</span>
+              {badges != null && <span className="io-list-item-badges">{badges}</span>}
+            </div>
+            {description != null && <p className="io-list-item-description">{description}</p>}
+            {meta != null && <div className="io-list-item-meta">{meta}</div>}
+          </div>
+          {trailing != null && (
+            <div className="io-list-item-trailing">
+              {typeof trailing === "string" || typeof trailing === "number" ? <time className="io-list-item-time">{trailing}</time> : trailing}
+            </div>
+          )}
+          {unread && <span className="io-list-item-unread" role="img" aria-label="Unread" />}
+        </>
+      ),
     },
   });
 }

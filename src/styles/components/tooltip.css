@@ -9,4 +9,83 @@
  *           z tooltip; max-width 18rem.
  */
 
-/* TODO(builder C): implement */
+.io-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--io-space-8);
+  box-sizing: border-box;
+  max-width: 18rem;
+  padding: var(--io-space-6) var(--io-space-10);
+  background: var(--io-color-inverse);
+  color: var(--io-color-on-inverse);
+  border-radius: var(--io-radius-item);
+  font-size: var(--io-text-sm);
+  font-weight: var(--io-weight-medium);
+  line-height: var(--io-leading-snug);
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--io-motion-duration-fast) var(--io-motion-ease-out),
+    transform var(--io-motion-duration-fast) var(--io-motion-ease-out);
+}
+
+.io-tooltip[data-starting-style],
+.io-tooltip[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.io-tooltip[data-instant] {
+  transition-duration: 0ms;
+}
+
+.io-tooltip-shortcut {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-xs);
+  font-weight: var(--io-weight-regular);
+  opacity: 0.7;
+}
+
+.io-tooltip-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--io-color-inverse);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.io-tooltip-arrow[data-side="top"] {
+  bottom: -3px;
+  transform: rotate(45deg);
+}
+
+.io-tooltip-arrow[data-side="bottom"] {
+  top: -3px;
+  transform: rotate(45deg);
+}
+
+.io-tooltip-arrow[data-side="left"] {
+  right: -3px;
+  transform: rotate(45deg);
+}
+
+.io-tooltip-arrow[data-side="right"] {
+  left: -3px;
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-tooltip {
+    transition-duration: 1ms;
+  }
+
+  .io-tooltip[data-starting-style],
+  .io-tooltip[data-ending-style] {
+    transform: none;
+  }
+}
+
+.io-tooltip-positioner {
+  z-index: var(--io-z-tooltip);
+}

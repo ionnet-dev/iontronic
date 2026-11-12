@@ -20,4 +20,42 @@
  *   --_gap          gap (default var(--io-space-12))
  */
 
-/* TODO(builder A): implement */
+.io-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_gap, var(--io-space-12));
+  min-width: 0;
+}
+
+.io-stack[data-direction="row"] { flex-direction: row; }
+.io-stack[data-direction="column"] { flex-direction: column; }
+.io-stack[data-inline] { display: inline-flex; }
+.io-stack[data-wrap] { flex-wrap: wrap; }
+
+.io-stack[data-align="start"] { align-items: flex-start; }
+.io-stack[data-align="center"] { align-items: center; }
+.io-stack[data-align="end"] { align-items: flex-end; }
+.io-stack[data-align="stretch"] { align-items: stretch; }
+.io-stack[data-align="baseline"] { align-items: baseline; }
+
+.io-stack[data-justify="start"] { justify-content: flex-start; }
+.io-stack[data-justify="center"] { justify-content: center; }
+.io-stack[data-justify="end"] { justify-content: flex-end; }
+.io-stack[data-justify="between"] { justify-content: space-between; }
+.io-stack[data-justify="around"] { justify-content: space-around; }
+.io-stack[data-justify="evenly"] { justify-content: space-evenly; }
+
+.io-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--_columns, 1), minmax(0, 1fr));
+  gap: var(--_gap, var(--io-space-12));
+  min-width: 0;
+}
+
+.io-grid[style*="--_min"] {
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--_min), 100%), 1fr));
+}
+
+.io-grid[style*="--_template"] {
+  grid-template-columns: var(--_template);
+}

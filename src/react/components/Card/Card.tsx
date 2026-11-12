@@ -80,7 +80,6 @@ export function Card(props: CardProps) {
  */
 export function CardHeader(props: CardHeaderProps) {
   const { leading, title, description, actions, className, children, ...rest } = props;
-  // TODO(builder D): parts per card.css
   return (
     <div className={cx("io-card-header", className)} {...rest}>
       {leading}

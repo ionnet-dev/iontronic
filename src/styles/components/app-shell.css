@@ -11,11 +11,72 @@
  * Parts:    io-app-shell-sidebar (sticky, height 100dvh - 2·gap), io-app-shell-main (min-width 0, overflow auto),
  *           io-app-shell-tab-bar
  * Data:     data-has-sidebar, data-has-tab-bar (set by React when the slot is filled)
- * Private:  --_gap (default var(--io-space-14), the reference app gap)
+ * Private:  --_gap (default var(--io-space-14), the reference app gap), --_height (default 100dvh; set by the `height` prop,
+ *           which also sets data-framed → fixed height, scrolls inside)
  * Layout:   ≥ md (48rem): grid-template-columns var(--io-size-sidebar) minmax(0, 1fr); gap and padding --_gap;
  *           min-height 100dvh; tab bar hidden.
  *           < md: single column; sidebar hidden; tab bar fixed to the bottom; main gets padding-bottom for the tab bar
  *           plus env(safe-area-inset-bottom); padding-top env(safe-area-inset-top).
  */
 
-/* TODO(builder D): implement */
+/*
+ * Phone layout is the base; the desktop layout applies from md (48rem) up. `data-phone` (the `phone` prop) pins the
+ * phone layout regardless of viewport width, for previews inside a frame. The tab bar is sticky (not fixed) so it
+ * also works inside such a frame; it sits at the end of the flow and sticks to the bottom edge.
+ */
+
+.io-app-shell {
+  --_gap: var(--io-space-14);
+  display: flex;
+  flex-direction: column;
+  gap: var(--_gap);
+  min-height: var(--_height, 100dvh);
+  padding: max(var(--io-space-12), env(safe-area-inset-top)) var(--_gap) 0;
+  color: var(--io-color-text);
+}
+
+.io-app-shell[data-framed] {
+  height: var(--_height);
+  overflow: auto;
+}
+
+.io-app-shell-sidebar { display: none; }
+
+.io-app-shell-main {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: var(--_gap);
+  min-width: 0;
+  padding-bottom: var(--_gap);
+}
+
+.io-app-shell-tab-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--io-z-sticky);
+  margin-inline: calc(var(--_gap) * -1);
+}
+
+@media (min-width: 48rem) {
+  .io-app-shell:not([data-phone]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    padding: var(--_gap);
+  }
+
+  .io-app-shell:not([data-phone])[data-has-sidebar] {
+    grid-template-columns: var(--io-size-sidebar) minmax(0, 1fr);
+  }
+
+  .io-app-shell:not([data-phone]) .io-app-shell-sidebar {
+    display: block;
+    position: sticky;
+    top: var(--_gap);
+    height: calc(var(--_height, 100dvh) - var(--_gap) * 2);
+  }
+
+  .io-app-shell:not([data-phone]) .io-app-shell-main { padding-bottom: 0; }
+  .io-app-shell:not([data-phone]) .io-app-shell-tab-bar { display: none; }
+}

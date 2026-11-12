@@ -1,5 +1,7 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Check, Copy } from "lucide-react";
 import { cx } from "../../../cx";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link CodeBlock}.
@@ -36,17 +38,53 @@ export interface CodeBlockProps {
   className?: string;
 }
 
+const COPIED_RESET_MS = 1600;
+
 /**
  * A block of monospaced code with an optional header and copy button.
  *
  * @example <CodeBlock title="install.sh" language="bash" code={"npm install @ionnet/iontronic"} />
  */
 export function CodeBlock(props: CodeBlockProps) {
-  const { code, wrap, lineNumbers, className } = props;
-  // TODO(builder D): header (title, language, copy with navigator.clipboard + data-copied), line spans, max height
+  const { code, language, title, copyable = true, lineNumbers, wrap, maxHeight, className } = props;
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const hasHeader = title != null || language != null || copyable;
+  const lines = code.replace(/\n$/, "").split("\n");
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      return;
+    }
+    setCopied(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopied(false), COPIED_RESET_MS);
+  }
+
   return (
-    <figure className={cx("io-code-block", className)} data-wrap={wrap || undefined}>
-      <pre className="io-code-block-pre" data-line-numbers={lineNumbers || undefined}><code className="io-code-block-code">{code}</code></pre>
+    <figure className={cx("io-code-block", className)} data-wrap={wrap || undefined} style={maxHeight ? ({ "--_max-height": maxHeight } as CSSProperties) : undefined}>
+      {hasHeader && (
+        <figcaption className="io-code-block-header">
+          {title != null && <span className="io-code-block-title">{title}</span>}
+          {language != null && <span className="io-code-block-language">{language}</span>}
+          {copyable && (
+            <button type="button" className="io-code-block-copy io-focus" data-copied={copied || undefined} aria-label={copied ? "Copied" : "Copy code"} onClick={copy}>
+              <Icon icon={copied ? Check : Copy} size="md" />
+            </button>
+          )}
+        </figcaption>
+      )}
+      <pre className="io-code-block-pre" data-line-numbers={lineNumbers || undefined} tabIndex={maxHeight ? 0 : undefined}>
+        <code className="io-code-block-code">
+          {lines.map((line, index) => (
+            <span key={index} className="io-code-block-line">{line}{lineNumbers ? "" : "\n"}</span>
+          ))}
+        </code>
+      </pre>
     </figure>
   );
 }

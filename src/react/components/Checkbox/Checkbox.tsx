@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
+import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
+import { Check, Minus } from "lucide-react";
 import { cx } from "../../../cx";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link Checkbox}.
@@ -41,11 +44,25 @@ export interface CheckboxProps {
  * @example <Checkbox label="Show acknowledged" defaultChecked />
  */
 export function Checkbox(props: CheckboxProps) {
-  const { label, description, placement = "start", disabled, className } = props;
-  // TODO(builder B): Base UI Checkbox.Root + Indicator inside the io-check row
+  const { checked, defaultChecked, onCheckedChange, indeterminate, label, description, placement = "start", disabled, required, name, value, className, "aria-label": ariaLabel } = props;
   return (
     <label className={cx("io-check", className)} data-placement={placement} data-disabled={disabled || undefined}>
-      <span className="io-checkbox io-focus"><span className="io-checkbox-indicator" /></span>
+      <BaseCheckbox.Root
+        className="io-checkbox io-focus"
+        checked={checked}
+        defaultChecked={defaultChecked}
+        onCheckedChange={onCheckedChange ? (next) => onCheckedChange(next) : undefined}
+        indeterminate={indeterminate}
+        disabled={disabled}
+        required={required}
+        name={name}
+        value={value}
+        aria-label={ariaLabel}
+      >
+        <BaseCheckbox.Indicator className="io-checkbox-indicator">
+          <Icon icon={indeterminate ? Minus : Check} strokeWidth={3} />
+        </BaseCheckbox.Indicator>
+      </BaseCheckbox.Root>
       {(label != null || description != null) && (
         <span className="io-check-text">
           {label != null && <span className="io-check-label">{label}</span>}

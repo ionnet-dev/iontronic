@@ -49,11 +49,11 @@ export function PopoverTrigger(props: PopoverTriggerProps) {
  */
 export function PopoverContent(props: PopoverContentProps) {
   const { title, description, side = "bottom", align = "center", sideOffset = 8, showArrow, container, className, children, ...rest } = props;
-  // TODO(builder C): arrow part, title/description parts per popover.css
   return (
     <BasePopover.Portal container={container}>
-      <BasePopover.Positioner className="io-popup-positioner" side={side} align={align} sideOffset={sideOffset}>
+      <BasePopover.Positioner className="io-popup-positioner io-popover-positioner" side={side} align={align} sideOffset={sideOffset}>
         <BasePopover.Popup className={cx("io-popover", className)} {...rest}>
+          {showArrow && <BasePopover.Arrow className="io-popover-arrow" />}
           {title != null && <BasePopover.Title className="io-popover-title">{title}</BasePopover.Title>}
           {description != null && <BasePopover.Description className="io-popover-description">{description}</BasePopover.Description>}
           {children}

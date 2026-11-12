@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link TabsList}.
@@ -44,8 +45,13 @@ export function TabsList(props: TabsListProps) {
  */
 export function TabsTab(props: TabsTabProps) {
   const { icon, count, className, children, ...rest } = props;
-  // TODO(builder D): icon and io-tabs-count parts
-  return <BaseTabs.Tab className={cx("io-tabs-tab io-focus", className)} {...rest}>{children}</BaseTabs.Tab>;
+  return (
+    <BaseTabs.Tab className={cx("io-tabs-tab io-focus", className)} {...rest}>
+      {icon && <Icon icon={icon} size="md" />}
+      {children}
+      {count != null && <span className="io-tabs-count">{count}</span>}
+    </BaseTabs.Tab>
+  );
 }
 
 /**

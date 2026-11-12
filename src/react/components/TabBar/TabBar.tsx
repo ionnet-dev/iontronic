@@ -2,6 +2,7 @@ import { Children, type ComponentProps, type CSSProperties, type ReactNode } fro
 import { useRender } from "@base-ui/react/use-render";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link TabBar}.
@@ -52,7 +53,6 @@ export function TabBar(props: TabBarProps) {
  */
 export function TabBarItem(props: TabBarItemProps) {
   const { render, icon, label, active, badge, className, ...rest } = props;
-  // TODO(builder D): io-tab-bar-icon (Icon 22px + badge) and io-tab-bar-label parts
   return useRender({
     render,
     defaultTagName: "a",
@@ -61,7 +61,15 @@ export function TabBarItem(props: TabBarItemProps) {
       className: cx("io-tab-bar-item io-focus", className),
       "data-active": active || undefined,
       "aria-current": active ? "page" : undefined,
-      children: label,
+      children: (
+        <>
+          <span className="io-tab-bar-icon">
+            <Icon icon={icon} size={22} />
+            {badge != null && <span className="io-tab-bar-badge">{badge}</span>}
+          </span>
+          <span className="io-tab-bar-label">{label}</span>
+        </>
+      ),
     },
   });
 }

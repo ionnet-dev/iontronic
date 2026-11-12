@@ -26,4 +26,139 @@
  *           only, padding-bottom max(24px, env(safe-area-inset-bottom)), enter from translateY(100%).
  */
 
-/* TODO(builder C): implement */
+.io-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--io-z-overlay);
+  background: var(--io-color-scrim);
+  opacity: 1;
+  transition: opacity var(--io-motion-duration-normal) var(--io-motion-ease-out);
+}
+
+.io-dialog-backdrop[data-starting-style],
+.io-dialog-backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.io-dialog-viewport {
+  position: fixed;
+  inset: 0;
+  z-index: var(--io-z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--io-space-16);
+  overflow: auto;
+}
+
+.io-dialog {
+  --_max-width: 32rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-16);
+  width: 100%;
+  max-width: var(--_max-width);
+  max-height: calc(100dvh - 2 * var(--io-space-16));
+  padding: var(--io-space-24);
+  box-sizing: border-box;
+  background: var(--io-color-surface-raised);
+  color: var(--io-color-text);
+  border-radius: var(--io-radius-sheet);
+  box-shadow: var(--io-shadow-overlay);
+  font-size: var(--io-text-base);
+  outline: none;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--io-motion-duration-normal) var(--io-motion-ease-out),
+    transform var(--io-motion-duration-normal) var(--io-motion-ease-out);
+}
+
+.io-dialog[data-size="sm"] { --_max-width: 24rem; }
+.io-dialog[data-size="md"] { --_max-width: 32rem; }
+.io-dialog[data-size="lg"] { --_max-width: 44rem; }
+
+.io-dialog[data-starting-style],
+.io-dialog[data-ending-style] {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.io-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--io-space-16);
+}
+
+.io-dialog-heading {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--io-space-6);
+  min-width: 0;
+}
+
+.io-dialog-title {
+  margin: 0;
+  font-size: var(--io-text-xl);
+}
+
+.io-dialog-description {
+  margin: 0;
+  color: var(--io-color-text-muted);
+  font-size: var(--io-text-md);
+  line-height: var(--io-leading-normal);
+}
+
+.io-dialog-close {
+  flex: none;
+  margin: calc(-1 * var(--io-space-4)) calc(-1 * var(--io-space-8)) 0 0;
+}
+
+.io-dialog-body {
+  min-height: 0;
+  overflow: auto;
+}
+
+.io-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--io-space-8);
+}
+
+/* Phone layout: bottom sheet (below the md breakpoint) */
+@media (max-width: 47.99rem) {
+  .io-dialog-viewport {
+    align-items: end;
+    padding: 0;
+  }
+
+  .io-dialog {
+    max-width: none;
+    max-height: calc(100dvh - var(--io-space-48));
+    padding-bottom: max(var(--io-space-24), env(safe-area-inset-bottom));
+    border-radius: var(--io-radius-sheet) var(--io-radius-sheet) 0 0;
+  }
+
+  .io-dialog[data-starting-style],
+  .io-dialog[data-ending-style] {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+
+  .io-dialog-footer > .io-button {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-dialog-backdrop,
+  .io-dialog {
+    transition-duration: 1ms;
+  }
+
+  .io-dialog[data-starting-style],
+  .io-dialog[data-ending-style] {
+    transform: none;
+  }
+}

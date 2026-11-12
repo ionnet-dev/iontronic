@@ -8,4 +8,56 @@
  *           thumb slides right (transform; motion normal, ease spring).
  */
 
-/* TODO(builder B): implement */
+.io-switch {
+  --_w: 46px;
+  --_h: 28px;
+  --_thumb: 22px;
+  --_inset: calc((var(--_h) - var(--_thumb)) / 2);
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  width: var(--_w);
+  height: var(--_h);
+  padding: 0;
+  border: 0;
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-line-strong);
+  cursor: inherit;
+  transition: background-color var(--io-motion-duration-normal) var(--io-motion-ease-standard);
+}
+
+.io-switch[data-size="sm"] {
+  --_w: 36px;
+  --_h: 22px;
+  --_thumb: 16px;
+}
+
+.io-switch[data-checked] {
+  background: var(--io-color-accent);
+}
+
+.io-switch-thumb {
+  position: absolute;
+  top: var(--_inset);
+  left: var(--_inset);
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-surface);
+  box-shadow: var(--io-shadow-thumb);
+  transition: transform var(--io-motion-duration-normal) var(--io-motion-ease-spring);
+}
+
+.io-switch[data-checked] .io-switch-thumb {
+  background: var(--io-color-on-accent);
+  transform: translateX(calc(var(--_w) - var(--_thumb) - var(--_inset) * 2));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-switch,
+  .io-switch-thumb {
+    transition: none;
+  }
+}

@@ -18,4 +18,94 @@
  * Data:     data-orientation, data-disabled, data-dragging (Base UI)
  */
 
-/* TODO(builder B): implement */
+.io-slider {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.io-slider-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.io-slider-value {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-sm);
+  color: var(--io-color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.io-slider-control {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--io-size-touch);
+  touch-action: none;
+  user-select: none;
+}
+
+.io-slider-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-surface-soft);
+}
+
+.io-slider-indicator {
+  height: 100%;
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-accent);
+}
+
+.io-slider-thumb {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--io-color-accent);
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-surface);
+  box-shadow: var(--io-shadow-thumb);
+  transition: box-shadow var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-slider-thumb:hover,
+.io-slider-thumb[data-dragging] {
+  box-shadow: var(--io-shadow-thumb), 0 0 0 6px color-mix(in srgb, var(--io-color-accent) var(--io-tint-soft), transparent);
+}
+
+.io-slider[data-disabled] {
+  opacity: 0.5;
+}
+
+.io-slider[data-disabled] .io-slider-thumb {
+  cursor: not-allowed;
+}
+
+.io-slider[data-orientation="vertical"] .io-slider-control {
+  width: var(--io-size-touch);
+  height: 100%;
+  min-height: 8rem;
+  justify-content: center;
+}
+
+.io-slider[data-orientation="vertical"] .io-slider-track {
+  width: 6px;
+  height: 100%;
+}
+
+.io-slider[data-orientation="vertical"] .io-slider-indicator {
+  width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-slider-thumb {
+    transition: none;
+  }
+}

@@ -16,4 +16,51 @@
  * Look:     display flex; align-items flex-start; gap 12px; cursor pointer. Below md: min-height touch.
  */
 
-/* TODO(builder B): implement */
+.io-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.io-check[data-placement="end"] {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.io-check-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.io-check-label {
+  font-size: var(--io-text-md);
+  font-weight: var(--io-weight-medium);
+  line-height: var(--io-leading-snug);
+  color: var(--io-color-text);
+}
+
+.io-check-description {
+  font-size: var(--io-text-sm);
+  line-height: var(--io-leading-snug);
+  color: var(--io-color-text-muted);
+}
+
+.io-check[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Switch tracks are taller than a text line, so centre the label on them */
+.io-check:has(> .io-switch) {
+  align-items: center;
+}
+
+@media (max-width: 47.99rem) {
+  .io-check {
+    min-height: var(--io-size-touch);
+    align-items: center;
+  }
+}

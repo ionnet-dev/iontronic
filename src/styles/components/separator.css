@@ -7,4 +7,23 @@
  * Look:     1px var(--io-color-line); horizontal is full width, vertical is align-self stretch.
  */
 
-/* TODO(builder A): implement */
+.io-separator {
+  flex: none;
+  background: var(--io-color-line);
+}
+
+.io-separator[data-orientation="horizontal"],
+.io-separator:not([data-orientation]) {
+  width: auto;
+  height: 1px;
+}
+
+.io-separator[data-orientation="vertical"] {
+  width: 1px;
+  height: auto;
+  align-self: stretch;
+}
+
+.io-separator[data-orientation="horizontal"][data-inset] {
+  margin-inline: var(--io-space-12);
+}

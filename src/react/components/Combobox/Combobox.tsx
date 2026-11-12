@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
+import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
+import { Check, ChevronDown, X } from "lucide-react";
 import { cx } from "../../../cx";
 import type { ControlSize } from "../../../semantic";
-import type { FieldBaseProps } from "../Field/Field";
+import { Field, type FieldBaseProps } from "../Field/Field";
+import { Icon } from "../Icon/Icon";
 
 /**
  * One choice in a {@link Combobox}.
@@ -70,12 +73,51 @@ export interface ComboboxProps<Value> extends FieldBaseProps {
  * @example <Combobox label="Topic" mono options={topics.map((t) => ({ value: t, label: t }))} />
  */
 export function Combobox<Value>(props: ComboboxProps<Value>) {
-  const { placeholder, size = "md", mono, error, disabled, className } = props;
-  // TODO(builder B): Base UI Combobox.Root/Input/Clear/Trigger/Portal/Positioner/Popup/List/Item/Empty, wrapped in <Field>
+  const { options, value, defaultValue, onValueChange, inputValue, onInputValueChange, placeholder, emptyText = "No matches", size = "md", mono, name, label, description, error, required, disabled, fieldClassName, className, "aria-label": ariaLabel } = props;
+  const find = (target: Value | null | undefined) => target === undefined ? undefined : options.find((option) => option.value === target) ?? null;
+  const combobox = (
+    <BaseCombobox.Root<ComboboxOption<Value>>
+      items={options}
+      value={find(value)}
+      defaultValue={find(defaultValue)}
+      onValueChange={onValueChange ? (next) => onValueChange(next?.value ?? null) : undefined}
+      inputValue={inputValue}
+      onInputValueChange={onInputValueChange}
+      itemToStringLabel={(option) => option.label}
+      isItemEqualToValue={(a, b) => a.value === b.value}
+      name={name}
+      required={required}
+      disabled={disabled}
+    >
+      <BaseCombobox.InputGroup className={cx("io-input io-combobox io-focus-within", className)} data-size={size} data-appearance="outline" data-mono={mono || undefined} data-invalid={error != null || undefined} data-disabled={disabled || undefined}>
+        <BaseCombobox.Input className="io-input-control io-combobox-input" placeholder={placeholder} aria-label={ariaLabel} />
+        <BaseCombobox.Clear className="io-combobox-clear" aria-label="Clear"><Icon icon={X} size="sm" /></BaseCombobox.Clear>
+        <BaseCombobox.Trigger className="io-combobox-trigger" aria-label="Open"><Icon icon={ChevronDown} size="md" /></BaseCombobox.Trigger>
+      </BaseCombobox.InputGroup>
+      <BaseCombobox.Portal>
+        <BaseCombobox.Positioner className="io-popup-positioner" sideOffset={6}>
+          <BaseCombobox.Popup className="io-popup io-combobox-popup">
+            <BaseCombobox.Empty className="io-popup-empty">{emptyText}</BaseCombobox.Empty>
+            <BaseCombobox.List>
+              {(option: ComboboxOption<Value>) => (
+                <BaseCombobox.Item key={String(option.value)} value={option} disabled={option.disabled} className="io-popup-item">
+                  <BaseCombobox.ItemIndicator className="io-popup-item-indicator" keepMounted>
+                    <Icon icon={Check} size="md" />
+                  </BaseCombobox.ItemIndicator>
+                  <span>{option.label}</span>
+                </BaseCombobox.Item>
+              )}
+            </BaseCombobox.List>
+          </BaseCombobox.Popup>
+        </BaseCombobox.Positioner>
+      </BaseCombobox.Portal>
+    </BaseCombobox.Root>
+  );
+  if (label == null && description == null && error == null) return combobox;
   return (
-    <div className={cx("io-input io-combobox io-focus-within", className)} data-size={size} data-appearance="outline" data-mono={mono || undefined} data-invalid={error != null || undefined} data-disabled={disabled || undefined}>
-      <input className="io-input-control io-combobox-input" placeholder={placeholder} disabled={disabled} />
-    </div>
+    <Field label={label} description={description} error={error} required={required} disabled={disabled} name={name} className={fieldClassName}>
+      {combobox}
+    </Field>
   );
 }
 

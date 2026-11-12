@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { cx } from "../../../cx";
+import { X } from "lucide-react";
 import { Button, type ButtonProps } from "../Button/Button";
 
 /**
@@ -75,14 +76,21 @@ export function DialogClose(props: DialogCloseProps) {
  */
 export function DialogContent(props: DialogContentProps) {
   const { title, description, size = "md", showClose = true, container, className, children, ...rest } = props;
-  // TODO(builder C): header with io-dialog-heading/title/description and close button (Icon X), per dialog.css
+  const hasHeader = title != null || description != null;
   return (
     <BaseDialog.Portal container={container}>
       <BaseDialog.Backdrop className="io-dialog-backdrop" />
       <BaseDialog.Viewport className="io-dialog-viewport">
         <BaseDialog.Popup className={cx("io-dialog", className)} data-size={size} {...rest}>
-          {title != null && <BaseDialog.Title className="io-dialog-title">{title}</BaseDialog.Title>}
-          {description != null && <BaseDialog.Description className="io-dialog-description">{description}</BaseDialog.Description>}
+          {(hasHeader || showClose) && (
+            <div className="io-dialog-header">
+              <div className="io-dialog-heading">
+                {title != null && <BaseDialog.Title className="io-dialog-title io-display" data-size="sm">{title}</BaseDialog.Title>}
+                {description != null && <BaseDialog.Description className="io-dialog-description">{description}</BaseDialog.Description>}
+              </div>
+              {showClose && <BaseDialog.Close render={<Button variant="ghost" size="sm" iconOnly icon={X} className="io-dialog-close" aria-label="Close" />} />}
+            </div>
+          )}
           {children}
         </BaseDialog.Popup>
       </BaseDialog.Viewport>

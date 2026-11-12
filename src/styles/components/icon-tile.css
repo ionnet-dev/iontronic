@@ -9,4 +9,19 @@
  *           color var(--io-hue); display grid; place-items center. Icon size: sm/md → icon lg (20), lg → icon xl (24).
  */
 
-/* TODO(builder A): implement */
+.io-icon-tile {
+  --_size: var(--io-size-icon-tile-md);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: var(--io-radius-full);
+  background: color-mix(in srgb, var(--io-hue) var(--io-tint-icon), transparent);
+  color: var(--io-hue);
+  font-weight: var(--io-weight-semibold);
+}
+
+.io-icon-tile[data-size="sm"] { --_size: var(--io-size-icon-tile-sm); }
+.io-icon-tile[data-size="md"] { --_size: var(--io-size-icon-tile-md); }
+.io-icon-tile[data-size="lg"] { --_size: var(--io-size-icon-tile-lg); }

@@ -50,10 +50,14 @@ export interface FieldProps extends FieldBaseProps {
  */
 export function Field(props: FieldProps) {
   const { label, description, error, required, disabled, name, className, fieldClassName, children } = props;
-  // TODO(builder B): Base UI Field.Label / Field.Description / Field.Error parts, required marker
   return (
     <BaseField.Root className={cx("io-field", className, fieldClassName)} name={name} disabled={disabled} invalid={error != null || undefined}>
-      {label != null && <BaseField.Label className="io-field-label">{label}{required && <span className="io-field-required" aria-hidden="true">*</span>}</BaseField.Label>}
+      {label != null && (
+        <BaseField.Label className="io-field-label">
+          {label}
+          {required && <span className="io-field-required" aria-hidden="true">*</span>}
+        </BaseField.Label>
+      )}
       {children}
       {description != null && <BaseField.Description className="io-field-description">{description}</BaseField.Description>}
       {error != null && <BaseField.Error className="io-field-error" match>{error}</BaseField.Error>}

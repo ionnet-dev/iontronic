@@ -14,4 +14,74 @@
  *           hue trait (default tone accent)
  */
 
-/* TODO(builder C): implement */
+.io-progress {
+  --_height: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-8);
+  width: 100%;
+}
+
+.io-progress[data-size="sm"] { --_height: 4px; }
+.io-progress[data-size="md"] { --_height: 8px; }
+
+.io-progress-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--io-space-12);
+  font-size: var(--io-text-sm);
+}
+
+.io-progress-label {
+  font-weight: var(--io-weight-medium);
+}
+
+.io-progress-value {
+  color: var(--io-color-text-muted);
+  font-family: var(--io-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.io-progress-track {
+  position: relative;
+  height: var(--_height);
+  overflow: hidden;
+  background: var(--io-color-surface-soft);
+  border-radius: var(--io-radius-full);
+}
+
+.io-progress-indicator {
+  height: 100%;
+  background: var(--io-hue);
+  border-radius: var(--io-radius-full);
+  transition: width var(--io-motion-duration-slow) var(--io-motion-ease-out);
+}
+
+.io-progress[data-tone="accent"] .io-progress-indicator {
+  background: var(--io-color-accent);
+  background-image: var(--io-gradient-accent-fill);
+}
+
+.io-progress[data-indeterminate] .io-progress-indicator {
+  position: absolute;
+  width: 40%;
+  animation: io-progress-slide 1.4s var(--io-motion-ease-standard) infinite;
+}
+
+@keyframes io-progress-slide {
+  from { left: -40%; }
+  to { left: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-progress-indicator {
+    transition-duration: 1ms;
+  }
+
+  .io-progress[data-indeterminate] .io-progress-indicator {
+    left: 0;
+    width: 100%;
+    animation: io-pulse 1.6s ease-in-out infinite;
+  }
+}

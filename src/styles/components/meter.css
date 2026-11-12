@@ -23,4 +23,92 @@
  * Data:     data-size sm (6px) | md (10px); data-segmented (track: flex, gap 3px, overflow hidden, radius full)
  */
 
-/* TODO(builder C): implement */
+.io-meter {
+  --_height: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-8);
+  width: 100%;
+}
+
+.io-meter[data-size="sm"] { --_height: 6px; }
+.io-meter[data-size="md"] { --_height: 10px; }
+
+.io-meter-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--io-space-12);
+  font-size: var(--io-text-sm);
+}
+
+.io-meter-label {
+  font-weight: var(--io-weight-medium);
+}
+
+.io-meter-value {
+  color: var(--io-color-text-muted);
+  font-family: var(--io-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.io-meter-track {
+  position: relative;
+  height: var(--_height);
+  overflow: hidden;
+  background: var(--io-color-surface-soft);
+  border-radius: var(--io-radius-full);
+}
+
+.io-meter-indicator {
+  height: 100%;
+  background: var(--io-hue);
+  border-radius: var(--io-radius-full);
+  transition: width var(--io-motion-duration-slow) var(--io-motion-ease-out);
+}
+
+.io-meter[data-segmented] .io-meter-track {
+  display: flex;
+  gap: 3px;
+  background: none;
+}
+
+.io-meter-segment {
+  min-width: 0;
+  background: var(--io-hue);
+}
+
+.io-meter-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--io-space-6) 14px;
+  color: var(--io-color-text-muted);
+  font-size: var(--io-text-sm);
+}
+
+.io-meter-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--io-space-6);
+}
+
+.io-meter-legend-item b {
+  color: var(--io-color-text);
+  font-family: var(--io-font-mono);
+  font-weight: var(--io-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.io-meter-swatch {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--io-hue);
+  border-radius: var(--io-radius-full);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-meter-indicator {
+    transition-duration: 1ms;
+  }
+}

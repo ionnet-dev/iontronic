@@ -6,4 +6,13 @@
  * Notes:    flex: none; stroke: currentColor; stroke-width comes from the prop (default 2, Twilight look).
  */
 
-/* TODO(builder A): implement */
+.io-icon {
+  flex: none;
+  stroke: currentColor;
+}
+
+.io-icon[data-size="xs"] { width: var(--io-size-icon-xs); height: var(--io-size-icon-xs); }
+.io-icon[data-size="sm"] { width: var(--io-size-icon-sm); height: var(--io-size-icon-sm); }
+.io-icon[data-size="md"] { width: var(--io-size-icon-md); height: var(--io-size-icon-md); }
+.io-icon[data-size="lg"] { width: var(--io-size-icon-lg); height: var(--io-size-icon-lg); }
+.io-icon[data-size="xl"] { width: var(--io-size-icon-xl); height: var(--io-size-icon-xl); }

@@ -59,14 +59,17 @@ export function AlertDialogClose(props: AlertDialogCloseProps) {
  */
 export function AlertDialogContent(props: AlertDialogContentProps) {
   const { title, description, size = "sm", container, className, children, ...rest } = props;
-  // TODO(builder C): header markup as DialogContent (no close button)
   return (
     <BaseAlertDialog.Portal container={container}>
       <BaseAlertDialog.Backdrop className="io-dialog-backdrop" />
       <BaseAlertDialog.Viewport className="io-dialog-viewport">
         <BaseAlertDialog.Popup className={cx("io-dialog", className)} data-size={size} data-alert="" {...rest}>
-          <BaseAlertDialog.Title className="io-dialog-title">{title}</BaseAlertDialog.Title>
-          {description != null && <BaseAlertDialog.Description className="io-dialog-description">{description}</BaseAlertDialog.Description>}
+          <div className="io-dialog-header">
+            <div className="io-dialog-heading">
+              <BaseAlertDialog.Title className="io-dialog-title io-display" data-size="sm">{title}</BaseAlertDialog.Title>
+              {description != null && <BaseAlertDialog.Description className="io-dialog-description">{description}</BaseAlertDialog.Description>}
+            </div>
+          </div>
           {children}
         </BaseAlertDialog.Popup>
       </BaseAlertDialog.Viewport>

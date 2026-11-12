@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import { cx } from "../../../cx";
 
 /**
@@ -33,11 +34,21 @@ export interface SwitchProps {
  * @example <Switch label="Quiet hours 23:00–07:30" defaultChecked />
  */
 export function Switch(props: SwitchProps) {
-  const { label, description, placement = "start", size = "md", disabled, className } = props;
-  // TODO(builder B): Base UI Switch.Root + Thumb inside the io-check row
+  const { checked, defaultChecked, onCheckedChange, label, description, placement = "start", size = "md", disabled, name, className, "aria-label": ariaLabel } = props;
   return (
     <label className={cx("io-check", className)} data-placement={placement} data-disabled={disabled || undefined}>
-      <span className="io-switch io-focus" data-size={size}><span className="io-switch-thumb" /></span>
+      <BaseSwitch.Root
+        className="io-switch io-focus"
+        data-size={size}
+        checked={checked}
+        defaultChecked={defaultChecked}
+        onCheckedChange={onCheckedChange ? (next) => onCheckedChange(next) : undefined}
+        disabled={disabled}
+        name={name}
+        aria-label={ariaLabel}
+      >
+        <BaseSwitch.Thumb className="io-switch-thumb" />
+      </BaseSwitch.Root>
       {(label != null || description != null) && (
         <span className="io-check-text">
           {label != null && <span className="io-check-label">{label}</span>}

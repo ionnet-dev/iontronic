@@ -6,4 +6,27 @@
  * Look:     ring: 2px border currentColor at 25% + top segment solid; animation io-spin (base) 0.7s linear infinite.
  */
 
-/* TODO(builder C): implement */
+.io-spinner {
+  --_size: var(--io-size-icon-md);
+  display: inline-block;
+  flex: none;
+  box-sizing: border-box;
+  width: var(--_size);
+  height: var(--_size);
+  border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-top-color: currentColor;
+  border-radius: var(--io-radius-full);
+  animation: io-spin 0.7s linear infinite;
+}
+
+.io-spinner[data-size="xs"] { --_size: var(--io-size-icon-xs); }
+.io-spinner[data-size="sm"] { --_size: var(--io-size-icon-sm); }
+.io-spinner[data-size="md"] { --_size: var(--io-size-icon-md); }
+.io-spinner[data-size="lg"] { --_size: var(--io-size-icon-lg); }
+.io-spinner[data-size="xl"] { --_size: var(--io-size-icon-xl); }
+
+@media (prefers-reduced-motion: reduce) {
+  .io-spinner {
+    animation-duration: 2.4s;
+  }
+}

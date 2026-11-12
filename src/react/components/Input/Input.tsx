@@ -1,7 +1,8 @@
 import type { ComponentProps, ReactNode } from "react";
+import { Input as BaseInput } from "@base-ui/react/input";
 import { cx } from "../../../cx";
 import type { ControlSize } from "../../../semantic";
-import type { FieldBaseProps } from "../Field/Field";
+import { Field, type FieldBaseProps } from "../Field/Field";
 
 /**
  * Props for {@link Input}. Native `<input>` attributes (and `ref`) go to the inner input element.
@@ -37,13 +38,18 @@ export interface InputProps extends Omit<ComponentProps<"input">, "size">, Field
  */
 export function Input(props: InputProps) {
   const { size = "md", appearance = "outline", mono, leading, trailing, label, description, error, required, disabled, fieldClassName, className, ...rest } = props;
-  // TODO(builder B): wrap in <Field> when label/description/error is given; Base UI Input; slots per input.css
-  return (
+  const box = (
     <div className={cx("io-input io-focus-within", className)} data-size={size} data-appearance={appearance} data-mono={mono || undefined} data-invalid={error != null || undefined} data-disabled={disabled || undefined}>
       {leading != null && <span className="io-input-slot" data-side="leading">{leading}</span>}
-      <input className="io-input-control" required={required} disabled={disabled} {...rest} />
+      <BaseInput className="io-input-control" required={required} disabled={disabled} aria-invalid={error != null || undefined} {...rest} />
       {trailing != null && <span className="io-input-slot" data-side="trailing">{trailing}</span>}
     </div>
+  );
+  if (label == null && description == null && error == null) return box;
+  return (
+    <Field label={label} description={description} error={error} required={required} disabled={disabled} name={rest.name} className={fieldClassName}>
+      {box}
+    </Field>
   );
 }
 

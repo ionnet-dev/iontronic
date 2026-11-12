@@ -1,5 +1,9 @@
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
+import { CircleCheck, CircleX, Info, TriangleAlert, X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { Icon } from "../Icon/Icon";
+import { Spinner } from "../Spinner/Spinner";
 
 /**
  * Tone of a toast. Drives the icon and its colour; the surface is always the inverse surface.
@@ -90,12 +94,92 @@ export interface ToastProviderProps {
 }
 
 /**
+ * Extra data carried on each Base UI toast.
+ */
+interface ToastData {
+  tone?: ToastTone;
+}
+
+const TONE_ICONS: Record<Exclude<ToastTone, "neutral">, LucideIcon> = {
+  ok: CircleCheck,
+  warn: TriangleAlert,
+  bad: CircleX,
+  info: Info,
+};
+
+/**
+ * The tone shown for a toast: the one it was given, or the one implied by a settled promise.
+ */
+function toneOf(toast: BaseToast.Root.ToastObject<ToastData>): ToastTone {
+  if (toast.data?.tone) return toast.data.tone;
+  if (toast.type === "success") return "ok";
+  if (toast.type === "error") return "bad";
+  return "neutral";
+}
+
+/**
+ * Renders every open toast inside the portalled viewport.
+ */
+function ToastList() {
+  const { toasts } = BaseToast.useToastManager<ToastData>();
+  return (
+    <>
+      {toasts.map((toast) => {
+        const tone = toneOf(toast);
+        const loading = toast.type === "loading";
+        return (
+          <BaseToast.Root key={toast.id} toast={toast} className="io-toast" data-tone={tone}>
+            <BaseToast.Content className="io-toast-body">
+              {(loading || tone !== "neutral") && (
+                <span className="io-toast-icon io-hue" data-tone={loading ? undefined : tone}>
+                  {loading ? <Spinner size="lg" label="Working" /> : <Icon icon={TONE_ICONS[tone as Exclude<ToastTone, "neutral">]} size="lg" />}
+                </span>
+              )}
+              <div className="io-toast-content">
+                <BaseToast.Title className="io-toast-title" />
+                <BaseToast.Description className="io-toast-description" />
+              </div>
+              {toast.actionProps && <BaseToast.Action className="io-toast-action" />}
+              <BaseToast.Close className="io-toast-close" aria-label="Dismiss"><Icon icon={X} size="sm" /></BaseToast.Close>
+            </BaseToast.Content>
+          </BaseToast.Root>
+        );
+      })}
+    </>
+  );
+}
+
+/**
  * Provides {@link useToast} and renders the toast viewport. `IontronicProvider` includes it.
  */
 export function ToastProvider(props: ToastProviderProps) {
   const { children, limit = 3, timeout = 5000 } = props;
-  // TODO(builder C): render <BaseToast.Portal><BaseToast.Viewport className="io-toast-viewport"> with the toast list
-  return <BaseToast.Provider limit={limit} timeout={timeout}>{children}</BaseToast.Provider>;
+  return (
+    <BaseToast.Provider limit={limit} timeout={timeout}>
+      {children}
+      <BaseToast.Portal>
+        <BaseToast.Viewport className="io-toast-viewport">
+          <ToastList />
+        </BaseToast.Viewport>
+      </BaseToast.Portal>
+    </BaseToast.Provider>
+  );
+}
+
+/**
+ * Converts a partial toast into Base UI's shape.
+ */
+function toManagerOptions(options: ToastUpdate, close: (id?: string) => void, getId: () => string) {
+  const { tone, action, title, description, timeout, priority, onClose } = options;
+  return {
+    title,
+    description,
+    timeout,
+    priority,
+    onClose,
+    data: tone ? { tone } : undefined,
+    actionProps: action ? { children: action.label, onClick: () => { action.onClick(); close(getId()); } } : undefined,
+  };
 }
 
 /**
@@ -106,13 +190,32 @@ export function ToastProvider(props: ToastProviderProps) {
  * toast.add({ title: "Silenced web-01 for 1 hour", tone: "ok", action: { label: "Undo", onClick: undo } });
  */
 export function useToast(): ToastApi {
-  // TODO(builder C): wrap BaseToast.useToastManager(); map tone/action to Base UI fields
-  return {
-    add: () => "",
-    close: () => { },
-    update: () => { },
-    promise: (promise) => promise,
-  };
+  const manager = BaseToast.useToastManager<ToastData>();
+  const { add, close, update, promise } = manager;
+  return useMemo<ToastApi>(() => {
+    const normalize = (value: string | ToastUpdate, getId: () => string) => (typeof value === "string" ? { title: value } : toManagerOptions(value, close, getId));
+    return {
+      add(options) {
+        let id = options.id ?? "";
+        id = add({ id: options.id, ...toManagerOptions(options, close, () => id) });
+        return id;
+      },
+      close(id) {
+        close(id);
+      },
+      update(id, options) {
+        update(id, toManagerOptions(options, close, () => id));
+      },
+      promise(task, options) {
+        const noId = () => "";
+        return promise(task, {
+          loading: normalize(options.loading, noId),
+          success: (value) => normalize(typeof options.success === "function" ? options.success(value) : options.success, noId),
+          error: (error) => normalize(typeof options.error === "function" ? options.error(error) : options.error, noId),
+        });
+      },
+    };
+  }, [add, close, update, promise]);
 }
 
 export default ToastProvider;

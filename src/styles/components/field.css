@@ -16,4 +16,38 @@
  * Look:     display grid; gap 6px; min-width 0.
  */
 
-/* TODO(builder B): implement */
+.io-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.io-field-label {
+  font-size: var(--io-text-sm);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-snug);
+  color: var(--io-color-text);
+}
+
+.io-field-required {
+  margin-inline-start: 2px;
+  color: var(--io-color-bad);
+}
+
+.io-field-description {
+  margin: 0;
+  font-size: var(--io-text-sm);
+  line-height: var(--io-leading-snug);
+  color: var(--io-color-text-muted);
+}
+
+.io-field-error {
+  margin: 0;
+  font-size: var(--io-text-sm);
+  line-height: var(--io-leading-snug);
+  color: var(--io-color-bad);
+}
+
+.io-field[data-disabled] .io-field-label {
+  opacity: 0.5;
+}

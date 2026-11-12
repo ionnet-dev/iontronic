@@ -17,4 +17,59 @@
  * Look:     20px circle; unchecked surface + 1.5px line-strong; checked background accent.
  */
 
-/* TODO(builder B): implement */
+.io-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.io-radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.io-radio {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  padding: 0;
+  border: 1.5px solid var(--io-color-line-strong);
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-surface);
+  cursor: inherit;
+  transition:
+    background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    border-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-radio:hover:not([data-checked], [data-disabled]) {
+  border-color: var(--io-color-accent);
+}
+
+.io-radio[data-checked] {
+  border-color: transparent;
+  background: var(--io-color-accent);
+}
+
+.io-radio-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--io-radius-full);
+  background: var(--io-color-on-accent);
+}
+
+.io-radio-indicator[data-unchecked] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-radio {
+    transition: none;
+  }
+}

@@ -63,9 +63,21 @@ export function TooltipProvider(props: TooltipProviderProps) {
  * @example <Tooltip content="Copy link" shortcut="⌘C"><Button iconOnly icon={Link} aria-label="Copy link" /></Tooltip>
  */
 export function Tooltip(props: TooltipProps) {
-  const { children } = props;
-  // TODO(builder C): Base UI Tooltip.Root/Trigger(render=children)/Portal/Positioner/Popup/Arrow, shortcut part
-  return children;
+  const { content, children, shortcut, side = "top", align = "center", open, defaultOpen, onOpenChange, disabled } = props;
+  return (
+    <BaseTooltip.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange ? (next) => onOpenChange(next) : undefined} disabled={disabled}>
+      <BaseTooltip.Trigger render={children} />
+      <BaseTooltip.Portal>
+        <BaseTooltip.Positioner className="io-popup-positioner io-tooltip-positioner" side={side} align={align} sideOffset={8}>
+          <BaseTooltip.Popup className="io-tooltip">
+            <BaseTooltip.Arrow className="io-tooltip-arrow" />
+            {content}
+            {shortcut != null && <kbd className="io-tooltip-shortcut">{shortcut}</kbd>}
+          </BaseTooltip.Popup>
+        </BaseTooltip.Positioner>
+      </BaseTooltip.Portal>
+    </BaseTooltip.Root>
+  );
 }
 
 export default Tooltip;

@@ -16,4 +16,113 @@
  *           no border; inline-flex; gap 6px.
  */
 
-/* TODO(builder C): implement */
+.io-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--io-space-6);
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--io-space-6) var(--io-space-10);
+  background: var(--io-color-surface-soft);
+  color: var(--io-color-text-muted);
+  border: 0;
+  border-radius: var(--io-radius-chip);
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-xs);
+  font-weight: var(--io-weight-medium);
+  line-height: var(--io-leading-none);
+  white-space: nowrap;
+}
+
+.io-chip[data-removable] {
+  padding-right: var(--io-space-6);
+}
+
+.io-chip[data-interactive] {
+  cursor: pointer;
+  transition: background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-chip[data-interactive]:hover {
+  background: var(--io-color-line);
+}
+
+.io-chip[data-selected] {
+  background: var(--io-color-accent-soft);
+  color: var(--io-color-accent);
+}
+
+.io-chip[data-interactive][data-selected]:hover {
+  background: var(--io-color-accent-soft);
+}
+
+.io-chip[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.io-chip-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--io-hue);
+  border-radius: var(--io-radius-full);
+}
+
+.io-chip-icon {
+  flex: none;
+  width: var(--io-size-icon-xs);
+  height: var(--io-size-icon-xs);
+}
+
+.io-chip-label {
+  min-width: 0;
+}
+
+.io-chip-remove {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--io-radius-full);
+  color: var(--io-color-text-muted);
+  cursor: pointer;
+}
+
+.io-chip-remove:hover {
+  color: var(--io-color-text);
+}
+
+.io-chip-remove > .io-icon {
+  width: var(--io-size-icon-xs);
+  height: var(--io-size-icon-xs);
+}
+
+.io-chip-remove:disabled {
+  cursor: not-allowed;
+}
+
+/* Toggle button inside a removable chip: looks like the chip body */
+.io-chip-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--io-radius-chip);
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+.io-chip-toggle:disabled {
+  cursor: not-allowed;
+}

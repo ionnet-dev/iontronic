@@ -3,6 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
 import type { HueProps } from "../../utils/hue";
+import { IconTile } from "../IconTile/IconTile";
 
 /**
  * Props for {@link Tile}. Renders a `<button>`; pass `render={<a href="…" />}` for a link.
@@ -23,7 +24,6 @@ export interface TileProps extends Omit<useRender.ComponentProps<"button">, "col
  */
 export function Tile(props: TileProps) {
   const { render, icon, label, active, tone, priority, category, color, className, ...rest } = props;
-  // TODO(builder D): IconTile (size sm) + io-tile-label
   return useRender({
     render,
     defaultTagName: "button",
@@ -32,7 +32,12 @@ export function Tile(props: TileProps) {
       ...rest,
       className: cx("io-tile io-focus", className),
       "data-active": active || undefined,
-      children: label,
+      children: (
+        <>
+          <IconTile icon={icon} size="sm" tone={tone} priority={priority} category={category} color={color} />
+          <span className="io-tile-label">{label}</span>
+        </>
+      ),
     },
   });
 }

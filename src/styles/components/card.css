@@ -26,4 +26,78 @@
  * Look:     background surface; radius card; shadow card; no border; display grid; gap 10px.
  */
 
-/* TODO(builder D): implement */
+.io-card {
+  --_pad: var(--io-space-14);
+  --_base: var(--io-color-surface);
+  display: grid;
+  gap: var(--io-space-10);
+  min-width: 0;
+  padding: var(--_pad);
+  border-radius: var(--io-radius-card);
+  background: var(--_base);
+  color: var(--io-color-text);
+  box-shadow: var(--io-shadow-card);
+  transition: background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-card[data-padding="none"] { --_pad: 0; }
+.io-card[data-padding="sm"] { --_pad: var(--io-space-14); }
+.io-card[data-padding="md"] { --_pad: var(--io-space-18); }
+.io-card[data-padding="lg"] { --_pad: var(--io-space-24); }
+
+.io-card[data-urgent] {
+  --_base: color-mix(in srgb, var(--io-color-priority-5) var(--io-tint-urgent), var(--io-color-surface));
+}
+
+.io-card[data-selected] { --_base: var(--io-color-accent-soft); }
+
+.io-card[data-interactive] { cursor: pointer; }
+
+.io-card[data-interactive]:hover {
+  background: color-mix(in srgb, var(--io-color-text) var(--io-tint-hover), var(--_base));
+}
+
+.io-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-10);
+  min-width: 0;
+}
+
+.io-card-heading {
+  min-width: 0;
+  flex: 1;
+}
+
+.io-card-title {
+  font-size: var(--io-text-base);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-snug);
+}
+
+.io-card-description {
+  font-size: var(--io-text-sm);
+  line-height: var(--io-leading-snug);
+  color: var(--io-color-text-muted);
+}
+
+.io-card-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-8);
+  flex: none;
+}
+
+.io-card-body {
+  min-width: 0;
+  font-size: var(--io-text-md);
+}
+
+.io-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--io-space-8);
+}
+
+.io-card-footer[data-stretch] > * { flex: 1; }

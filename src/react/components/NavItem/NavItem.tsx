@@ -3,6 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
 import type { Category } from "../../../semantic";
+import { hueAttributes } from "../../utils/hue";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link NavItem}. Renders an `<a>`; pass `render={<Link to="…" />}` for router links.
@@ -45,21 +47,29 @@ export interface NavItemProps extends Omit<useRender.ComponentProps<"a">, "color
  * @example <NavItem label="grid.alerts" category={1} count={3} />
  */
 export function NavItem(props: NavItemProps) {
-  const { render, icon, label, count, hotCount, active, variant, category, color, disabled, className, ...rest } = props;
+  const { render, icon, label, count, hotCount, active, variant, category, color, disabled, className, style, ...rest } = props;
   const resolvedVariant = variant ?? (category || color ? "topic" : "default");
-  // TODO(builder D): icon / dot / label / count parts per nav-item.css (io-hue for the topic dot)
+  const isTopic = resolvedVariant === "topic";
   return useRender({
     render,
     defaultTagName: "a",
     props: {
       ...rest,
-      className: cx("io-nav-item io-focus", resolvedVariant === "topic" && "io-hue", className),
+      ...(isTopic ? hueAttributes({ category, color }, style) : { style }),
+      className: cx("io-nav-item io-focus", isTopic && "io-hue", className),
       "data-variant": resolvedVariant,
       "data-active": active || undefined,
       "data-disabled": disabled || undefined,
-      "data-category": category,
       "aria-current": active ? "page" : undefined,
-      children: label,
+      "aria-disabled": disabled || undefined,
+      children: (
+        <>
+          {isTopic ? <span className="io-nav-item-dot" aria-hidden="true" /> : icon && <Icon icon={icon} size={18} className="io-nav-item-icon" />}
+          <span className="io-nav-item-label">{label}</span>
+          {hotCount != null && <span className="io-nav-item-count" data-hot>{hotCount}</span>}
+          {count != null && <span className="io-nav-item-count">{count}</span>}
+        </>
+      ),
     },
   });
 }

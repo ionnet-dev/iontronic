@@ -14,4 +14,34 @@
  * Look:     grid; justify-items center; text-align center.
  */
 
-/* TODO(builder D): implement */
+.io-empty-state {
+  --_pad: 48px var(--io-space-24);
+  --_gap: var(--io-space-12);
+  display: grid;
+  justify-items: center;
+  gap: var(--_gap);
+  padding: var(--_pad);
+  text-align: center;
+}
+
+.io-empty-state[data-size="sm"] {
+  --_pad: var(--io-space-24);
+  --_gap: var(--io-space-8);
+}
+
+.io-empty-state-title { margin: 0; }
+
+.io-empty-state-description {
+  max-width: 40ch;
+  margin: 0;
+  font-size: var(--io-text-md);
+  color: var(--io-color-text-muted);
+}
+
+.io-empty-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--io-space-8);
+  margin-top: var(--io-space-4);
+}

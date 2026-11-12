@@ -13,4 +13,57 @@
  *   io-truncate         single-line ellipsis (min-width 0)
  */
 
-/* TODO(builder A): implement */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--io-font-display);
+  font-weight: var(--io-weight-display);
+  letter-spacing: var(--io-tracking-display);
+  line-height: var(--io-leading-tight);
+}
+
+.io-display {
+  --_size: var(--io-text-2xl);
+  margin: 0;
+  font-family: var(--io-font-display);
+  font-size: var(--_size);
+  font-weight: var(--io-weight-display);
+  letter-spacing: var(--io-tracking-display);
+  line-height: var(--io-leading-tight);
+  text-wrap: balance;
+}
+
+.io-display[data-size="sm"] { --_size: var(--io-text-xl); }
+.io-display[data-size="md"] { --_size: var(--io-text-2xl); }
+.io-display[data-size="lg"] { --_size: var(--io-text-3xl); }
+.io-display[data-size="xl"] { --_size: var(--io-text-4xl); }
+.io-display[data-size="2xl"] { --_size: var(--io-text-5xl); }
+
+.io-mono {
+  font-family: var(--io-font-mono);
+  font-size: 0.92em;
+  font-variant-numeric: tabular-nums;
+}
+
+.io-label {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-2xs);
+  font-weight: var(--io-weight-semibold);
+  letter-spacing: var(--io-tracking-label);
+  line-height: var(--io-leading-none);
+  text-transform: uppercase;
+  color: var(--io-color-text-muted);
+}
+
+.io-text-muted { color: var(--io-color-text-muted); }
+.io-text-subtle { color: var(--io-color-text-subtle); }
+
+.io-tnum { font-variant-numeric: tabular-nums; }
+
+.io-truncate {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

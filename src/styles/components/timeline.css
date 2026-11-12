@@ -20,4 +20,53 @@
  * Data:     hue trait on each item (default tone ok; the reference uses priority-4 for warnings → priority={4} or tone warn)
  */
 
-/* TODO(builder D): implement */
+.io-timeline {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: var(--io-space-10);
+  padding-bottom: var(--io-space-12);
+  font-size: var(--io-text-sm);
+  color: var(--io-color-text-muted);
+}
+
+.io-timeline-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 2px;
+  left: 8.5px;
+  width: 1px;
+  background: var(--io-color-line);
+}
+
+.io-timeline-dot {
+  justify-self: center;
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: var(--io-radius-full);
+  background: var(--io-hue);
+}
+
+.io-timeline-content { min-width: 0; }
+
+.io-timeline-title {
+  margin-right: var(--io-space-4);
+  font-weight: var(--io-weight-semibold);
+  color: var(--io-color-text);
+}
+
+.io-timeline-time {
+  margin-left: var(--io-space-6);
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-xs);
+  font-variant-numeric: tabular-nums;
+}

@@ -17,4 +17,77 @@
  *           io-table-head / io-table-cell data-align start | center | end; data-numeric (mono, tnum, align end)
  */
 
-/* TODO(builder D): implement */
+.io-table-wrap {
+  max-height: var(--_max-height, none);
+  overflow: auto;
+  border-radius: var(--io-radius-card);
+  background: var(--io-color-surface);
+  box-shadow: var(--io-shadow-card);
+}
+
+.io-table-wrap[data-plain] {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.io-table {
+  --_cell-pad: 12px var(--io-space-16);
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--io-color-text);
+}
+
+.io-table[data-density="compact"] { --_cell-pad: var(--io-space-8) var(--io-space-12); }
+.io-table[data-density="comfortable"] { --_cell-pad: 12px var(--io-space-16); }
+
+.io-table-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: var(--_cell-pad);
+  border-bottom: 1px solid var(--io-color-line);
+  background: var(--io-color-surface);
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-2xs);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-none);
+  letter-spacing: var(--io-tracking-label);
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--io-color-text-muted);
+}
+
+.io-table-cell {
+  padding: var(--_cell-pad);
+  border-bottom: 1px solid var(--io-color-line);
+  font-size: var(--io-text-md);
+  text-align: left;
+}
+
+.io-table-body .io-table-row:last-child .io-table-cell { border-bottom: 0; }
+
+.io-table-head[data-align="center"],
+.io-table-cell[data-align="center"] { text-align: center; }
+
+.io-table-head[data-align="end"],
+.io-table-cell[data-align="end"] { text-align: right; }
+
+.io-table-head[data-numeric],
+.io-table-cell[data-numeric] { text-align: right; }
+
+.io-table-cell[data-numeric] {
+  font-family: var(--io-font-mono);
+  font-size: calc(var(--io-text-md) * 0.92);
+  font-variant-numeric: tabular-nums;
+}
+
+.io-table[data-interactive] .io-table-body .io-table-row { cursor: pointer; }
+
+.io-table[data-interactive] .io-table-body .io-table-row:hover .io-table-cell {
+  background: var(--io-color-surface-soft);
+}
+
+.io-table-row[data-selected] .io-table-cell { background: var(--io-color-accent-soft); }

@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, CSSProperties } from "react";
 import { cx } from "../../../cx";
 
 /**
@@ -21,6 +21,10 @@ export interface TableProps extends ComponentProps<"table"> {
    * Class name for the scrolling `io-table-wrap`.
    */
   wrapClassName?: string;
+  /**
+   * Scrolls the table body vertically past this height (any CSS length). The header row stays pinned.
+   */
+  maxHeight?: string;
 }
 
 /**
@@ -42,9 +46,9 @@ export interface TableCellAlignProps {
  * `TableRow`, `TableHead` and `TableCell`.
  */
 export function Table(props: TableProps) {
-  const { density = "comfortable", interactive, plain, wrapClassName, className, ...rest } = props;
+  const { density = "comfortable", interactive, plain, wrapClassName, maxHeight, className, ...rest } = props;
   return (
-    <div className={cx("io-table-wrap", wrapClassName)} data-plain={plain || undefined}>
+    <div className={cx("io-table-wrap", wrapClassName)} data-plain={plain || undefined} style={maxHeight ? ({ "--_max-height": maxHeight } as CSSProperties) : undefined}>
       <table className={cx("io-table", className)} data-density={density} data-interactive={interactive || undefined} {...rest} />
     </div>
   );
@@ -77,7 +81,7 @@ export function TableRow(props: ComponentProps<"tr"> & { selected?: boolean }) {
 /**
  * A header cell.
  */
-export function TableHead(props: ComponentProps<"th"> & TableCellAlignProps) {
+export function TableHead(props: Omit<ComponentProps<"th">, "align"> & TableCellAlignProps) {
   const { align, numeric, className, ...rest } = props;
   return <th className={cx("io-table-head", className)} data-align={align ?? (numeric ? "end" : undefined)} data-numeric={numeric || undefined} {...rest} />;
 }
@@ -85,7 +89,7 @@ export function TableHead(props: ComponentProps<"th"> & TableCellAlignProps) {
 /**
  * A body cell.
  */
-export function TableCell(props: ComponentProps<"td"> & TableCellAlignProps) {
+export function TableCell(props: Omit<ComponentProps<"td">, "align"> & TableCellAlignProps) {
   const { align, numeric, className, ...rest } = props;
   return <td className={cx("io-table-cell", className)} data-align={align ?? (numeric ? "end" : undefined)} data-numeric={numeric || undefined} {...rest} />;
 }

@@ -1,5 +1,7 @@
 import { Accordion as BaseAccordion } from "@base-ui/react/accordion";
+import { ChevronDown } from "lucide-react";
 import { cx } from "../../../cx";
+import { Icon } from "../Icon/Icon";
 
 /**
  * Props for {@link AccordionRoot}.
@@ -33,10 +35,12 @@ export function AccordionItem(props: Omit<BaseAccordion.Item.Props, "className">
  */
 export function AccordionTrigger(props: Omit<BaseAccordion.Trigger.Props, "className"> & { className?: string }) {
   const { className, children, ...rest } = props;
-  // TODO(builder D): chevron icon part (io-accordion-icon)
   return (
     <BaseAccordion.Header className="io-accordion-header">
-      <BaseAccordion.Trigger className={cx("io-accordion-trigger io-focus", className)} {...rest}>{children}</BaseAccordion.Trigger>
+      <BaseAccordion.Trigger className={cx("io-accordion-trigger io-focus", className)} {...rest}>
+        {children}
+        <Icon icon={ChevronDown} size="md" className="io-accordion-icon" />
+      </BaseAccordion.Trigger>
     </BaseAccordion.Header>
   );
 }

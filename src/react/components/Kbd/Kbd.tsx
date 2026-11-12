@@ -22,8 +22,14 @@ export interface KbdProps extends ComponentProps<"kbd"> {
  */
 export function Kbd(props: KbdProps) {
   const { keys, size = "md", className, children, ...rest } = props;
-  // TODO(builder C): keys → io-kbd-group
-  return <kbd className={cx("io-kbd", className)} data-size={size} {...rest}>{keys ? keys.join("") : children}</kbd>;
+  if (keys) {
+    return (
+      <span className={cx("io-kbd-group", className)}>
+        {keys.map((key, index) => <kbd key={index} className="io-kbd" data-size={size} {...rest}>{key}</kbd>)}
+      </span>
+    );
+  }
+  return <kbd className={cx("io-kbd", className)} data-size={size} {...rest}>{children}</kbd>;
 }
 
 export default Kbd;

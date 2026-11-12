@@ -39,13 +39,13 @@ export function Timeline(props: ComponentProps<"ol">) {
  */
 export function TimelineItem(props: TimelineItemProps) {
   const { title, description, time, tone = "ok", priority, category, color, className, style, ...rest } = props;
-  // TODO(builder D): time part
   return (
     <li className={cx("io-timeline-item io-hue", className)} {...hueAttributes({ tone, priority, category, color }, style)} {...rest}>
       <span className="io-timeline-dot" />
       <div className="io-timeline-content">
         <span className="io-timeline-title">{title}</span>
         {description != null && <span className="io-timeline-description">{description}</span>}
+        {time != null && (typeof time === "string" || typeof time === "number" ? <time className="io-timeline-time">{time}</time> : <span className="io-timeline-time">{time}</span>)}
       </div>
     </li>
   );

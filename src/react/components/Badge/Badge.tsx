@@ -1,6 +1,8 @@
 import type { ComponentProps } from "react";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
+import { PRIORITY_LABELS } from "../../../semantic";
+import { Icon } from "../Icon/Icon";
 import { hueAttributes, type HueProps } from "../../utils/hue";
 
 /**
@@ -25,11 +27,12 @@ export interface BadgeProps extends Omit<ComponentProps<"span">, "color">, HuePr
  * @example <Badge tone="ok" appearance="solid">Healthy</Badge>
  */
 export function Badge(props: BadgeProps) {
-  const { appearance = "soft", size = "md", icon, tone = "neutral", priority, category, color, className, style, children, ...rest } = props;
-  // TODO(builder C): icon, PRIORITY_LABELS fallback
+  const { appearance = "soft", size = "md", icon, tone, priority, category, color, className, style, children, ...rest } = props;
+  const content = children ?? (priority ? PRIORITY_LABELS[priority] : undefined);
   return (
     <span className={cx("io-badge io-hue", className)} data-appearance={appearance} data-size={size} {...hueAttributes({ tone, priority, category, color }, style)} {...rest}>
-      {children}
+      {icon && <Icon icon={icon} size="xs" />}
+      {content}
     </span>
   );
 }

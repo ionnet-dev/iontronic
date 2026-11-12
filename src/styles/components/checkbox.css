@@ -9,4 +9,57 @@
  *           checked/indeterminate: background accent, color on-accent, no border. Indicator icon 14px, stroke 3.
  */
 
-/* TODO(builder B): implement */
+.io-checkbox {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  padding: 0;
+  border: 1.5px solid var(--io-color-line-strong);
+  border-radius: var(--io-radius-sm);
+  background: var(--io-color-surface);
+  color: var(--io-color-on-accent);
+  cursor: inherit;
+  transition:
+    background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    border-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-checkbox:hover:not([data-checked], [data-indeterminate], [data-disabled]) {
+  border-color: var(--io-color-accent);
+}
+
+.io-checkbox[data-checked],
+.io-checkbox[data-indeterminate] {
+  border-color: transparent;
+  background: var(--io-color-accent);
+}
+
+.io-checkbox[data-invalid]:not([data-checked], [data-indeterminate]) {
+  border-color: var(--io-color-bad);
+}
+
+.io-checkbox-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.io-checkbox-indicator[data-unchecked] {
+  display: none;
+}
+
+.io-checkbox-indicator .io-icon {
+  width: 14px;
+  height: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-checkbox {
+    transition: none;
+  }
+}

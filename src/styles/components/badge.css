@@ -13,4 +13,39 @@
  *           white-space nowrap.
  */
 
-/* TODO(builder C): implement */
+.io-badge {
+  --_pad: 5px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--io-space-4);
+  box-sizing: border-box;
+  padding: var(--_pad);
+  background: color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent);
+  color: var(--io-hue);
+  border-radius: var(--io-radius-chip);
+  font-family: var(--io-font-mono);
+  font-size: var(--io-text-2xs);
+  font-weight: var(--io-weight-semibold);
+  line-height: var(--io-leading-none);
+  letter-spacing: var(--io-tracking-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.io-badge[data-size="sm"] { --_pad: 3px 6px; }
+.io-badge[data-size="md"] { --_pad: 5px 8px; }
+
+.io-badge[data-appearance="solid"] {
+  background: var(--io-hue);
+  color: var(--io-color-on-solid);
+}
+
+.io-badge[data-appearance="outline"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--io-hue);
+}
+
+.io-badge > .io-icon {
+  width: var(--io-size-icon-xs);
+  height: var(--io-size-icon-xs);
+}

@@ -46,7 +46,6 @@ export interface ButtonProps extends ComponentProps<"button"> {
  */
 export function Button(props: ButtonProps) {
   const { variant = "secondary", size = "md", icon, iconOnly, loading, fullWidth, type = "button", disabled, className, children, ...rest } = props;
-  // TODO(builder B): spinner part, label wrapper, loading behaviour per button.css
   return (
     <button
       type={type}
@@ -60,8 +59,9 @@ export function Button(props: ButtonProps) {
       aria-busy={loading || undefined}
       {...rest}
     >
+      {loading && <span className="io-button-spinner" aria-hidden="true" />}
       {icon && <Icon icon={icon} size={size === "sm" ? "sm" : "md"} />}
-      {children}
+      {!iconOnly && children != null && <span className="io-button-label">{children}</span>}
     </button>
   );
 }

@@ -15,4 +15,87 @@
  *           pressed item: background surface; color text; shadow thumb.
  */
 
-/* TODO(builder B): implement */
+.io-segmented {
+  --_height: var(--io-size-control-md);
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  height: var(--_height);
+  padding: 3px;
+  border-radius: var(--io-radius-control);
+  background: var(--io-color-surface-soft);
+}
+
+.io-segmented[data-size="sm"] {
+  --_height: var(--io-size-control-sm);
+}
+
+.io-segmented[data-size="lg"] {
+  --_height: var(--io-size-control-lg);
+}
+
+.io-segmented[data-full-width] {
+  display: flex;
+  width: 100%;
+}
+
+.io-segmented-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--io-radius-control);
+  background: transparent;
+  color: var(--io-color-text-muted);
+  font-family: var(--io-font-body);
+  font-size: var(--io-text-sm);
+  font-weight: var(--io-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    box-shadow var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-segmented[data-size="lg"] .io-segmented-item {
+  padding: 0 18px;
+  font-size: var(--io-text-md);
+}
+
+.io-segmented[data-full-width] .io-segmented-item {
+  flex: 1;
+}
+
+.io-segmented-item:hover:not([data-pressed], [data-disabled], :disabled) {
+  color: var(--io-color-text);
+}
+
+.io-segmented-item[data-pressed] {
+  background: var(--io-color-surface);
+  color: var(--io-color-text);
+  box-shadow: var(--io-shadow-thumb);
+}
+
+.io-segmented-item[data-disabled],
+.io-segmented-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 47.99rem) {
+  .io-segmented[data-size="sm"],
+  .io-segmented[data-size="md"] {
+    height: var(--io-size-touch);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-segmented-item {
+    transition: none;
+  }
+}

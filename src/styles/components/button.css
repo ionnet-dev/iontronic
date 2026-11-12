@@ -26,4 +26,151 @@
  *           Below md breakpoint (max-width 47.99rem): min-height var(--io-size-touch) for sm/md.
  */
 
-/* TODO(builder B): implement */
+.io-button {
+  --_height: var(--io-size-control-md);
+  --_pad: 18px;
+  --_bg: var(--io-color-surface-soft);
+  --_bg-hover: color-mix(in srgb, var(--io-color-text) 6%, var(--io-color-surface-soft));
+  --_fg: var(--io-color-text);
+  --_image: none;
+  --_image-hover: none;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: var(--_height);
+  padding: 0 var(--_pad);
+  border: 0;
+  border-radius: var(--io-radius-control);
+  background-color: var(--_bg);
+  background-image: var(--_image);
+  color: var(--_fg);
+  font-family: var(--io-font-body);
+  font-size: var(--io-text-md);
+  font-weight: var(--io-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    color var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    filter var(--io-motion-duration-fast) var(--io-motion-ease-standard),
+    transform var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+.io-button[data-variant="primary"] {
+  --_bg: var(--io-color-accent);
+  --_bg-hover: var(--io-color-accent-hover);
+  --_fg: var(--io-color-on-accent);
+  --_image: var(--io-gradient-accent-fill);
+}
+
+.io-button[data-variant="ghost"] {
+  --_bg: transparent;
+  --_bg-hover: color-mix(in srgb, var(--io-color-accent) var(--io-tint-hover), transparent);
+  --_fg: var(--io-color-accent);
+}
+
+.io-button[data-variant="danger"] {
+  --_bg: var(--io-color-bad);
+  --_bg-hover: var(--io-color-bad);
+  --_fg: var(--io-color-on-solid);
+}
+
+.io-button[data-size="sm"] {
+  --_height: var(--io-size-control-sm);
+  --_pad: 14px;
+  font-size: var(--io-text-sm);
+}
+
+.io-button[data-size="lg"] {
+  --_height: var(--io-size-control-lg);
+  --_pad: 22px;
+}
+
+.io-button[data-icon-only] {
+  width: var(--_height);
+  padding: 0;
+}
+
+.io-button[data-full-width] {
+  display: flex;
+  width: 100%;
+}
+
+.io-button:hover:not(:disabled, [data-disabled]) {
+  background-color: var(--_bg-hover);
+}
+
+.io-button[data-variant="primary"]:hover:not(:disabled, [data-disabled]),
+.io-button[data-variant="danger"]:hover:not(:disabled, [data-disabled]) {
+  background-color: var(--_bg);
+  filter: brightness(1.08);
+}
+
+.io-button:active:not(:disabled, [data-disabled]) {
+  transform: translateY(1px);
+}
+
+.io-button:disabled,
+.io-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.io-button[data-loading] {
+  cursor: progress;
+  opacity: 1;
+}
+
+.io-button[data-loading] > :not(.io-button-spinner) {
+  visibility: hidden;
+}
+
+.io-button-label {
+  display: inline-block;
+}
+
+.io-button-spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 1.1em;
+  height: 1.1em;
+  box-sizing: border-box;
+  border: 2px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-top-color: currentColor;
+  border-radius: var(--io-radius-full);
+  animation: io-spin 700ms linear infinite;
+}
+
+/* Phone layout: touch targets */
+@media (max-width: 47.99rem) {
+  .io-button[data-size="sm"],
+  .io-button[data-size="md"] {
+    min-height: var(--io-size-touch);
+  }
+
+  .io-button[data-icon-only][data-size="sm"],
+  .io-button[data-icon-only][data-size="md"] {
+    min-width: var(--io-size-touch);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .io-button {
+    transition: none;
+  }
+
+  .io-button:active:not(:disabled, [data-disabled]) {
+    transform: none;
+  }
+
+  .io-button-spinner {
+    animation-duration: 1.6s;
+  }
+}
