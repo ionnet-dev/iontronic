@@ -1,0 +1,10 @@
+/*
+ * Separator. Owner: A (core). React: <Separator> (Base UI Separator).
+ *
+ * Markup:   <div class="io-separator" role="separator" data-orientation="horizontal" />
+ * Data:     data-orientation  horizontal | vertical   (Base UI)
+ *           data-inset        present → margin-inline var(--io-space-12) (horizontal only)
+ * Look:     1px var(--io-color-line); horizontal is full width, vertical is align-self stretch.
+ */
+
+/* TODO(builder A): implement */

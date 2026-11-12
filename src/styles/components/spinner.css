@@ -1,0 +1,9 @@
+/*
+ * Spinner. Owner: C. React: <Spinner>.
+ *
+ * Markup:   <span class="io-spinner" data-size="md" role="status" aria-label="Loading" />
+ * Data:     data-size xs (12) | sm (14) | md (16) | lg (20) | xl (24), matching icon sizes
+ * Look:     ring: 2px border currentColor at 25% + top segment solid; animation io-spin (base) 0.7s linear infinite.
+ */
+
+/* TODO(builder C): implement */

@@ -1,0 +1,19 @@
+/*
+ * Check row: the shared label layout for Checkbox, Radio and Switch. Owner: B.
+ *
+ * Markup:
+ *   <label class="io-check" data-disabled>
+ *     …control (io-checkbox | io-radio | io-switch)…
+ *     <span class="io-check-text">
+ *       <span class="io-check-label">Quiet hours 23:00–07:30</span>
+ *       <span class="io-check-description">Silences everything below priority 4.</span>
+ *     </span>
+ *   </label>
+ *
+ * Parts:    io-check-text (grid, gap 2px), io-check-label (text-md medium), io-check-description (text-sm, text-muted)
+ * Data:     data-disabled → opacity 0.5, cursor not-allowed
+ *           data-placement  start (default: control first) | end (label first, control pushed right; settings rows)
+ * Look:     display flex; align-items flex-start; gap 12px; cursor pointer. Below md: min-height touch.
+ */
+
+/* TODO(builder B): implement */

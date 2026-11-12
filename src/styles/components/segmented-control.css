@@ -1,0 +1,18 @@
+/*
+ * SegmentedControl. Owner: B. React: <SegmentedControl> (Base UI ToggleGroup + Toggle). Reference: `.seg`.
+ *
+ * Markup:
+ *   <div class="io-segmented" role="group" data-size="md" data-full-width>
+ *     <button class="io-segmented-item io-focus" data-pressed aria-pressed="true"><svg/>All</button>
+ *     <button class="io-segmented-item io-focus" aria-pressed="false">Unread</button>
+ *   </div>
+ *
+ * Parts:    io-segmented-item
+ * Data:     io-segmented data-size sm | md | lg (height control-<size> for the track), data-full-width (items flex 1)
+ *           io-segmented-item data-pressed (Base UI Toggle), data-disabled
+ * Look:     track: inline-flex; padding 3px; gap 2px; radius control; background surface-soft; no border.
+ *           item: font body semibold text-sm; padding-inline 12px; radius control; transparent; color text-muted.
+ *           pressed item: background surface; color text; shadow thumb.
+ */
+
+/* TODO(builder B): implement */

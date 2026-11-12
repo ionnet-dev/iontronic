@@ -1,0 +1,23 @@
+/*
+ * Timeline. Owner: D. React: <Timeline>, <TimelineItem>. Reference: `.timeline`, `.tl`.
+ *
+ * Markup:
+ *   <ol class="io-timeline">
+ *     <li class="io-timeline-item io-hue" data-tone="ok">
+ *       <span class="io-timeline-dot" />
+ *       <div class="io-timeline-content">
+ *         <span class="io-timeline-title">Fired</span> <span class="io-timeline-description">17:00 from Grid</span>
+ *         <time class="io-timeline-time">17:00</time>
+ *       </div>
+ *     </li>
+ *   </ol>
+ *
+ * Parts:    io-timeline (list-style none; margin 0; padding 0; grid), io-timeline-item (grid 18px minmax(0,1fr); gap 10px;
+ *           padding-bottom 12px; text 13.5px ≈ text-sm; color text-muted; connector line between dots: 1px line),
+ *           io-timeline-dot (10px circle, var(--io-hue), margin-top 5px, centred), io-timeline-content,
+ *           io-timeline-title (color text, semibold, margin-right 4px), io-timeline-description,
+ *           io-timeline-time (mono text-xs, margin-left 6px)
+ * Data:     hue trait on each item (default tone ok; the reference uses priority-4 for warnings → priority={4} or tone warn)
+ */
+
+/* TODO(builder D): implement */

@@ -1,0 +1,5 @@
+/* Self-hosted fonts. Bricolage uses the opsz build so display sizes get its optical sizing. */
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
+@import "@fontsource-variable/figtree/index.css";
+@import "@fontsource/dm-mono/400.css";
+@import "@fontsource/dm-mono/500.css";

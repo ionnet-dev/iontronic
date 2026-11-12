@@ -1,0 +1,27 @@
+/*
+ * Sidebar and NavSection. Owner: D. React: <Sidebar>, <NavSection>. Reference: `.side`, `.brand`, `.logo`, `.side-label`.
+ *
+ * Markup:
+ *   <nav class="io-sidebar" aria-label="Main">
+ *     <div class="io-sidebar-brand"><span class="io-sidebar-logo"><svg/></span><span class="io-sidebar-name">Ping</span></div>
+ *     <div class="io-sidebar-nav">
+ *       …io-nav-item…
+ *       <div class="io-nav-section">
+ *         <div class="io-nav-section-header"><span class="io-nav-section-label">Topics</span><span class="io-nav-section-action">…</span></div>
+ *         …io-nav-item…
+ *       </div>
+ *     </div>
+ *     <div class="io-sidebar-footer">…</div>
+ *   </nav>
+ *
+ * Parts:    io-sidebar-brand (flex gap 10px; padding 2px 8px 16px; font display, weight display, text-xl, tracking display),
+ *           io-sidebar-logo (32px circle, background var(--io-gradient-logo-fill), color on-accent),
+ *           io-sidebar-name, io-sidebar-nav (grid gap 4px), io-sidebar-footer (margin-top auto),
+ *           io-nav-section, io-nav-section-header, io-nav-section-label (io-label style, color sidebar-muted,
+ *           padding 20px 10px 6px), io-nav-section-action
+ * Look:     background sidebar-bg; color sidebar-fg; radius panel; padding 18px 12px; display flex column; no border.
+ *           Deep indigo in both themes. Inside .io-sidebar re-point --io-color-text → sidebar-fg,
+ *           --io-color-text-muted → sidebar-muted and --io-color-line → sidebar-line so generic content reads correctly.
+ */
+
+/* TODO(builder D): implement */

@@ -1,0 +1,19 @@
+/*
+ * Field: label/description/error wrapper. Owner: B. React: <Field> and the `label`/`description`/`error` props of
+ * Input, Textarea, Select, Combobox, Slider, RadioGroup. Reference: `.field`.
+ *
+ * Markup:
+ *   <div class="io-field" data-invalid data-disabled>       (Base UI Field.Root)
+ *     <label class="io-field-label">Topic <span class="io-field-required" aria-hidden="true">*</span></label>
+ *     …control…
+ *     <p class="io-field-description">Sources can only publish to allowed topics.</p>
+ *     <p class="io-field-error">Topic is required.</p>
+ *   </div>
+ *
+ * Parts:    io-field-label (text-sm semibold, color text), io-field-required (color bad),
+ *           io-field-description (text-sm, color text-muted), io-field-error (text-sm, color bad)
+ * Data:     data-invalid, data-disabled (Base UI Field)
+ * Look:     display grid; gap 6px; min-width 0.
+ */
+
+/* TODO(builder B): implement */

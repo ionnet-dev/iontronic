@@ -1,0 +1,746 @@
+<title>Ionnet Design Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Unbounded:wght@500;700;800&family=Rubik:wght@400;500;600;700&family=Martian+Mono:wght@400;600&family=Sora:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Archivo:wdth,wght@62..125,400..900&family=Atkinson+Hyperlegible:wght@400;700&family=Red+Hat+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a quiet page chrome (picker + notes) around one live mock (desktop inbox + phone + kit) that re-skins per direction through tokens only. */
+:root {
+  --pg-bg: #f2f3f5; --pg-surface: #ffffff; --pg-fg: #17191d; --pg-muted: #60656e; --pg-line: #dcdfe4; --pg-accent: #2a5bd7;
+  --pg-font: "Inter", system-ui, sans-serif; --pg-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --pg-bg: #111317; --pg-surface: #191c21; --pg-fg: #eceef1; --pg-muted: #9aa0aa; --pg-line: #2a2e35; --pg-accent: #7ea2ff; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --pg-bg: #111317; --pg-surface: #191c21; --pg-fg: #eceef1; --pg-muted: #9aa0aa; --pg-line: #2a2e35; --pg-accent: #7ea2ff; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--pg-bg); color: var(--pg-fg); font-family: var(--pg-font); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 72px; }
+.page { max-width: 1320px; margin: 0 auto; display: grid; gap: 28px; }
+.intro { padding-top: 40px; display: grid; gap: 10px; max-width: 760px; }
+.intro .eyebrow { font: 600 12px/1 var(--pg-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--pg-accent); }
+.intro h1 { font: 700 clamp(30px, 5vw, 44px)/1.1 var(--pg-font); letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.intro p { margin: 0; color: var(--pg-muted); font-size: 17px; max-width: 64ch; }
+.picker { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--pg-bg); padding-block: 10px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--pg-bg); }
+.picker .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.picker button { font: 600 14px/1 var(--pg-font); padding: 10px 16px; border-radius: 999px; border: 1px solid var(--pg-line); background: var(--pg-surface); color: var(--pg-fg); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.picker button[aria-pressed="true"] { background: var(--pg-fg); color: var(--pg-bg); border-color: var(--pg-fg); }
+.picker button .sw { width: 12px; height: 12px; border-radius: 50%; }
+.picker .spacer { flex: 1; }
+.picker .mode { display: flex; gap: 4px; }
+.picker .mode button { padding: 8px 12px; font-size: 13px; }
+:focus-visible { outline: 2px solid var(--pg-accent); outline-offset: 2px; }
+
+.about { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 900px) { .about { grid-template-columns: minmax(0, 1fr); } }
+.about h2 { font-size: 30px; margin: 0; line-height: 1.1; }
+.about .tagline { font: 600 12px/1 var(--pg-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--pg-muted); }
+.about p { margin: 0; max-width: 62ch; }
+.about-text { display: grid; gap: 10px; }
+.facts { display: grid; gap: 0; background: var(--pg-surface); border: 1px solid var(--pg-line); border-radius: 10px; overflow: hidden; }
+.facts div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--pg-line); font-size: 14px; }
+.facts div:last-child { border-bottom: 0; }
+.facts dt { color: var(--pg-muted); font: 500 12px/1.9 var(--pg-mono); text-transform: uppercase; letter-spacing: .04em; }
+.facts dd { margin: 0; }
+.swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+.swatches span { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--pg-line); }
+.label { font: 600 12px/1 var(--pg-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--pg-muted); }
+
+/* ============ The direction-scoped design (everything below uses only --x tokens) ============ */
+.dir { --display-scale: 1; --display-stretch: 100%; --display-case: none; --display-track: -0.02em; --display-weight: 700;
+  --glass-blur: 0px; --app-gap: 14px; --sel-border: transparent; --border-w: 1px; --shadow-control: none; --row-r: var(--r-control);
+  --accent-fill: var(--accent); --logo-fill: var(--accent-fill); --spark: var(--accent); }
+
+/* Ember: warm & soft */
+.dir[data-dir="ember"] {
+  --bg: #f8f1f1; --surface: #ffffff; --surface-2: #f4e8e7; --fg: #2b1d24; --muted: #7a6670; --line: #ecdcdb; --border-c: #ecdcdb;
+  --accent: #f2542d; --on-accent: #ffffff; --accent-soft: #ffe4dc; --accent-2: #c2306b;
+  --ok: #2f8f5b; --warn: #b86e00; --bad: #d62f4b;
+  --p5: #e0304e; --p4: #f2711c; --p3: #7d6bd6; --p2: #7f8f97; --p1: #a08f95;
+  --t-grid: #f2542d; --t-deploy: #8a5cf6; --t-time: #e09a00; --t-ledger: #2e9d7a; --t-backup: #4a8fd9;
+  --side-bg: #f1e3e2; --side-fg: #2b1d24; --side-muted: #866f78; --side-active: #ffffff; --side-active-fg: #2b1d24;
+  --backdrop: #f8f1f1;
+  --shadow-card: 0 1px 2px rgba(90,30,45,.06), 0 10px 28px rgba(90,30,45,.08);
+  --r-card: 20px; --r-control: 999px; --r-chip: 999px; --row-r: 16px;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; --f-body: "Figtree", system-ui, sans-serif; --f-mono: "DM Mono", ui-monospace, monospace;
+  --display-weight: 750; --display-track: -0.025em;
+}
+.dir[data-dir="ember"][data-mode="dark"] {
+  --bg: #1b1418; --surface: #251b21; --surface-2: #30232b; --fg: #f7eaee; --muted: #b59ca8; --line: #3b2c35; --border-c: #3b2c35;
+  --accent: #ff7a55; --on-accent: #2a0d06; --accent-soft: #46241d; --accent-2: #ff6fa3;
+  --ok: #5fd394; --warn: #ffb84d; --bad: #ff6b81;
+  --p5: #ff5c74; --p4: #ff9a52; --p3: #a596ff; --p2: #9aa8af; --p1: #8f7a84;
+  --t-grid: #ff7a55; --t-deploy: #a98bff; --t-time: #ffc247; --t-ledger: #4cc79c; --t-backup: #6aaef5;
+  --side-bg: #20171c; --side-fg: #f7eaee; --side-muted: #a38c97; --side-active: #30232b; --side-active-fg: #ffffff;
+  --backdrop: #1b1418; --shadow-card: 0 12px 32px rgba(0,0,0,.35);
+}
+
+/* Dusk + Twilight: Ember's shapes and type, purple/blue/orange palettes */
+.dir:is([data-dir="dusk"],[data-dir="twilight"]) {
+  --r-card: 20px; --r-control: 999px; --r-chip: 999px; --row-r: 16px;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; --f-body: "Figtree", system-ui, sans-serif; --f-mono: "DM Mono", ui-monospace, monospace;
+  --display-weight: 750; --display-track: -0.025em;
+}
+/* Dusk: orange leads, blue supports, lavender neutrals */
+.dir[data-dir="dusk"] {
+  --bg: #f4f2fa; --surface: #ffffff; --surface-2: #ece8f7; --fg: #1f1a3a; --muted: #67618c; --line: #e2ddf1; --border-c: #e2ddf1;
+  --accent: #f0571c; --on-accent: #ffffff; --accent-soft: #ffe5d9; --accent-2: #3b5bff;
+  --ok: #2b9467; --warn: #c27400; --bad: #e0305a;
+  --p5: #e8335a; --p4: #f57418; --p3: #4f63f5; --p2: #7a76a0; --p1: #9893b8;
+  --t-grid: #f0571c; --t-deploy: #7a5cff; --t-time: #eba000; --t-ledger: #1f9e94; --t-backup: #3b6ff6;
+  --side-bg: #ebe6f8; --side-fg: #1f1a3a; --side-muted: #6f6995; --side-active: #ffffff; --side-active-fg: #1f1a3a;
+  --backdrop: linear-gradient(160deg, #efecfb 0%, #f4f0f8 55%, #fdebe2 100%);
+  --shadow-card: 0 1px 2px rgba(40,30,90,.06), 0 10px 28px rgba(40,30,90,.09);
+  --spark: #3b5bff;
+}
+.dir[data-dir="dusk"][data-mode="dark"] {
+  --bg: #15122b; --surface: #1f1a3a; --surface-2: #2a2450; --fg: #efecff; --muted: #a49fcb; --line: #332c5e; --border-c: #332c5e;
+  --accent: #ff7a3d; --on-accent: #1d0c03; --accent-soft: #3e2634; --accent-2: #6f86ff;
+  --ok: #4fd69c; --warn: #ffb648; --bad: #ff6b8a;
+  --p5: #ff5c80; --p4: #ff9548; --p3: #8b97ff; --p2: #9d99c4; --p1: #7a75a3;
+  --t-grid: #ff7a3d; --t-deploy: #9d84ff; --t-time: #ffbe45; --t-ledger: #3fd1c0; --t-backup: #64a0ff;
+  --side-bg: #1a1633; --side-fg: #efecff; --side-muted: #8f89bb; --side-active: #2a2450; --side-active-fg: #ffffff;
+  --backdrop: linear-gradient(160deg, #15122b 0%, #17132f 55%, #2a1828 100%);
+  --shadow-card: 0 12px 32px rgba(0,0,0,.4);
+  --spark: #6f86ff;
+}
+/* Twilight: violet-to-blue leads, orange sparks, deep indigo sidebar */
+.dir[data-dir="twilight"] {
+  --bg: #f3f1fb; --surface: #ffffff; --surface-2: #ece8f8; --fg: #1d1838; --muted: #66608c; --line: #e0dbf1; --border-c: #e0dbf1;
+  --accent: #6a4cff; --on-accent: #ffffff; --accent-soft: #e9e3ff; --accent-2: #ff7a2f;
+  --accent-fill: linear-gradient(135deg, #7a4dff 0%, #3f6bff 100%); --logo-fill: linear-gradient(135deg, #7a4dff 0%, #ff7a2f 100%); --spark: #ff7a2f;
+  --ok: #2b9467; --warn: #c27400; --bad: #e0305a;
+  --p5: #e8335a; --p4: #f57418; --p3: #4a6bff; --p2: #7a76a0; --p1: #9893b8;
+  --t-grid: #ff7a2f; --t-deploy: #6a4cff; --t-time: #eba000; --t-ledger: #19a39a; --t-backup: #3f7bff;
+  --side-bg: #221b4d; --side-fg: #ffffff; --side-muted: #aaa3d9; --side-active: rgba(255,255,255,.13); --side-active-fg: #ffffff;
+  --backdrop: linear-gradient(165deg, #efecfc 0%, #eef1fd 55%, #fbeee7 100%);
+  --shadow-card: 0 1px 2px rgba(40,30,90,.06), 0 10px 28px rgba(40,30,90,.09);
+}
+.dir[data-dir="twilight"][data-mode="dark"] {
+  --bg: #120f26; --surface: #1c1838; --surface-2: #27214b; --fg: #efecff; --muted: #a39ecb; --line: #302a5a; --border-c: #302a5a;
+  --accent: #9b83ff; --on-accent: #ffffff; --accent-soft: #2e2560; --accent-2: #ff8a45;
+  --accent-fill: linear-gradient(135deg, #8a63ff 0%, #4f7dff 100%); --logo-fill: linear-gradient(135deg, #8a63ff 0%, #ff8a45 100%); --spark: #ff8a45;
+  --ok: #4fd69c; --warn: #ffb648; --bad: #ff6b8a;
+  --p5: #ff5c80; --p4: #ff9548; --p3: #7f97ff; --p2: #9d99c4; --p1: #7a75a3;
+  --t-grid: #ff8a45; --t-deploy: #a08bff; --t-time: #ffbf47; --t-ledger: #3cd0c1; --t-backup: #6a9bff;
+  --side-bg: #0e0b20; --side-fg: #efecff; --side-muted: #8c86b8; --side-active: rgba(255,255,255,.08); --side-active-fg: #ffffff;
+  --backdrop: linear-gradient(165deg, #120f26 0%, #131330 55%, #22142a 100%);
+  --shadow-card: 0 12px 32px rgba(0,0,0,.4);
+}
+.dir[data-dir="twilight"] .nav.active { box-shadow: inset 3px 0 0 var(--spark); }
+
+/* Candy: playful & bold */
+.dir[data-dir="candy"] {
+  --bg: #eceeff; --surface: #ffffff; --surface-2: #f5f3ff; --fg: #1b1640; --muted: #5d5890; --line: #d9d6f2; --border-c: #1b1640;
+  --accent: #ffd23f; --on-accent: #1b1640; --accent-soft: #fff1bd; --accent-2: #ff7eb6;
+  --ok: #17b874; --warn: #f08c00; --bad: #f2405f;
+  --p5: #ff4f6d; --p4: #ff9f1c; --p3: #6ec1ff; --p2: #b9b4e6; --p1: #dedbf5;
+  --t-grid: #ff7eb6; --t-deploy: #6ec1ff; --t-time: #ffd23f; --t-ledger: #3ddc97; --t-backup: #b69cff;
+  --side-bg: #1b1640; --side-fg: #ffffff; --side-muted: #b3aee0; --side-active: #ffd23f; --side-active-fg: #1b1640;
+  --backdrop: #eceeff;
+  --border-w: 2px; --shadow-card: 4px 4px 0 #1b1640; --shadow-control: 3px 3px 0 #1b1640; --sel-border: #1b1640;
+  --r-card: 16px; --r-control: 12px; --r-chip: 8px; --row-r: 12px;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif; --f-body: "Rubik", system-ui, sans-serif; --f-mono: "Martian Mono", ui-monospace, monospace;
+  --display-scale: .84; --display-track: -0.01em; --display-weight: 700;
+}
+.dir[data-dir="candy"][data-mode="dark"] {
+  --bg: #151230; --surface: #221d47; --surface-2: #2b2557; --fg: #f4f2ff; --muted: #aba5dc; --line: #3a3370; --border-c: #7d74e0;
+  --accent: #ffd23f; --on-accent: #1b1640; --accent-soft: #4a3f1a; --accent-2: #ff8cc0;
+  --ok: #43e39c; --warn: #ffb347; --bad: #ff5c79;
+  --p5: #ff5c79; --p4: #ffab38; --p3: #79c8ff; --p2: #a9a3e0; --p1: #8f89c6;
+  --t-grid: #ff8cc0; --t-deploy: #79c8ff; --t-time: #ffd23f; --t-ledger: #43e39c; --t-backup: #bfa8ff;
+  --side-bg: #0d0b24; --side-fg: #ffffff; --side-muted: #9690cc; --side-active: #ffd23f; --side-active-fg: #1b1640;
+  --backdrop: #151230; --shadow-card: 4px 4px 0 #050414; --shadow-control: 3px 3px 0 #050414; --sel-border: #7d74e0;
+}
+
+/* Halo: luminous & glassy */
+.dir[data-dir="halo"] {
+  --bg: #eef1f8; --surface: rgba(255,255,255,.62); --surface-2: rgba(255,255,255,.45); --fg: #121633; --muted: #565d85; --line: rgba(18,22,51,.09); --border-c: rgba(255,255,255,.75);
+  --accent: #0b9a8b; --on-accent: #ffffff; --accent-soft: rgba(11,154,139,.13); --accent-2: #f2487e;
+  --ok: #0f9a6a; --warn: #c77800; --bad: #e0345f;
+  --p5: #f0335f; --p4: #ff8a33; --p3: #3a85f0; --p2: #6f7799; --p1: #8d94b3;
+  --t-grid: #f2487e; --t-deploy: #3a85f0; --t-time: #f5a020; --t-ledger: #10a996; --t-backup: #8e6cf5;
+  --side-bg: rgba(255,255,255,.34); --side-fg: #121633; --side-muted: #565d85; --side-active: rgba(255,255,255,.88); --side-active-fg: #121633;
+  --backdrop: radial-gradient(circle at 10% 6%, #ffc6dc 0, transparent 38%), radial-gradient(circle at 92% 10%, #b9dcff 0, transparent 40%), radial-gradient(circle at 65% 100%, #c2f5df 0, transparent 46%), #eef1f8;
+  --glass-blur: 18px;
+  --shadow-card: 0 10px 40px rgba(40,50,110,.12), inset 0 1px 0 rgba(255,255,255,.85);
+  --r-card: 24px; --r-control: 14px; --r-chip: 999px; --row-r: 16px;
+  --f-display: "Sora", system-ui, sans-serif; --f-body: "Plus Jakarta Sans", system-ui, sans-serif; --f-mono: "JetBrains Mono", ui-monospace, monospace;
+  --display-weight: 600; --display-track: -0.03em;
+}
+.dir[data-dir="halo"][data-mode="dark"] {
+  --bg: #0b0e1c; --surface: rgba(24,28,52,.58); --surface-2: rgba(255,255,255,.045); --fg: #eef0ff; --muted: #9ba2c8; --line: rgba(255,255,255,.08); --border-c: rgba(255,255,255,.13);
+  --accent: #2ee6cf; --on-accent: #032420; --accent-soft: rgba(46,230,207,.14); --accent-2: #ff6b9e;
+  --ok: #3ee0a0; --warn: #ffbd5c; --bad: #ff6b8e;
+  --p5: #ff5a85; --p4: #ffa35c; --p3: #6aa8ff; --p2: #959cc4; --p1: #6f7799;
+  --t-grid: #ff6b9e; --t-deploy: #6aa8ff; --t-time: #ffbd5c; --t-ledger: #2ee6cf; --t-backup: #b69bff;
+  --side-bg: rgba(10,12,28,.4); --side-fg: #eef0ff; --side-muted: #8d94bb; --side-active: rgba(255,255,255,.09); --side-active-fg: #ffffff;
+  --backdrop: radial-gradient(circle at 12% 8%, rgba(255,77,141,.34) 0, transparent 40%), radial-gradient(circle at 88% 14%, rgba(58,141,255,.34) 0, transparent 42%), radial-gradient(circle at 60% 104%, rgba(18,214,190,.26) 0, transparent 48%), #0b0e1c;
+  --shadow-card: 0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* Signal: graphic & legible (wayfinding signage) */
+.dir[data-dir="signal"] {
+  --bg: #f1f0eb; --surface: #ffffff; --surface-2: #e9e8e1; --fg: #111214; --muted: #585c63; --line: #d7d6ce; --border-c: #d7d6ce;
+  --accent: #1f3dff; --on-accent: #ffffff; --accent-soft: #e0e5ff; --accent-2: #ffd400;
+  --ok: #0a8f4e; --warn: #c97a00; --bad: #e2231a;
+  --p5: #e2231a; --p4: #ff7a00; --p3: #1f3dff; --p2: #6f737b; --p1: #b9bab4;
+  --t-grid: #e2231a; --t-deploy: #1f3dff; --t-time: #e8b800; --t-ledger: #0a8f4e; --t-backup: #111214;
+  --side-bg: #1f3dff; --side-fg: #ffffff; --side-muted: #c3cbff; --side-active: #ffd400; --side-active-fg: #111214;
+  --backdrop: #f1f0eb; --app-gap: 0px; --border-w: 1.5px;
+  --shadow-card: none; --sel-border: #111214;
+  --r-card: 4px; --r-control: 4px; --r-chip: 2px; --row-r: 0px;
+  --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif; --f-body: "Atkinson Hyperlegible", system-ui, sans-serif; --f-mono: "Red Hat Mono", ui-monospace, monospace;
+  --display-stretch: 118%; --display-weight: 800; --display-track: -0.005em; --display-case: uppercase; --display-scale: .92;
+}
+.dir[data-dir="signal"][data-mode="dark"] {
+  --bg: #0e0f12; --surface: #17191d; --surface-2: #202328; --fg: #f2f2ee; --muted: #9ea2aa; --line: #2c2f35; --border-c: #2c2f35;
+  --accent: #5a72ff; --on-accent: #ffffff; --accent-soft: #1b2252; --accent-2: #ffd400;
+  --ok: #3ccf82; --warn: #ffae33; --bad: #ff4d40;
+  --p5: #ff4d40; --p4: #ff8f2e; --p3: #5a72ff; --p2: #7d828b; --p1: #a3a7ae;
+  --t-grid: #ff4d40; --t-deploy: #5a72ff; --t-time: #ffd400; --t-ledger: #3ccf82; --t-backup: #f2f2ee;
+  --side-bg: #1a2fd0; --side-fg: #ffffff; --side-muted: #aab5ff; --side-active: #ffd400; --side-active-fg: #111214;
+  --backdrop: #0e0f12; --sel-border: #f2f2ee;
+}
+
+.dir { color: var(--fg); font-family: var(--f-body); display: grid; gap: 22px; }
+.dir .display { font-family: var(--f-display); font-weight: var(--display-weight); letter-spacing: var(--display-track); font-stretch: var(--display-stretch); line-height: 1.1; margin: 0; text-wrap: balance; }
+.dir .mono { font-family: var(--f-mono); font-size: .86em; }
+.dir svg.i { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+@media (max-width: 1440px) { .stage { grid-template-columns: minmax(0, 1fr); } .stage .phone-col { justify-self: center; } }
+.frame-scroll { overflow-x: auto; border-radius: 18px; }
+.frame-cap { font: 500 12px/1.4 var(--pg-mono); color: var(--pg-muted); margin-top: 8px; }
+
+/* Desktop app */
+.app { min-width: 920px; display: grid; grid-template-columns: 214px minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--app-gap); padding: var(--app-gap); background: var(--backdrop); border-radius: 18px; border: 1px solid var(--pg-line); }
+.side, .list, .detail { backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); }
+.side { background: var(--side-bg); color: var(--side-fg); border-radius: calc(var(--r-card) - 4px); padding: 18px 12px; display: grid; gap: 4px; align-content: start; border: var(--border-w) solid var(--border-c); }
+.dir[data-dir="signal"] .side, .dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .side { border-color: transparent; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 2px 8px 16px; font-family: var(--f-display); font-weight: var(--display-weight); font-stretch: var(--display-stretch); font-size: 20px; letter-spacing: var(--display-track); text-transform: var(--display-case); }
+.logo { width: 32px; height: 32px; border-radius: calc(var(--r-control) * .5 + 6px); display: grid; place-items: center; background: var(--logo-fill); color: var(--on-accent); }
+.dir[data-dir="signal"] .logo { background: var(--side-active); color: var(--side-active-fg); border-radius: 2px; }
+.dir[data-dir="candy"] .logo { border: 2px solid var(--side-fg); }
+.nav, .topic { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--row-r); color: var(--side-fg); text-decoration: none; font-size: 14.5px; font-weight: 500; }
+.dir[data-dir="signal"] .nav, .dir[data-dir="signal"] .topic { border-radius: 2px; }
+.nav.active { background: var(--side-active); color: var(--side-active-fg); font-weight: 600; }
+.dir[data-dir="candy"] .nav.active { border: 2px solid var(--side-fg); }
+.dir[data-dir="halo"] .nav.active { box-shadow: 0 4px 16px rgba(20,30,80,.08); }
+.nav .count, .topic span { margin-left: auto; font-family: var(--f-mono); font-size: 12px; color: var(--side-muted); font-variant-numeric: tabular-nums; }
+.nav.active .count { color: inherit; opacity: .75; }
+.nav .count.hot { background: var(--p5); color: #fff; opacity: 1; padding: 1px 7px; border-radius: 999px; }
+.side-label { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--side-muted); padding: 20px 10px 6px; }
+.topic { font-family: var(--f-mono); font-size: 13px; padding-block: 7px; }
+.topic i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+.dir[data-dir="signal"] .topic i { border-radius: 1px; width: 10px; height: 10px; }
+.dir[data-dir="candy"] .topic i { border: 1.5px solid var(--side-fg); width: 11px; height: 11px; }
+
+.list, .detail { background: var(--surface); border-radius: var(--r-card); border: var(--border-w) solid var(--border-c); box-shadow: var(--shadow-card); min-width: 0; }
+.dir[data-dir="signal"] .list { border-width: 0 var(--border-w) 0 0; border-color: var(--line); border-radius: 0; }
+.dir[data-dir="signal"] .detail { border: 0; border-radius: 0; }
+.dir[data-dir="signal"] .side { border-radius: 0; }
+.dir[data-dir="signal"] .app { padding: 0; overflow: hidden; border-radius: 6px; }
+.list { padding: 18px; display: grid; gap: 6px; align-content: start; }
+.list-head { display: grid; grid-template-columns: auto 1fr; gap: 12px 16px; align-items: center; padding-bottom: 8px; }
+.list-head h2 { font-size: calc(28px * var(--display-scale)); text-transform: var(--display-case); }
+.list-head .seg { justify-self: end; }
+.search { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--r-control); background: var(--surface-2); color: var(--muted); border: var(--border-w) solid var(--border-c); font-size: 14px; }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .search, .dir[data-dir="halo"] .search { border-color: transparent; }
+.day { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 12px 4px 4px; }
+.msg { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 14px; padding: 14px; border-radius: var(--row-r); align-items: start; border: var(--border-w) solid transparent; position: relative; }
+.dir[data-dir="signal"] .msg { border-width: 0 0 var(--border-w); border-color: var(--line); padding: 16px 6px; }
+.msg.sel { background: var(--accent-soft); border-color: var(--sel-border); }
+.dir[data-dir="candy"] .msg.sel { box-shadow: var(--shadow-control); }
+.dir[data-dir="signal"] .msg.sel { box-shadow: inset 4px 0 0 var(--p5); padding-left: 16px; border-color: var(--line); }
+.ico { width: 40px; height: 40px; border-radius: calc(var(--r-control) * .4 + 8px); display: grid; place-items: center; background: color-mix(in srgb, var(--c) 18%, transparent); color: var(--c); }
+.dir[data-dir="candy"] .ico { background: var(--c); color: #1b1640; border: 2px solid var(--border-c); }
+.dir[data-dir="signal"] .ico { background: var(--c); color: #fff; border-radius: 2px; }
+.dir[data-dir="signal"] .ico.yellow { color: #111214; }
+.msg-main { min-width: 0; display: grid; gap: 3px; }
+.msg-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.msg-title { font-weight: 600; font-size: 15px; }
+.msg-body { margin: 0; color: var(--muted); font-size: 14px; }
+.msg-meta { font-size: 12.5px; color: var(--muted); }
+.msg-time { font-family: var(--f-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.unread { width: 9px; height: 9px; border-radius: 50%; background: var(--spark); position: absolute; right: 16px; bottom: 18px; }
+.dir[data-dir="candy"] .unread { background: var(--accent-2); border: 1.5px solid var(--border-c); }
+.dir[data-dir="signal"] .unread { border-radius: 0; }
+
+.prio { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .05em; padding: 5px 8px; border-radius: var(--r-chip); background: color-mix(in srgb, var(--pc) 16%, transparent); color: var(--pc); white-space: nowrap; }
+.prio[data-p="5"] { --pc: var(--p5); } .prio[data-p="4"] { --pc: var(--p4); } .prio[data-p="3"] { --pc: var(--p3); } .prio[data-p="2"] { --pc: var(--p2); } .prio[data-p="1"] { --pc: var(--p1); }
+.dir[data-dir="candy"] .prio { background: var(--pc); color: #1b1640; border: 1.5px solid var(--border-c); }
+.dir[data-dir="signal"] .prio { background: var(--pc); color: #fff; }
+.dir[data-dir="signal"] .prio[data-p="1"] { color: #111214; }
+.dir[data-dir="halo"] .prio[data-p="5"] { box-shadow: 0 0 0 1px color-mix(in srgb, var(--p5) 35%, transparent), 0 0 18px color-mix(in srgb, var(--p5) 35%, transparent); }
+.chip { font: 500 12px/1 var(--f-mono); padding: 6px 10px; border-radius: var(--r-chip); background: var(--surface-2); color: var(--muted); border: var(--border-w) solid var(--border-c); }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .chip, .dir[data-dir="halo"] .chip { border-color: transparent; }
+
+.detail { padding: 24px; display: grid; gap: 16px; align-content: start; }
+.detail-top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.detail h3 { font-size: calc(26px * var(--display-scale)); }
+.detail p { margin: 0; color: var(--muted); font-size: 15px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.timeline { display: grid; gap: 0; border-top: 1px solid var(--line); padding-top: 14px; }
+.tl { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; font-size: 13.5px; color: var(--muted); padding-bottom: 12px; position: relative; }
+.tl i { width: 10px; height: 10px; border-radius: 50%; background: var(--ok); margin-top: 5px; justify-self: center; }
+.tl.warn i { background: var(--p4); }
+.dir[data-dir="signal"] .tl i { border-radius: 0; }
+.tl b { color: var(--fg); font-weight: 600; margin-right: 4px; }
+
+/* Buttons */
+.btn { font: 600 14px/1 var(--f-body); display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border-radius: var(--r-control); border: var(--border-w) solid var(--border-c); background: var(--surface); color: var(--fg); cursor: pointer; box-shadow: var(--shadow-control); white-space: nowrap; }
+.btn[data-v="primary"] { background: var(--accent-fill); color: var(--on-accent); border-color: transparent; }
+.btn[data-v="secondary"] { background: var(--surface-2); }
+.btn[data-v="ghost"] { background: transparent; border-color: transparent; box-shadow: none; color: var(--accent); }
+.btn[data-v="danger"] { background: var(--bad); color: #fff; border-color: var(--bad); }
+.dir[data-dir="candy"] .btn { border-color: var(--border-c); }
+.dir[data-dir="candy"] .btn[data-v="danger"] { color: #fff; }
+.dir[data-dir="candy"] .btn[data-v="ghost"] { border-color: transparent; color: var(--fg); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--accent-2); }
+.dir[data-dir="candy"] .btn:active { transform: translate(3px, 3px); box-shadow: none; }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .btn[data-v="secondary"], .dir[data-dir="halo"] .btn[data-v="secondary"] { border-color: transparent; }
+.dir[data-dir="halo"] .btn[data-v="primary"] { box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 40%, transparent); }
+.dir[data-dir="signal"] .btn { text-transform: uppercase; letter-spacing: .04em; font-size: 13px; font-weight: 700; padding: 12px 16px; }
+.dir[data-dir="signal"] .btn[data-v="secondary"] { background: transparent; border-color: var(--fg); }
+.btn.wide { width: 100%; }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Segmented + inputs + switch */
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--r-control); background: var(--surface-2); border: var(--border-w) solid var(--border-c); }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .seg, .dir[data-dir="halo"] .seg { border-color: transparent; }
+.seg button { font: 600 13px/1 var(--f-body); padding: 8px 12px; border-radius: calc(var(--r-control) - 3px); border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.dir[data-dir="candy"] .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+.dir[data-dir="signal"] .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); box-shadow: none; }
+.dir[data-dir="halo"] .seg button[aria-pressed="true"] { background: var(--side-active); }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-size: 13px; font-weight: 600; }
+.field .input { padding: 11px 14px; border-radius: var(--r-control); border: var(--border-w) solid var(--line); background: var(--surface); font: 14px var(--f-mono); color: var(--fg); }
+.dir[data-dir="candy"] .field .input { border-color: var(--border-c); }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .field .input { border-radius: 14px; }
+.dir[data-dir="signal"] .field .input { border-width: 0 0 2px; border-color: var(--fg); border-radius: 0; background: var(--surface-2); }
+.field small { color: var(--muted); font-size: 12.5px; }
+.switch { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
+.switch .track { width: 46px; height: 28px; border-radius: 999px; background: var(--accent); position: relative; flex: none; border: var(--border-w) solid var(--accent); }
+.dir[data-dir="candy"] .switch .track { border-color: var(--border-c); }
+.dir[data-dir="signal"] .switch .track { border-radius: 2px; }
+.switch .track::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--on-accent); top: 50%; right: 2px; transform: translateY(-50%); }
+.dir[data-dir="signal"] .switch .track::after { border-radius: 1px; }
+.toast { display: flex; align-items: center; gap: 12px; padding: 12px 14px 12px 16px; border-radius: var(--r-card); background: var(--fg); color: var(--bg); font-size: 14px; box-shadow: var(--shadow-card); }
+.dir[data-dir="candy"] .toast { background: var(--accent-2); color: #1b1640; border: 2px solid var(--border-c); }
+.dir[data-dir="halo"] .toast { background: var(--surface); color: var(--fg); backdrop-filter: blur(18px); border: 1px solid var(--border-c); }
+.toast .undo { margin-left: auto; font-weight: 700; color: inherit; background: none; border: 0; cursor: pointer; font: inherit; font-weight: 700; text-decoration: underline; }
+
+/* Phone */
+.phone { width: 340px; max-width: 100%; border-radius: 44px; padding: 10px; background: #0c0c0e; box-shadow: 0 30px 60px rgba(0,0,0,.18); }
+.screen { border-radius: 36px; overflow: hidden; background: var(--backdrop); padding: 12px 14px 0; display: grid; gap: 12px; min-height: 690px; grid-template-rows: auto auto auto auto auto auto 1fr auto; }
+.sbar { display: flex; justify-content: space-between; font: 600 12px/1 var(--f-body); padding: 4px 10px 0; color: var(--fg); font-variant-numeric: tabular-nums; }
+.p-head { display: flex; justify-content: space-between; align-items: end; padding: 8px 4px 2px; }
+.p-kicker { font: 500 12px/1 var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.p-head h3 { font-size: calc(30px * var(--display-scale)); margin-top: 6px; text-transform: var(--display-case); }
+.avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-2); color: #fff; font-weight: 700; font-family: var(--f-display); }
+.dir[data-dir="candy"] .avatar { border: 2px solid var(--border-c); color: #1b1640; }
+.dir[data-dir="signal"] .avatar { border-radius: 2px; color: #111214; }
+.p-card { background: var(--surface); border-radius: var(--r-card); border: var(--border-w) solid var(--border-c); box-shadow: var(--shadow-card); padding: 14px; display: grid; gap: 10px; backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); }
+.dir[data-dir="signal"] .p-card { border-color: var(--line); }
+.dir[data-dir="signal"] .p-card.urgent { border-left: 6px solid var(--p5); }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .p-card.urgent { background: color-mix(in srgb, var(--p5) 9%, var(--surface)); }
+.p-card .row { display: flex; gap: 10px; align-items: center; }
+.p-card .row .ico { width: 34px; height: 34px; }
+.p-card .t { font-weight: 600; font-size: 15px; }
+.p-card .s { font-size: 13px; color: var(--muted); }
+.p-card .actions .btn { flex: 1; padding: 10px 12px; font-size: 13px; }
+.split { display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 3px; }
+.dir[data-dir="signal"] .split { border-radius: 0; }
+.dir[data-dir="candy"] .split { height: 14px; border: 2px solid var(--border-c); gap: 0; }
+.split span { background: var(--c); }
+.split-legend { display: flex; gap: 14px; font-size: 12.5px; color: var(--muted); }
+.split-legend b { color: var(--fg); font-family: var(--f-mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+.p-label { font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 4px 4px 0; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.tile { display: grid; gap: 6px; justify-items: center; padding: 12px 4px; border-radius: calc(var(--r-card) - 6px); background: var(--surface); border: var(--border-w) solid var(--border-c); color: var(--fg); font: 600 11.5px/1 var(--f-body); box-shadow: var(--shadow-control); backdrop-filter: blur(var(--glass-blur)); cursor: pointer; }
+.dir:is([data-dir="ember"],[data-dir="dusk"],[data-dir="twilight"]) .tile, .dir[data-dir="halo"] .tile { border-color: transparent; }
+.dir[data-dir="signal"] .tile { border-color: var(--line); }
+.tile .ico { width: 36px; height: 36px; }
+.tabbar { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 -14px; padding: 10px 8px 18px; background: var(--surface); border-top: 1px solid var(--line); backdrop-filter: blur(var(--glass-blur)); }
+.dir[data-dir="candy"] .tabbar { border-top: 2px solid var(--border-c); }
+.tabbar a { display: grid; justify-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 6px 0; border-radius: 999px; }
+.tabbar a.active { color: var(--fg); }
+.tabbar a.active svg { background: var(--accent-soft); color: var(--accent); width: 52px; height: 30px; padding: 5px 14px; border-radius: 999px; box-sizing: border-box; }
+.dir[data-dir="candy"] .tabbar a.active svg { background: var(--accent); color: var(--on-accent); border: 2px solid var(--border-c); }
+.dir[data-dir="signal"] .tabbar a.active svg { background: var(--accent); color: var(--on-accent); border-radius: 2px; }
+.tabbar a svg { width: 22px; height: 22px; }
+
+/* Kit */
+.kit { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--app-gap, 14px); padding: 18px; background: var(--backdrop); border-radius: 18px; border: 1px solid var(--pg-line); }
+.dir[data-dir="signal"] .kit { gap: 14px; }
+.kit-cell { background: var(--surface); border-radius: var(--r-card); border: var(--border-w) solid var(--border-c); box-shadow: var(--shadow-card); padding: 18px; display: grid; gap: 14px; align-content: start; backdrop-filter: blur(var(--glass-blur)); min-width: 0; }
+.dir[data-dir="signal"] .kit-cell { border-color: var(--line); }
+.kit-cell h4 { margin: 0; font: 600 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.specimen { display: grid; gap: 4px; }
+.specimen .big { font-size: calc(56px * var(--display-scale)); line-height: 1; text-transform: none; }
+.specimen .names { font-size: 13px; color: var(--muted); }
+.kit .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pal { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.pal span { aspect-ratio: 1; border-radius: calc(var(--r-chip) * .3 + 4px); border: 1px solid var(--line); max-width: 100%; }
+.dir[data-dir="candy"] .pal span { border: 2px solid var(--border-c); }
+
+/* Compare */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; }
+@media (max-width: 400px) { .compare { grid-template-columns: minmax(0, 1fr); } }
+.cmp { cursor: pointer; border-radius: 18px; padding: 18px; background: var(--backdrop); border: 2px solid var(--pg-line); display: grid; gap: 14px; text-align: left; font: inherit; color: var(--fg); }
+.cmp[aria-pressed="true"] { border-color: var(--pg-fg); }
+.cmp .cmp-name { font-size: calc(24px * var(--display-scale)); text-transform: var(--display-case); }
+.cmp .cmp-tag { font: 500 12px/1.4 var(--f-mono); color: var(--muted); }
+.cmp .p-card { padding: 12px; }
+
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.note { background: var(--pg-surface); border: 1px solid var(--pg-line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.note h3 { margin: 0; font-size: 16px; }
+.note p, .note li { margin: 0; color: var(--pg-muted); font-size: 14px; }
+.note ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.sec-h { display: grid; gap: 6px; }
+.sec-h h2 { margin: 0; font-size: 22px; }
+.sec-h p { margin: 0; color: var(--pg-muted); max-width: 70ch; }
+@media (prefers-reduced-motion: no-preference) { .dir { transition: color .2s; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-cog" viewBox="0 0 24 24"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></symbol>
+</svg>
+
+<div class="page">
+  <header class="intro">
+    <span class="eyebrow">Ionnet design system · choose a direction · new: Dusk &amp; Twilight</span>
+    <h1>Directions for your new base design</h1>
+    <p>Each direction is the same screens with a different set of tokens: Ping's web inbox, Pocket on a phone, and a component kit. The screens are built the way the real library will be: every colour, font, radius and shadow is a token. Switching tabs swaps the tokens and nothing else. You can pick one, or mix them, e.g. Halo's surfaces with Ember's type.</p>
+  </header>
+
+  <div class="picker" role="toolbar" aria-label="Direction and mode">
+    <div class="tabs" id="tabs">
+      <button type="button" data-pick="ember" aria-pressed="true"><span class="sw" style="background:#f2542d"></span>Ember</button>
+      <button type="button" data-pick="dusk" aria-pressed="false"><span class="sw" style="background:linear-gradient(135deg,#f0571c 50%,#3b5bff 50%)"></span>Dusk</button>
+      <button type="button" data-pick="twilight" aria-pressed="false"><span class="sw" style="background:linear-gradient(135deg,#6a4cff 50%,#ff7a2f 50%)"></span>Twilight</button>
+      <button type="button" data-pick="candy" aria-pressed="false"><span class="sw" style="background:#ffd23f"></span>Candy</button>
+      <button type="button" data-pick="halo" aria-pressed="false"><span class="sw" style="background:#2ee6cf"></span>Halo</button>
+      <button type="button" data-pick="signal" aria-pressed="false"><span class="sw" style="background:#1f3dff"></span>Signal</button>
+    </div>
+    <span class="spacer"></span>
+    <div class="mode" id="mode">
+      <button type="button" data-mode-pick="light" aria-pressed="true">Light</button>
+      <button type="button" data-mode-pick="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+
+  <section class="about" id="about">
+    <div class="about-text">
+      <span class="tagline" id="a-tag">Warm &amp; soft</span>
+      <h2 id="a-name">Ember</h2>
+      <p id="a-desc"></p>
+    </div>
+    <dl class="facts" id="a-facts"></dl>
+  </section>
+
+  <div class="dir" id="dir" data-dir="ember" data-mode="light">
+    <div class="stage">
+      <div>
+        <div class="frame-scroll">
+          <div class="app">
+            <aside class="side">
+              <div class="brand"><span class="logo"><svg class="i"><use href="#i-bell"/></svg></span>Ping</div>
+              <a class="nav active"><svg class="i"><use href="#i-inbox"/></svg>Inbox<span class="count">12</span></a>
+              <a class="nav"><svg class="i"><use href="#i-alert"/></svg>Urgent<span class="count hot">1</span></a>
+              <a class="nav"><svg class="i"><use href="#i-clock"/></svg>Digest</a>
+              <a class="nav"><svg class="i"><use href="#i-layers"/></svg>Topics</a>
+              <a class="nav"><svg class="i"><use href="#i-key"/></svg>Sources</a>
+              <a class="nav"><svg class="i"><use href="#i-sliders"/></svg>Rules</a>
+              <a class="nav"><svg class="i"><use href="#i-phone"/></svg>Devices</a>
+              <div class="side-label">Topics</div>
+              <a class="topic"><i style="--c:var(--t-grid)"></i>grid.alerts<span>3</span></a>
+              <a class="topic"><i style="--c:var(--t-deploy)"></i>deploy.hostion<span>4</span></a>
+              <a class="topic"><i style="--c:var(--t-time)"></i>timesheet<span>1</span></a>
+              <a class="topic"><i style="--c:var(--t-ledger)"></i>ledger.renewals<span>2</span></a>
+              <a class="topic"><i style="--c:var(--t-backup)"></i>backups<span>2</span></a>
+            </aside>
+
+            <section class="list">
+              <div class="list-head">
+                <h2 class="display">Inbox</h2>
+                <div class="seg"><button type="button" aria-pressed="true">All</button><button type="button" aria-pressed="false">Unread</button><button type="button" aria-pressed="false">Acked</button></div>
+                <div class="search"><svg class="i"><use href="#i-search"/></svg>Search messages, topics, tags</div>
+              </div>
+              <div class="day">Today</div>
+              <article class="msg sel">
+                <span class="ico" style="--c:var(--t-grid)"><svg class="i"><use href="#i-server"/></svg></span>
+                <div class="msg-main">
+                  <div class="msg-top"><span class="msg-title">web-01 is offline</span><span class="prio" data-p="5">Urgent</span></div>
+                  <p class="msg-body">No heartbeat for more than 5 min.</p>
+                  <div class="msg-meta"><span class="mono">grid.alerts</span></div>
+                </div>
+                <span class="msg-time">17:00</span><span class="unread"></span>
+              </article>
+              <article class="msg">
+                <span class="ico yellow" style="--c:var(--t-time)"><svg class="i"><use href="#i-clock"/></svg></span>
+                <div class="msg-main">
+                  <div class="msg-top"><span class="msg-title">7h40 logged today. Submit?</span><span class="prio" data-p="3">Default</span></div>
+                  <p class="msg-body">5h00 Grid · 2h40 Ping, from commits and terminal activity.</p>
+                  <div class="msg-meta"><span class="mono">timesheet</span></div>
+                </div>
+                <span class="msg-time">17:00</span><span class="unread"></span>
+              </article>
+              <article class="msg">
+                <span class="ico" style="--c:var(--t-deploy)"><svg class="i"><use href="#i-up"/></svg></span>
+                <div class="msg-main">
+                  <div class="msg-top"><span class="msg-title">ionnet-sso deployed</span><span class="prio" data-p="2">Low</span></div>
+                  <p class="msg-body">Healthy after 14 s · rolled out on hostion.</p>
+                  <div class="msg-meta"><span class="mono">deploy.hostion</span></div>
+                </div>
+                <span class="msg-time">16:41</span>
+              </article>
+              <article class="msg">
+                <span class="ico" style="--c:var(--t-ledger)"><svg class="i"><use href="#i-card"/></svg></span>
+                <div class="msg-main">
+                  <div class="msg-top"><span class="msg-title">ionnet.dev renews in 5 days</span><span class="prio" data-p="4">High</span></div>
+                  <p class="msg-body">Auto-renew is off. Renew before 17 Nov to keep the domain.</p>
+                  <div class="msg-meta"><span class="mono">ledger.renewals</span></div>
+                </div>
+                <span class="msg-time">09:00</span>
+              </article>
+              <article class="msg">
+                <span class="ico" style="--c:var(--t-backup)"><svg class="i"><use href="#i-archive"/></svg></span>
+                <div class="msg-main">
+                  <div class="msg-top"><span class="msg-title">Nightly backup finished</span><span class="prio" data-p="1">Min</span></div>
+                  <p class="msg-body">ionserver · 12 min · no errors.</p>
+                  <div class="msg-meta"><span class="mono">backups</span></div>
+                </div>
+                <span class="msg-time">03:12</span>
+              </article>
+            </section>
+
+            <section class="detail">
+              <div class="detail-top"><span class="prio" data-p="5">P5 · Urgent</span><span class="chip">grid.alerts</span><span class="chip">machine:web-01</span></div>
+              <h3 class="display">web-01 is offline</h3>
+              <p>No heartbeat for more than 5 minutes (since 16:55). It was last seen with load 0.4 and its disk 61% full.</p>
+              <div class="actions">
+                <button type="button" class="btn" data-v="primary"><svg class="i"><use href="#i-rotate"/></svg>Restart agent</button>
+                <button type="button" class="btn" data-v="secondary"><svg class="i"><use href="#i-moon"/></svg>Silence 1h</button>
+                <button type="button" class="btn" data-v="ghost"><svg class="i"><use href="#i-ext"/></svg>Open in Grid</button>
+              </div>
+              <div class="timeline">
+                <div class="tl"><i></i><span><b>Fired</b>17:00 from Grid</span></div>
+                <div class="tl"><i></i><span><b>Delivered</b>Pixel, desktop, 2 browser tabs</span></div>
+                <div class="tl warn"><i></i><span><b>Escalating</b>in 3 min unless acknowledged</span></div>
+              </div>
+              <button type="button" class="btn wide" data-v="secondary"><svg class="i"><use href="#i-check"/></svg>Acknowledge</button>
+            </section>
+          </div>
+        </div>
+        <p class="frame-cap">Ping web · inbox with the urgent alert open. All messages are sample content.</p>
+      </div>
+
+      <div class="phone-col">
+        <div class="phone">
+          <div class="screen">
+            <div class="sbar"><span>17:02</span><span>82%</span></div>
+            <div class="p-head">
+              <div><span class="p-kicker">Thu 12 Nov</span><h3 class="display">Evening</h3></div>
+              <span class="avatar">I</span>
+            </div>
+            <div class="p-card urgent">
+              <div class="row"><span class="ico" style="--c:var(--t-grid)"><svg class="i"><use href="#i-server"/></svg></span><div><div class="t">web-01 is offline</div><div class="s">grid.alerts · 2 min ago</div></div></div>
+              <div class="actions"><button type="button" class="btn" data-v="primary">Restart</button><button type="button" class="btn" data-v="secondary">Silence 1h</button></div>
+            </div>
+            <div class="p-card">
+              <div class="row"><span class="ico yellow" style="--c:var(--t-time)"><svg class="i"><use href="#i-clock"/></svg></span><div><div class="t">7h40 today</div><div class="s">Ready to submit to Business Central</div></div></div>
+              <div class="split"><span style="--c:var(--t-grid);flex:300"></span><span style="--c:var(--t-deploy);flex:160"></span></div>
+              <div class="split-legend"><span>Grid <b>5h00</b></span><span>Ping <b>2h40</b></span></div>
+              <div class="actions"><button type="button" class="btn" data-v="primary">Submit</button><button type="button" class="btn" data-v="secondary">Edit</button></div>
+            </div>
+            <div class="p-label">Quick</div>
+            <div class="tiles">
+              <button type="button" class="tile"><span class="ico yellow" style="--c:var(--t-time)"><svg class="i"><use href="#i-bulb"/></svg></span>Lights</button>
+              <button type="button" class="tile"><span class="ico" style="--c:var(--t-deploy)"><svg class="i"><use href="#i-zap"/></svg></span>Grid</button>
+              <button type="button" class="tile"><span class="ico" style="--c:var(--t-grid)"><svg class="i"><use href="#i-clock"/></svg></span>Hours</button>
+              <button type="button" class="tile"><span class="ico" style="--c:var(--t-ledger)"><svg class="i"><use href="#i-camera"/></svg></span>Receipt</button>
+            </div>
+            <div class="p-card">
+              <div class="row"><span class="ico" style="--c:var(--t-ledger)"><svg class="i"><use href="#i-card"/></svg></span><div><div class="t">ionnet.dev renews in 5 days</div><div class="s">ledger.renewals</div></div></div>
+            </div>
+            <div></div>
+            <nav class="tabbar">
+              <a class="active"><svg class="i"><use href="#i-inbox"/></svg>Inbox</a>
+              <a><svg class="i"><use href="#i-zap"/></svg>Control</a>
+              <a><svg class="i"><use href="#i-plus"/></svg>Capture</a>
+              <a><svg class="i"><use href="#i-cog"/></svg>Settings</a>
+            </nav>
+          </div>
+        </div>
+        <p class="frame-cap">Pocket · home screen (Capacitor, same components)</p>
+      </div>
+    </div>
+
+    <div class="kit">
+      <div class="kit-cell">
+        <h4>Type</h4>
+        <div class="specimen"><span class="display big">Aa Ping</span><span class="names" id="k-type"></span></div>
+      </div>
+      <div class="kit-cell">
+        <h4>Buttons</h4>
+        <div class="row">
+          <button type="button" class="btn" data-v="primary">Primary</button>
+          <button type="button" class="btn" data-v="secondary">Secondary</button>
+          <button type="button" class="btn" data-v="ghost">Ghost</button>
+          <button type="button" class="btn" data-v="danger">Revoke</button>
+        </div>
+      </div>
+      <div class="kit-cell">
+        <h4>Priority</h4>
+        <div class="row"><span class="prio" data-p="5">5 Urgent</span><span class="prio" data-p="4">4 High</span><span class="prio" data-p="3">3 Default</span><span class="prio" data-p="2">2 Low</span><span class="prio" data-p="1">1 Min</span></div>
+      </div>
+      <div class="kit-cell">
+        <h4>Form</h4>
+        <div class="field"><label>Topic</label><div class="input">grid.alerts</div><small>Sources can only publish to topics they're allowed.</small></div>
+        <div class="switch"><span class="track"></span>Quiet hours 23:00–07:30</div>
+      </div>
+      <div class="kit-cell">
+        <h4>Feedback</h4>
+        <div class="toast"><svg class="i"><use href="#i-moon"/></svg>Silenced web-01 for 1 hour<button type="button" class="undo">Undo</button></div>
+        <div class="seg"><button type="button" aria-pressed="false">Instant</button><button type="button" aria-pressed="true">Digest</button><button type="button" aria-pressed="false">Silent</button></div>
+      </div>
+      <div class="kit-cell">
+        <h4>Palette</h4>
+        <div class="pal">
+          <span style="background:var(--accent)"></span><span style="background:var(--accent-2)"></span><span style="background:var(--t-ledger)"></span><span style="background:var(--t-backup)"></span><span style="background:var(--t-time)"></span><span style="background:var(--t-deploy)"></span>
+          <span style="background:var(--bg)"></span><span style="background:var(--surface-2)"></span><span style="background:var(--muted)"></span><span style="background:var(--fg)"></span><span style="background:var(--p5)"></span><span style="background:var(--ok)"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="sec-h">
+    <h2>All of them side by side</h2>
+    <p>The same notification card and controls in each direction, in the mode selected above. Click one to load it into the full view.</p>
+  </section>
+  <div class="compare" id="compare"></div>
+
+  <section class="sec-h">
+    <h2>How this becomes the library</h2>
+    <p>Whichever direction you pick, the tokens move into the <code>tokens</code> package and these components become <code>css</code> + <code>react</code> components. Kotlin, AGS/GTK and ANSI outputs are generated from the same tokens (see the Ping Blueprint's design system section).</p>
+  </section>
+  <div class="notes">
+    <div class="note"><h3>What's shared by all four</h3><ul><li>More air than Neutronic: 15px body text, 40px icon targets, 44px+ touch targets on the phone.</li><li>Light and dark are both first-class. Neither is the default.</li><li>Priority 1–5 and per-topic colours are tokens, so a topic looks the same on web, phone and desktop pop-ups.</li></ul></div>
+    <div class="note"><h3>Mixing is fine</h3><p>Directions are bundles of separate choices: palette, type, shape language (radius, borders, shadows) and surface treatment (flat, outlined, glass). Tell me, for example, "Signal's type with Ember's colours" and I'll build the mix.</p></div>
+    <div class="note"><h3>What I need from you</h3><ul><li>A direction, or a mix.</li><li>Anything you love or hate in what you see.</li><li>A name for the system. Some candidates: <strong>Ion</strong>, <strong>Flux</strong>, <strong>Arc</strong>, <strong>Prism</strong>.</li></ul></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const DIRS = {
+    ember: {
+      tag: "Warm & soft", name: "Ember",
+      desc: "Rose-tinted neutrals and a tangerine accent, with soft shadows and pill-shaped controls. It's the friendliest of the four and the opposite of Neutronic's cold grey: rounded, generous and calm, but still clear enough for an alert inbox. Bricolage Grotesque gives headings some personality without shouting.",
+      type: "Bricolage Grotesque · Figtree · DM Mono",
+      facts: [["Feel", "Warm, approachable, cosy"], ["Shapes", "Pills, 20px cards, no outlines"], ["Surfaces", "Flat with soft tinted shadows"], ["Best for", "Pocket, Ledger, everyday apps"], ["Risk", "Can feel too soft for dense admin tables"]],
+    },
+    dusk: {
+      tag: "Ember variant · orange leads", name: "Dusk",
+      desc: "Ember's shapes and type with a sunset palette. Orange is the action colour, blue marks unread items and secondary highlights, and the neutrals are lavender rather than rose. The background fades from lavender to peach, like the sky after sunset. It's still warm and soft, with more colour and less pink.",
+      type: "Bricolage Grotesque · Figtree · DM Mono",
+      facts: [["Feel", "Warm, colourful, evening"], ["Shapes", "Same as Ember: pills, 20px cards"], ["Colour", "Orange actions · blue accents · lavender neutrals"], ["Best for", "Pocket, Ping, everyday apps"], ["Risk", "Orange buttons and orange priority 4 sit close; may need tuning"]],
+    },
+    twilight: {
+      tag: "Ember variant · purple leads", name: "Twilight",
+      desc: "Ember's shapes and type with a deeper night-sky feel. Main buttons have a violet-to-blue gradient, the sidebar is deep indigo, and orange is saved for the things that should catch your eye: unread dots, the active page and the logo. It's the most striking of the Ember family, and orange still stands out because there's so little of it.",
+      type: "Bricolage Grotesque · Figtree · DM Mono",
+      facts: [["Feel", "Rich, a bit dreamy, still friendly"], ["Shapes", "Same as Ember: pills, 20px cards"], ["Colour", "Violet→blue actions · orange sparks · indigo chrome"], ["Best for", "Ping web, ionix shell, Pocket"], ["Risk", "Gradients need a flat fallback for widgets and GTK"]],
+    },
+    candy: {
+      tag: "Playful & bold", name: "Candy",
+      desc: "Chunky ink outlines, hard offset shadows and bright flat fills (sunflower, bubblegum, sky and mint), like stickers on a sketchbook. It's the most personal and fun of the four and suits your games and anime side. Buttons press in when you tap them. Unbounded is wide and loud, so it's only used for headings.",
+      type: "Unbounded · Rubik · Martian Mono",
+      facts: [["Feel", "Playful, energetic, very you"], ["Shapes", "2px outlines, 12–16px radius"], ["Surfaces", "Flat colour + hard 4px offset shadow"], ["Best for", "Pocket, game tools, Toxen-style apps"], ["Risk", "Loud in big data tables; needs restraint"]],
+    },
+    halo: {
+      tag: "Luminous & glassy", name: "Halo",
+      desc: "Frosted glass panels over a soft wash of rose, sky and mint light, with bright rims, large radii and an aqua accent that glows on urgent things. It feels the most like a modern desktop shell, so it would fit ionix and the Android home screen naturally.",
+      type: "Sora · Plus Jakarta Sans · JetBrains Mono",
+      facts: [["Feel", "Airy, modern, a little magical"], ["Shapes", "24px cards, 14px controls, pill chips"], ["Surfaces", "Translucent blur over a coloured backdrop"], ["Best for", "ionix shell, Pocket, media apps"], ["Risk", "Blur costs GPU on old phones; contrast needs care"]],
+    },
+    signal: {
+      tag: "Graphic & legible", name: "Signal",
+      desc: "Borrowed from transit signage: a solid cobalt sidebar, yellow for where you are, colour blocks for priority, and almost square corners. Archivo Expanded headings are set in capitals. Atkinson Hyperlegible keeps body text easy to read at a glance on a phone. It's very readable and confident, and the least soft of the four.",
+      type: "Archivo Expanded · Atkinson Hyperlegible · Red Hat Mono",
+      facts: [["Feel", "Confident, clear, engineered"], ["Shapes", "2–4px corners, rules instead of cards"], ["Surfaces", "Flat colour blocks, no shadows"], ["Best for", "Grid, Ping web, dashboards, status pages"], ["Risk", "Can feel stern; less cosy on a phone"]],
+    },
+  };
+  const dirEl = document.getElementById("dir");
+  const tabs = document.querySelectorAll("[data-pick]");
+  const modes = document.querySelectorAll("[data-mode-pick]");
+  const compare = document.getElementById("compare");
+  let current = "dusk";
+  let mode = "light";
+  try {
+    const t = document.documentElement.getAttribute("data-theme");
+    mode = t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  } catch (e) { }
+  try { const saved = localStorage.getItem("dd-dir2"); if (saved && DIRS[saved]) current = saved; } catch (e) { }
+
+  function card(key) {
+    const d = DIRS[key];
+    return `<button type="button" class="cmp dir" data-dir="${key}" data-mode="${mode}" aria-pressed="${key === current}" data-cmp="${key}">
+      <div><div class="display cmp-name">${d.name}</div><div class="cmp-tag">${d.tag} · ${d.type}</div></div>
+      <div class="p-card urgent">
+        <div class="row"><span class="ico" style="--c:var(--t-grid)"><svg class="i"><use href="#i-server"/></svg></span><div><div class="t">web-01 is offline</div><div class="s">grid.alerts · 2 min ago</div></div></div>
+        <div class="row"><span class="prio" data-p="5">Urgent</span><span class="chip">machine:web-01</span></div>
+      </div>
+      <div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><span class="btn" data-v="primary">Restart</span><span class="btn" data-v="secondary">Silence</span></div>
+    </button>`;
+  }
+  function render() {
+    const d = DIRS[current];
+    dirEl.dataset.dir = current;
+    dirEl.dataset.mode = mode;
+    tabs.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.pick === current)));
+    modes.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modePick === mode)));
+    document.getElementById("a-tag").textContent = d.tag;
+    document.getElementById("a-name").textContent = d.name;
+    document.getElementById("a-desc").textContent = d.desc;
+    document.getElementById("k-type").textContent = d.type;
+    document.getElementById("a-facts").innerHTML = d.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
+    compare.innerHTML = Object.keys(DIRS).map(card).join("");
+  }
+  tabs.forEach(b => b.addEventListener("click", () => { current = b.dataset.pick; try { localStorage.setItem("dd-dir2", current); } catch (e) { } render(); }));
+  modes.forEach(b => b.addEventListener("click", () => { mode = b.dataset.modePick; render(); }));
+  compare.addEventListener("click", e => {
+    const c = e.target.closest("[data-cmp]");
+    if (!c) return;
+    current = c.dataset.cmp;
+    try { localStorage.setItem("dd-dir2", current); } catch (e2) { }
+    render();
+    document.getElementById("about").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
+  render();
+})();
+</script>

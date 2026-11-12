@@ -1,0 +1,20 @@
+/*
+ * Combobox. Owner: B. React: <Combobox> (Base UI Combobox). Box reuses io-input; list uses popup.css.
+ *
+ * Markup:
+ *   <div class="io-input io-combobox io-focus-within" data-size="md" data-appearance="outline">
+ *     <input class="io-input-control io-combobox-input" />
+ *     <button class="io-combobox-clear" aria-label="Clear"><svg/></button>
+ *     <button class="io-combobox-trigger" aria-label="Open"><svg/></button>
+ *   </div>
+ *   <div class="io-popup-positioner"><div class="io-popup io-combobox-popup">
+ *     <div class="io-popup-item" data-highlighted data-selected>…</div>
+ *     <div class="io-popup-empty">No matches</div>
+ *   </div></div>
+ *
+ * Parts:    io-combobox-input, io-combobox-clear, io-combobox-trigger (both: 24px round icon buttons, color text-muted),
+ *           io-combobox-popup
+ * Data:     as Input, plus data-popup-open (Base UI)
+ */
+
+/* TODO(builder B): implement */

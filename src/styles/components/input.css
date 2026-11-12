@@ -1,0 +1,24 @@
+/*
+ * Input. Owner: B. React: <Input>. Reference: `.field .input` (outline) and `.search` (soft).
+ *
+ * Markup:
+ *   <div class="io-input io-focus-within" data-size="md" data-appearance="outline">
+ *     <span class="io-input-slot" data-side="leading"><svg class="io-icon"/></span>
+ *     <input class="io-input-control" />
+ *     <span class="io-input-slot" data-side="trailing">…</span>
+ *   </div>
+ *
+ * Parts:    io-input-control (the native input: no border/background, flex 1, min-width 0, font inherit),
+ *           io-input-slot (color text-muted; data-side leading | trailing)
+ * Data:     data-size        sm | md | lg  → height control-<size>; text-sm / text-md / text-md
+ *           data-appearance  outline (default): background surface; 1px line border; radius field (14px);
+ *                                               hover border line-strong; focus border accent
+ *                            soft: background surface-soft; no border; radius control (pill), like `.search`
+ *           data-mono        present → control text uses font mono (identifiers such as topics)
+ *           data-invalid     present → border bad
+ *           data-disabled    present → opacity 0.5
+ * Private:  --_border, --_bg, --_height, --_pad (padding-inline 14px)
+ * Notes:    placeholder color text-subtle. Combobox reuses io-input for its box.
+ */
+
+/* TODO(builder B): implement */

@@ -1,0 +1,21 @@
+/*
+ * TabBar: phone bottom navigation. Owner: D. React: <TabBar>, <TabBarItem>. Reference: `.tabbar`.
+ *
+ * Markup:
+ *   <nav class="io-tab-bar" aria-label="Main" style="--_count: 4">
+ *     <a class="io-tab-bar-item io-focus" data-active aria-current="page">
+ *       <span class="io-tab-bar-icon"><svg class="io-icon"/><span class="io-tab-bar-badge">3</span></span>
+ *       <span class="io-tab-bar-label">Inbox</span>
+ *     </a>
+ *   </nav>
+ *
+ * Parts:    io-tab-bar-item (grid, justify-items center, gap 5px, text 11px semibold, color text-muted, min-height touch),
+ *           io-tab-bar-icon (icon 22px; active → 52×30 pill, background accent-soft, color accent),
+ *           io-tab-bar-label, io-tab-bar-badge (absolute top-right of the icon; background spark; color on-solid;
+ *           mono 10px; radius full)
+ * Data:     io-tab-bar-item data-active (color text)
+ * Private:  --_count (number of items; grid-template-columns repeat(var(--_count), 1fr))
+ * Look:     background surface; border-top 1px line; padding 10px 8px max(18px, env(safe-area-inset-bottom)).
+ */
+
+/* TODO(builder D): implement */

@@ -1,0 +1,23 @@
+/*
+ * Stack and Grid. Owner: A (core). React: <Stack>, <Grid>.
+ *
+ * Stack:
+ *   <div class="io-stack" data-direction="column" data-align="stretch" data-justify="start" data-wrap
+ *        style="--_gap: var(--io-space-12)">
+ *   data-direction  row | column (default column)
+ *   data-align      start | center | end | stretch | baseline       → align-items
+ *   data-justify    start | center | end | between | around | evenly → justify-content
+ *   data-wrap       present → flex-wrap: wrap
+ *   data-inline     present → display: inline-flex
+ *   --_gap          gap (default var(--io-space-12))
+ *
+ * Grid:
+ *   <div class="io-grid" style="--_columns: 3; --_gap: var(--io-space-12)">
+ *   <div class="io-grid" style="--_min: 16rem">          → repeat(auto-fill, minmax(min(var(--_min), 100%), 1fr))
+ *   --_columns      number of equal columns: repeat(var(--_columns), minmax(0, 1fr)); default 1
+ *   --_template     raw grid-template-columns (wins over --_columns / --_min when set)
+ *   --_min          min child width for auto-fill
+ *   --_gap          gap (default var(--io-space-12))
+ */
+
+/* TODO(builder A): implement */

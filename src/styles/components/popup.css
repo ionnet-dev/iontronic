@@ -1,0 +1,24 @@
+/*
+ * Popup surface and items, shared by Select, Combobox (B) and Menu (C). Owner: A (core).
+ * Builders B and C use these classes and must not restyle them in their own files beyond layout tweaks scoped to
+ * their own root class (e.g. `.io-select-popup { max-height: … }`).
+ *
+ * Classes:
+ *   io-popup-positioner    Base UI Positioner. z-index var(--io-z-dropdown); outline none.
+ *   io-popup               Popup surface: background surface-raised; radius panel; shadow overlay; padding 6px;
+ *                          min-width var(--anchor-width); max-height var(--available-height); overflow auto;
+ *                          transition opacity/scale on data-starting-style / data-ending-style (motion fast).
+ *   io-popup-item          Row: min-height 36px (touch 44px below md); padding 0 10px; radius item; gap 10px;
+ *                          text-md; cursor default.
+ *                          data-highlighted → background surface-soft. data-disabled → text-subtle.
+ *                          data-selected / data-checked → font-weight semibold.
+ *                          data-tone="bad" → color bad (destructive menu item).
+ *   io-popup-item-indicator  Leading 16px slot for a check/radio mark (visibility via Base UI).
+ *   io-popup-item-icon     Leading icon, color text-muted.
+ *   io-popup-item-shortcut Trailing, margin-left auto, mono text-xs, color text-subtle.
+ *   io-popup-label         Group heading: io-label style, padding 10px 10px 4px.
+ *   io-popup-separator     1px line, margin 6px -6px.
+ *   io-popup-empty         Empty-state row: padding 10px; color text-muted; text-md.
+ */
+
+/* TODO(builder A): implement */

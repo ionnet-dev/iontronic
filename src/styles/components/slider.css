@@ -1,0 +1,21 @@
+/*
+ * Slider. Owner: B. React: <Slider> (Base UI Slider).
+ *
+ * Markup:
+ *   <div class="io-field">
+ *     <div class="io-slider-header"><label class="io-field-label">Volume</label><output class="io-slider-value">40</output></div>
+ *     <div class="io-slider" data-orientation="horizontal" data-disabled>             (Slider.Root)
+ *       <div class="io-slider-control">                                               (Slider.Control)
+ *         <div class="io-slider-track"><div class="io-slider-indicator" /></div>
+ *         <div class="io-slider-thumb io-focus" />
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-slider-header (flex, space-between), io-slider-value (mono text-sm, text-muted), io-slider-control
+ *           (height touch so the hit area is 44px), io-slider-track (6px, radius full, surface-soft),
+ *           io-slider-indicator (accent), io-slider-thumb (20px circle, surface, 2px accent border, shadow thumb)
+ * Data:     data-orientation, data-disabled, data-dragging (Base UI)
+ */
+
+/* TODO(builder B): implement */

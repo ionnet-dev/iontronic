@@ -1,0 +1,12 @@
+/*
+ * Checkbox. Owner: B. React: <Checkbox> (Base UI Checkbox). Row layout from check.css.
+ *
+ * Markup:   <span class="io-checkbox io-focus" data-checked data-unchecked data-indeterminate data-disabled>
+ *             <span class="io-checkbox-indicator"><svg class="io-icon"/></span>
+ *           </span>
+ * Data:     data-checked / data-unchecked / data-indeterminate / data-disabled / data-invalid (Base UI)
+ * Look:     20px square, radius 6px (var(--io-radius-sm)); unchecked: surface + 1.5px line-strong border;
+ *           checked/indeterminate: background accent, color on-accent, no border. Indicator icon 14px, stroke 3.
+ */
+
+/* TODO(builder B): implement */

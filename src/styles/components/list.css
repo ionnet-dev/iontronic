@@ -1,0 +1,37 @@
+/*
+ * List, ListGroup, ListItem. Owner: D. React: <List>, <ListGroup>, <ListItem>. Reference: `.list`, `.day`, `.msg`,
+ * `.msg.sel`, `.unread`.
+ *
+ * Markup:
+ *   <div class="io-list" role="list">
+ *     <div class="io-list-group" role="group" aria-labelledby="…">
+ *       <div class="io-list-group-label">Today</div>
+ *       <article class="io-list-item io-focus" role="listitem" data-selected data-unread data-interactive tabindex="0">
+ *         <div class="io-list-item-leading"><span class="io-icon-tile io-hue" data-size="md" data-category="1">…</span></div>
+ *         <div class="io-list-item-main">
+ *           <div class="io-list-item-top">
+ *             <span class="io-list-item-title">web-01 is offline</span>
+ *             <span class="io-list-item-badges"><span class="io-badge …">Urgent</span></span>
+ *           </div>
+ *           <p class="io-list-item-description">No heartbeat for more than 5 min.</p>
+ *           <div class="io-list-item-meta"><span class="io-mono">grid.alerts</span></div>
+ *         </div>
+ *         <div class="io-list-item-trailing"><time class="io-list-item-time">17:00</time></div>
+ *         <span class="io-list-item-unread" aria-label="Unread" />
+ *       </article>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-list (grid gap 6px), io-list-group, io-list-group-label (io-label style, padding 12px 4px 4px),
+ *           io-list-item-leading, io-list-item-main (grid gap 3px, min-width 0), io-list-item-top (flex wrap gap 8px),
+ *           io-list-item-title (text-base semibold), io-list-item-badges (inline-flex gap 6px),
+ *           io-list-item-description (margin 0; text-md; text-muted), io-list-item-meta (12.5px ≈ text-sm; text-muted),
+ *           io-list-item-trailing (grid justify-items end gap 6px), io-list-item-time (mono text-xs text-muted tnum),
+ *           io-list-item-unread (9px spark dot; absolute right 16px bottom 18px)
+ * Data:     data-selected (background accent-soft), data-unread (shows the dot; title stays semibold),
+ *           data-interactive (cursor pointer; hover background surface-soft), data-dense (padding 10px, no description clamp)
+ * Look:     grid-template-columns auto minmax(0, 1fr) auto (leading column collapses when empty); gap 14px; padding 14px;
+ *           radius row; align-items start; position relative. Description clamps to 2 lines.
+ */
+
+/* TODO(builder D): implement */

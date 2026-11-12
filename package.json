@@ -1,0 +1,85 @@
+{
+  "name": "@ionnet/iontronic",
+  "version": "0.1.0",
+  "description": "Iontronic design system: tokens, framework-agnostic CSS, React components on Base UI, and generated platform themes.",
+  "author": "Lucasion",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "css",
+    "react",
+    "base-ui",
+    "iontronic"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "default": "./dist/react.js"
+    },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "default": "./dist/icons.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./styles-no-fonts.css": "./dist/styles-no-fonts.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./tailwind.css": "./dist/platforms/tailwind.css",
+    "./tokens.json": "./dist/platforms/tokens.json",
+    "./platforms/*": "./dist/platforms/*",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "tokens": "tsx scripts/build-tokens.ts",
+    "tokens:watch": "tsx watch --clear-screen=false scripts/build-tokens.ts",
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && tsx scripts/build-tokens.ts && tsdown && tsx scripts/build-css.ts",
+    "typecheck": "npm run tokens && tsc -p tsconfig.json",
+    "typecheck:docs": "npm --prefix apps/docs run typecheck",
+    "docs:install": "npm --prefix apps/docs install",
+    "dev": "npm run tokens && (npm run tokens:watch & npm --prefix apps/docs run dev & wait)",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource/dm-mono": "^5.3.0"
+  },
+  "peerDependencies": {
+    "@base-ui/react": "^1.9.0",
+    "lucide-react": "^1.72.0",
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "peerDependenciesMeta": {
+    "@base-ui/react": { "optional": true },
+    "lucide-react": { "optional": true },
+    "react": { "optional": true },
+    "react-dom": { "optional": true }
+  },
+  "devDependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "lucide-react": "^1.72.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsdown": "^0.23.7",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0"
+  }
+}

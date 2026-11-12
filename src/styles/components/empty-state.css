@@ -1,0 +1,17 @@
+/*
+ * EmptyState. Owner: D. React: <EmptyState>.
+ *
+ * Markup:
+ *   <div class="io-empty-state" data-size="md">
+ *     <span class="io-icon-tile io-hue" data-size="lg" data-tone="accent">…</span>
+ *     <h3 class="io-empty-state-title io-display" data-size="sm">Inbox zero</h3>
+ *     <p class="io-empty-state-description">Nothing needs you right now.</p>
+ *     <div class="io-empty-state-actions">…buttons…</div>
+ *   </div>
+ *
+ * Parts:    io-empty-state-title, io-empty-state-description (text-muted; max-width 40ch), io-empty-state-actions (flex gap 8px)
+ * Data:     data-size sm (padding 24px, gap 8px) | md (default, padding 48px 24px, gap 12px)
+ * Look:     grid; justify-items center; text-align center.
+ */
+
+/* TODO(builder D): implement */

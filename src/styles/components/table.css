@@ -1,0 +1,20 @@
+/*
+ * Table family. Owner: D. React: <Table>, <TableHeader>, <TableBody>, <TableRow>, <TableHead>, <TableCell>.
+ *
+ * Markup:
+ *   <div class="io-table-wrap">                              (overflow-x auto; radius card; background surface; shadow card)
+ *     <table class="io-table" data-density="comfortable" data-interactive>
+ *       <thead class="io-table-header"><tr class="io-table-row"><th class="io-table-head" data-align="end" data-numeric>…</th></tr></thead>
+ *       <tbody class="io-table-body"><tr class="io-table-row" data-selected><td class="io-table-cell" data-numeric>…</td></tr></tbody>
+ *     </table>
+ *   </div>
+ *
+ * Parts:    io-table-wrap, io-table-header, io-table-body, io-table-row, io-table-head (io-label style; left aligned;
+ *           border-bottom 1px line), io-table-cell (text-md; border-bottom 1px line; last row none)
+ * Data:     io-table data-density compact (8px 12px) | comfortable (default, 12px 16px);
+ *           data-interactive (rows hover background surface-soft); data-plain on io-table-wrap (no background/shadow)
+ *           io-table-row data-selected (background accent-soft)
+ *           io-table-head / io-table-cell data-align start | center | end; data-numeric (mono, tnum, align end)
+ */
+
+/* TODO(builder D): implement */

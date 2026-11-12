@@ -1,0 +1,23 @@
+/*
+ * CodeBlock. Owner: D. React: <CodeBlock>.
+ *
+ * Markup:
+ *   <figure class="io-code-block" data-wrap>
+ *     <figcaption class="io-code-block-header">
+ *       <span class="io-code-block-title">install.sh</span><span class="io-code-block-language">bash</span>
+ *       <button class="io-code-block-copy io-focus" aria-label="Copy code"><svg/></button>
+ *     </figcaption>
+ *     <pre class="io-code-block-pre" data-line-numbers><code class="io-code-block-code">…</code></pre>
+ *   </figure>
+ *
+ * Parts:    io-code-block-header (flex; padding 8px 8px 8px 16px; border-bottom 1px line; text-sm),
+ *           io-code-block-title (semibold), io-code-block-language (io-label style), io-code-block-copy (28px round icon
+ *           button, margin-left auto; data-copied → color ok), io-code-block-pre (margin 0; padding 14px 16px;
+ *           overflow auto; max-height var(--_max-height, none)), io-code-block-code (font mono text-md; leading normal)
+ *           Line numbers: each line is <span class="io-code-block-line">; data-line-numbers adds a counter gutter.
+ * Data:     data-wrap (white-space pre-wrap); data-copied on the copy button
+ * Private:  --_max-height
+ * Look:     background surface-soft; radius row; overflow hidden.
+ */
+
+/* TODO(builder D): implement */

@@ -1,0 +1,11 @@
+/*
+ * Switch. Owner: B. React: <Switch> (Base UI Switch). Row layout from check.css. Reference: `.switch .track`.
+ *
+ * Markup:   <span class="io-switch io-focus" data-checked data-size="md"><span class="io-switch-thumb" /></span>
+ * Data:     data-checked / data-unchecked / data-disabled (Base UI); data-size sm | md
+ * Look:     md track 46×28, thumb 22; sm track 36×22, thumb 16. Radius full.
+ *           Off: background line-strong, thumb surface with shadow thumb. On: background accent, thumb on-accent,
+ *           thumb slides right (transform; motion normal, ease spring).
+ */
+
+/* TODO(builder B): implement */

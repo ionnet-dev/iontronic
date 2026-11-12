@@ -1,0 +1,16 @@
+/*
+ * Badge. Owner: C. React: <Badge>. Reference: `.prio`.
+ *
+ * Markup:   <span class="io-badge io-hue" data-priority="5" data-appearance="soft" data-size="md">Urgent</span>
+ *           <span class="io-badge io-hue" data-tone="ok" data-appearance="solid"><svg class="io-icon"/>Healthy</span>
+ * Data:     hue trait: data-tone (default neutral) | data-priority 1–5 | data-category 1–8 | style --io-hue
+ *           data-appearance  soft (default): background color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent);
+ *                                            color var(--io-hue)
+ *                            solid: background var(--io-hue); color on-solid
+ *                            outline: transparent; 1px inset border var(--io-hue); color var(--io-hue)
+ *           data-size        sm (padding 3px 6px) | md (default, padding 5px 8px)
+ * Look:     font mono semibold text-2xs; uppercase; tracking caps; leading none; radius chip; inline-flex; gap 4px;
+ *           white-space nowrap.
+ */
+
+/* TODO(builder C): implement */

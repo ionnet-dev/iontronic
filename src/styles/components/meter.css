@@ -1,0 +1,26 @@
+/*
+ * Meter: single value or split bar. Owner: C. React: <Meter> (Base UI Meter for single values). Reference: `.split`.
+ *
+ * Markup (single):
+ *   <div class="io-meter io-hue" data-tone="ok" data-size="md">
+ *     <div class="io-meter-header"><span class="io-meter-label">Disk</span><span class="io-meter-value">61%</span></div>
+ *     <div class="io-meter-track"><div class="io-meter-indicator" /></div>
+ *   </div>
+ * Markup (segments):
+ *   <div class="io-meter" data-segmented role="img" aria-label="Grid 5h00, Ping 2h40">
+ *     <div class="io-meter-track">
+ *       <span class="io-meter-segment io-hue" data-category="1" style="flex: 300" />
+ *       <span class="io-meter-segment io-hue" data-category="2" style="flex: 160" />
+ *     </div>
+ *     <div class="io-meter-legend">
+ *       <span class="io-meter-legend-item io-hue" data-category="1"><i class="io-meter-swatch" />Grid <b>5h00</b></span>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-meter-header, io-meter-label, io-meter-value (mono), io-meter-track, io-meter-indicator,
+ *           io-meter-segment, io-meter-legend (flex gap 14px, text-sm, text-muted),
+ *           io-meter-legend-item (value in <b>: mono semibold, color text), io-meter-swatch (8px dot, var(--io-hue))
+ * Data:     data-size sm (6px) | md (10px); data-segmented (track: flex, gap 3px, overflow hidden, radius full)
+ */
+
+/* TODO(builder C): implement */

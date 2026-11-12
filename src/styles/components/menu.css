@@ -1,0 +1,17 @@
+/*
+ * Menu. Owner: C. React: <Menu.*> (Base UI Menu). Surface and items come from popup.css (core).
+ *
+ * Markup:
+ *   <div class="io-popup-positioner"><div class="io-popup io-menu">
+ *     <div class="io-popup-label">Message</div>
+ *     <div class="io-popup-item" data-highlighted><svg class="io-icon io-popup-item-icon"/>Acknowledge
+ *       <span class="io-popup-item-shortcut">A</span></div>
+ *     <div class="io-popup-item" data-checked><span class="io-popup-item-indicator"><svg/></span>Show read</div>
+ *     <div class="io-popup-separator" />
+ *     <div class="io-popup-item" data-tone="bad">Delete</div>
+ *   </div></div>
+ *
+ * Parts:    io-menu (scoped tweaks only; min-width 12rem)
+ */
+
+/* TODO(builder C): implement */

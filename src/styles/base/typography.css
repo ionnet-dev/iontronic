@@ -1,0 +1,16 @@
+/*
+ * Typography utility classes. Owner: A (core). Reference: `.display`, `.mono`, `.day`/`.side-label`/`.p-label`.
+ *
+ * Classes:
+ *   io-display          font-family display, weight display (750), tracking display (-0.025em), leading tight,
+ *                       margin 0, text-wrap balance. Size via data-size (default md):
+ *                         data-size="sm" text-xl (20) | "md" text-2xl (26) | "lg" text-3xl (30) | "xl" text-4xl (40) | "2xl" text-5xl (56)
+ *   io-mono             font-family mono, font-size 0.92em, tabular-nums. For identifiers, counts, times.
+ *   io-label            uppercase mono section label: weight semibold, text-2xs, tracking label, color text-muted, leading none
+ *   io-text-muted       color text-muted
+ *   io-text-subtle      color text-subtle
+ *   io-tnum             font-variant-numeric: tabular-nums
+ *   io-truncate         single-line ellipsis (min-width 0)
+ */
+
+/* TODO(builder A): implement */

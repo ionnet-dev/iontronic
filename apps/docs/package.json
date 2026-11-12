@@ -1,0 +1,16 @@
+{
+  "name": "iontronic-docs",
+  "private": true,
+  "type": "module",
+  "description": "Iontronic playground. Not an npm workspace: run `npm install` at the repo root first (React, Base UI and Lucide resolve from there), then here.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.0",
+    "vite": "^8.3.0"
+  }
+}

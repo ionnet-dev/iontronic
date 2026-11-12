@@ -1,0 +1,21 @@
+/*
+ * AppShell. Owner: D. React: <AppShell>. Reference: `.app` (desktop) and `.screen` (phone).
+ *
+ * Markup:
+ *   <div class="io-app-shell io-backdrop" data-has-sidebar data-has-tab-bar>
+ *     <aside class="io-app-shell-sidebar">…<Sidebar/>…</aside>
+ *     <main class="io-app-shell-main">…</main>
+ *     <div class="io-app-shell-tab-bar">…<TabBar/>…</div>
+ *   </div>
+ *
+ * Parts:    io-app-shell-sidebar (sticky, height 100dvh - 2·gap), io-app-shell-main (min-width 0, overflow auto),
+ *           io-app-shell-tab-bar
+ * Data:     data-has-sidebar, data-has-tab-bar (set by React when the slot is filled)
+ * Private:  --_gap (default var(--io-space-14), the reference app gap)
+ * Layout:   ≥ md (48rem): grid-template-columns var(--io-size-sidebar) minmax(0, 1fr); gap and padding --_gap;
+ *           min-height 100dvh; tab bar hidden.
+ *           < md: single column; sidebar hidden; tab bar fixed to the bottom; main gets padding-bottom for the tab bar
+ *           plus env(safe-area-inset-bottom); padding-top env(safe-area-inset-top).
+ */
+
+/* TODO(builder D): implement */

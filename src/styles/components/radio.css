@@ -1,0 +1,20 @@
+/*
+ * RadioGroup and Radio. Owner: B. React: <RadioGroup>, <Radio> (Base UI RadioGroup / Radio). Row layout from check.css.
+ *
+ * Markup:
+ *   <div class="io-field">
+ *     <div class="io-field-label">Delivery</div>
+ *     <div class="io-radio-group" role="radiogroup" data-orientation="vertical">
+ *       <label class="io-check">
+ *         <span class="io-radio io-focus" data-checked><span class="io-radio-indicator" /></span>
+ *         <span class="io-check-text"><span class="io-check-label">Instant</span></span>
+ *       </label>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-radio-group (flex; gap 10px vertical / 18px horizontal), io-radio-indicator (8px on-accent dot)
+ * Data:     io-radio-group data-orientation horizontal | vertical; io-radio data-checked / data-unchecked / data-disabled
+ * Look:     20px circle; unchecked surface + 1.5px line-strong; checked background accent.
+ */
+
+/* TODO(builder B): implement */

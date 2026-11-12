@@ -1,0 +1,51 @@
+/* Every component stylesheet. Frozen: lists all components up front so builders never edit it. */
+
+/* A. Core */
+@import "./components/icon.css";
+@import "./components/icon-tile.css";
+@import "./components/layout.css";
+@import "./components/separator.css";
+@import "./components/popup.css";
+
+/* B. Actions & forms */
+@import "./components/button.css";
+@import "./components/field.css";
+@import "./components/input.css";
+@import "./components/textarea.css";
+@import "./components/select.css";
+@import "./components/combobox.css";
+@import "./components/check.css";
+@import "./components/checkbox.css";
+@import "./components/radio.css";
+@import "./components/switch.css";
+@import "./components/slider.css";
+@import "./components/segmented-control.css";
+
+/* C. Overlays & feedback */
+@import "./components/dialog.css";
+@import "./components/menu.css";
+@import "./components/popover.css";
+@import "./components/tooltip.css";
+@import "./components/toast.css";
+@import "./components/progress.css";
+@import "./components/meter.css";
+@import "./components/spinner.css";
+@import "./components/badge.css";
+@import "./components/chip.css";
+@import "./components/avatar.css";
+@import "./components/kbd.css";
+
+/* D. Layout, navigation & display */
+@import "./components/card.css";
+@import "./components/app-shell.css";
+@import "./components/sidebar.css";
+@import "./components/nav-item.css";
+@import "./components/tab-bar.css";
+@import "./components/tabs.css";
+@import "./components/accordion.css";
+@import "./components/table.css";
+@import "./components/list.css";
+@import "./components/tile.css";
+@import "./components/timeline.css";
+@import "./components/empty-state.css";
+@import "./components/code-block.css";

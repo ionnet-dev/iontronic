@@ -1,0 +1,19 @@
+/*
+ * Chip. Owner: C. React: <Chip>. Reference: `.chip` (and the coloured dot of `.topic i`).
+ *
+ * Markup:
+ *   <span class="io-chip io-hue" data-category="1">
+ *     <span class="io-chip-dot" /><span class="io-chip-label">grid.alerts</span>
+ *     <button class="io-chip-remove" aria-label="Remove grid.alerts"><svg class="io-icon"/></button>
+ *   </span>
+ *   Interactive: root is <button class="io-chip io-hue io-focus" data-interactive data-selected aria-pressed>.
+ *
+ * Parts:    io-chip-dot (8px circle, background var(--io-hue); rendered only when a category/tone/color is given),
+ *           io-chip-icon, io-chip-label, io-chip-remove (16px round, color text-muted, hover color text)
+ * Data:     hue trait; data-interactive (hover background line); data-selected (background accent-soft, color accent);
+ *           data-removable; data-disabled
+ * Look:     font mono medium text-xs; padding 6px 10px; radius chip; background surface-soft; color text-muted;
+ *           no border; inline-flex; gap 6px.
+ */
+
+/* TODO(builder C): implement */

@@ -1,0 +1,12 @@
+/*
+ * Tooltip. Owner: C. React: <Tooltip>, <TooltipProvider> (Base UI Tooltip).
+ *
+ * Markup:   <div class="io-popup-positioner"><div class="io-tooltip" data-side="top">Copy link
+ *             <kbd class="io-tooltip-shortcut">⌘C</kbd><div class="io-tooltip-arrow" /></div></div>
+ * Parts:    io-tooltip-arrow, io-tooltip-shortcut (mono text-xs, opacity 0.7)
+ * Data:     data-side (Base UI), data-instant, data-starting-style / data-ending-style
+ * Look:     background inverse; color on-inverse; radius item (12px); padding 6px 10px; text-sm medium;
+ *           z tooltip; max-width 18rem.
+ */
+
+/* TODO(builder C): implement */

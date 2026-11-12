@@ -1,0 +1,21 @@
+/*
+ * Accordion. Owner: D. React: <Accordion.Root|Item|Trigger|Panel> (Base UI Accordion).
+ *
+ * Markup:
+ *   <div class="io-accordion" data-variant="separated">
+ *     <div class="io-accordion-item" data-open>
+ *       <h3 class="io-accordion-header">
+ *         <button class="io-accordion-trigger io-focus" data-panel-open>Quiet hours<svg class="io-icon io-accordion-icon"/></button>
+ *       </h3>
+ *       <div class="io-accordion-panel"><div class="io-accordion-content">…</div></div>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-accordion-item, io-accordion-header (margin 0), io-accordion-trigger (flex space-between; padding 14px 16px;
+ *           text-base semibold), io-accordion-icon (chevron; rotate 180deg when data-panel-open),
+ *           io-accordion-panel (height var(--accordion-panel-height) transition), io-accordion-content (padding 0 16px 16px; text-muted)
+ * Data:     io-accordion data-variant separated (default: each item a card: surface, radius row, gap 8px) |
+ *           divided (items separated by 1px line, no backgrounds); item data-open / data-disabled (Base UI)
+ */
+
+/* TODO(builder D): implement */

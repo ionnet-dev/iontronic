@@ -1,0 +1,16 @@
+/* Playground chrome only. Components must look right without anything in this file. */
+.docs { min-height: 100dvh; }
+.docs-header { position: sticky; top: 0; z-index: var(--io-z-sticky); display: grid; gap: var(--io-space-12); padding: var(--io-space-16) var(--io-space-24); background: var(--io-color-bg); border-bottom: 1px solid var(--io-color-line); }
+.docs-header h1 { margin: 0; }
+.docs-nav { display: flex; flex-wrap: wrap; gap: var(--io-space-16); font-size: var(--io-text-sm); }
+.docs-nav a { color: var(--io-color-text-muted); text-decoration: none; }
+.docs-nav a:hover { color: var(--io-color-accent); }
+.docs-main { display: grid; gap: var(--io-space-48); padding: var(--io-space-32) var(--io-space-24) var(--io-space-80); max-width: 80rem; margin: 0 auto; }
+.docs-section { display: grid; gap: var(--io-space-20); scroll-margin-top: 8rem; }
+.docs-section-head { display: grid; gap: var(--io-space-6); }
+.docs-section-head p { margin: 0; }
+.docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr)); gap: var(--io-space-14); }
+.docs-example { display: grid; gap: var(--io-space-14); align-content: start; padding: var(--io-space-18); background: var(--io-color-surface); border-radius: var(--io-radius-card); box-shadow: var(--io-shadow-card); min-width: 0; }
+.docs-example[data-wide] { grid-column: 1 / -1; }
+.docs-example h3 { margin: 0; }
+.docs-example-body { display: flex; flex-wrap: wrap; gap: var(--io-space-8); align-items: center; }

@@ -1,0 +1,15 @@
+/*
+ * Tile: quick action. Owner: D. React: <Tile>. Reference: `.tile`.
+ *
+ * Markup:   <button class="io-tile io-focus" type="button">
+ *             <span class="io-icon-tile io-hue" data-size="sm" data-category="3">…</span>
+ *             <span class="io-tile-label">Lights</span>
+ *           </button>
+ * Parts:    io-tile-label (font body semibold, 11.5px ≈ text-xs, leading none, text-align center)
+ * Data:     data-active (background accent-soft), data-disabled
+ * Look:     display grid; gap 6px; justify-items center; padding 12px 4px; radius tile; background surface; shadow card
+ *           (Twilight has no control shadow, so use none if card looks heavy); no border; min-height touch.
+ *           Lay tiles out with <Grid columns={4} gap="8">.
+ */
+
+/* TODO(builder D): implement */

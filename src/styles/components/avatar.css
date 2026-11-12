@@ -1,0 +1,12 @@
+/*
+ * Avatar. Owner: C. React: <Avatar> (Base UI Avatar). Reference: `.avatar`.
+ *
+ * Markup:   <span class="io-avatar io-hue" data-size="md" data-tone="spark">
+ *             <img class="io-avatar-image" /><span class="io-avatar-fallback">I</span>
+ *           </span>
+ * Parts:    io-avatar-image (cover), io-avatar-fallback (initials)
+ * Data:     data-size sm (28) | md (38) | lg (48); hue trait (default tone spark)
+ * Look:     circle; background var(--io-hue); color on-solid; font display bold; text scales with size.
+ */
+
+/* TODO(builder C): implement */

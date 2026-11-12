@@ -1,0 +1,29 @@
+/*
+ * Card. Owner: D (layout, navigation & display). React: <Card>, <CardHeader>, <CardBody>, <CardFooter>.
+ * Reference: `.p-card`, `.p-card.urgent`, `.list`/`.detail` panes, `.kit-cell`.
+ *
+ * Markup:
+ *   <div class="io-card io-focus" data-padding="md" data-interactive data-selected data-urgent>
+ *     <div class="io-card-header">
+ *       <span class="io-icon-tile io-hue" data-size="sm" data-category="1">…</span>      (leading slot)
+ *       <div class="io-card-heading">
+ *         <div class="io-card-title">web-01 is offline</div>
+ *         <div class="io-card-description">grid.alerts · 2 min ago</div>
+ *       </div>
+ *       <div class="io-card-actions">…</div>
+ *     </div>
+ *     <div class="io-card-body">…</div>
+ *     <div class="io-card-footer" data-stretch>…buttons…</div>
+ *   </div>
+ *
+ * Parts:    io-card-header (flex, gap 10px, align center), io-card-heading (min-width 0), io-card-title (text-base
+ *           semibold), io-card-description (text-sm text-muted), io-card-actions (margin-left auto), io-card-body,
+ *           io-card-footer (flex wrap, gap 8px; data-stretch → children flex 1, like `.p-card .actions .btn`)
+ * Data:     data-padding  none | sm (14px, default; phone cards) | md (18px) | lg (24px; detail panes)
+ *           data-interactive  present → cursor pointer; hover background color-mix(text var(--io-tint-hover)) over surface
+ *           data-selected     present → background accent-soft (like `.msg.sel`)
+ *           data-urgent       present → background color-mix(in srgb, var(--io-color-priority-5) var(--io-tint-urgent), var(--io-color-surface))
+ * Look:     background surface; radius card; shadow card; no border; display grid; gap 10px.
+ */
+
+/* TODO(builder D): implement */

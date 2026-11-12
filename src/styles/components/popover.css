@@ -1,0 +1,17 @@
+/*
+ * Popover. Owner: C. React: <Popover.*> (Base UI Popover).
+ *
+ * Markup:
+ *   <div class="io-popup-positioner"><div class="io-popover">
+ *     <div class="io-popover-arrow" />
+ *     <h3 class="io-popover-title">Delivery</h3>
+ *     <p class="io-popover-description">…</p>
+ *     …content…
+ *   </div></div>
+ *
+ * Parts:    io-popover-arrow, io-popover-title (text-md semibold), io-popover-description (text-sm text-muted)
+ * Data:     data-side top | right | bottom | left (Base UI, for arrow placement), data-starting-style / data-ending-style
+ * Look:     background surface-raised; radius panel; shadow overlay; padding 16px; max-width 22rem; gap 8px.
+ */
+
+/* TODO(builder C): implement */

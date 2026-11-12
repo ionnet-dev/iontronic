@@ -1,0 +1,21 @@
+/*
+ * Tabs. Owner: D. React: <Tabs.Root|List|Tab|Indicator|Panel> (Base UI Tabs).
+ *
+ * Markup:
+ *   <div class="io-tabs" data-orientation="horizontal">
+ *     <div class="io-tabs-list" data-variant="line" role="tablist">
+ *       <button class="io-tabs-tab io-focus" data-selected role="tab"><svg/>Overview<span class="io-tabs-count">3</span></button>
+ *       <span class="io-tabs-indicator" />
+ *     </div>
+ *     <div class="io-tabs-panel" role="tabpanel">…</div>
+ *   </div>
+ *
+ * Parts:    io-tabs-list, io-tabs-tab (font body semibold text-md; color text-muted; selected → color text),
+ *           io-tabs-count (mono text-xs), io-tabs-indicator (positioned by Base UI vars --active-tab-left/-width),
+ *           io-tabs-panel (padding-top 16px)
+ * Data:     io-tabs-list data-variant line (default: 1px line under the list, 2px accent indicator) |
+ *           pill (looks like SegmentedControl: surface-soft track, surface pill indicator with shadow thumb);
+ *           data-orientation; io-tabs-tab data-selected / data-disabled (Base UI)
+ */
+
+/* TODO(builder D): implement */

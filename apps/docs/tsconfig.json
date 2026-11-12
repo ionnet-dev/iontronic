@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@ionnet/iontronic": ["../../src/index.ts"],
+      "@ionnet/iontronic/react": ["../../src/react/index.ts"],
+      "@ionnet/iontronic/icons": ["../../src/react/icons.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

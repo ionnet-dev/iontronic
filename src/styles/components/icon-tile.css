@@ -1,0 +1,12 @@
+/*
+ * IconTile: tinted circle holding an icon. Owner: A (core). React: <IconTile>. Reference: `.ico`.
+ * Used by ListItem, CardHeader, Tile and EmptyState (group D) and anyone else.
+ *
+ * Markup:   <span class="io-icon-tile io-hue" data-size="md" data-category="1"><svg class="io-icon"/></span>
+ * Data:     data-size  sm | md | lg      → var(--io-size-icon-tile-<size>) square (sm 36, md 40, lg 56)
+ *           data-tone / data-category / style --io-hue   (hue trait, see base/hue.css)
+ * Look:     border-radius full; background color-mix(in srgb, var(--io-hue) var(--io-tint-icon), transparent);
+ *           color var(--io-hue); display grid; place-items center. Icon size: sm/md → icon lg (20), lg → icon xl (24).
+ */
+
+/* TODO(builder A): implement */

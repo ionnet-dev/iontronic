@@ -1,0 +1,15 @@
+/*
+ * Reset and document defaults. Owner: A (core).
+ *
+ * Contract:
+ *   *, ::before, ::after   box-sizing: border-box
+ *   body                   margin 0; background var(--io-color-bg); color var(--io-color-text);
+ *                          font var(--io-font-body) / var(--io-text-base) / var(--io-leading-normal); antialiased
+ *   ::selection            background var(--io-color-accent-soft)
+ *   button, input, select, textarea   font: inherit; color: inherit
+ *   img, svg, video        display block; max-width 100%
+ *   [hidden]               display none !important
+ *   @media (prefers-reduced-motion: reduce)   transitions/animations ~0ms
+ */
+
+/* TODO(builder A): implement */

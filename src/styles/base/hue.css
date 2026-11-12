@@ -1,0 +1,39 @@
+/*
+ * Hue trait. Owner: A (core). Shared by every group.
+ *
+ * Any component root that is tinted by a tone, priority or category adds the class `io-hue`. It then reads
+ * `var(--io-hue)` in its own CSS (text colour, dot, `color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent)`).
+ *
+ * Attributes (set by `hueAttributes()` in React), in increasing precedence:
+ *   data-tone="neutral|accent|spark|ok|warn|bad|info"
+ *   data-category="1".."8"
+ *   data-priority="1".."5"
+ *   style="--io-hue: <any CSS colour>"   custom colour, wins over everything
+ *
+ * `.io-hue` resets --io-hue to neutral so an ancestor's hue never leaks in.
+ */
+
+.io-hue { --io-hue: var(--io-color-text-muted); }
+
+.io-hue[data-tone="neutral"] { --io-hue: var(--io-color-text-muted); }
+.io-hue[data-tone="accent"] { --io-hue: var(--io-color-accent); }
+.io-hue[data-tone="spark"] { --io-hue: var(--io-color-spark); }
+.io-hue[data-tone="ok"] { --io-hue: var(--io-color-ok); }
+.io-hue[data-tone="warn"] { --io-hue: var(--io-color-warn); }
+.io-hue[data-tone="bad"] { --io-hue: var(--io-color-bad); }
+.io-hue[data-tone="info"] { --io-hue: var(--io-color-info); }
+
+.io-hue[data-category="1"] { --io-hue: var(--io-color-category-1); }
+.io-hue[data-category="2"] { --io-hue: var(--io-color-category-2); }
+.io-hue[data-category="3"] { --io-hue: var(--io-color-category-3); }
+.io-hue[data-category="4"] { --io-hue: var(--io-color-category-4); }
+.io-hue[data-category="5"] { --io-hue: var(--io-color-category-5); }
+.io-hue[data-category="6"] { --io-hue: var(--io-color-category-6); }
+.io-hue[data-category="7"] { --io-hue: var(--io-color-category-7); }
+.io-hue[data-category="8"] { --io-hue: var(--io-color-category-8); }
+
+.io-hue[data-priority="1"] { --io-hue: var(--io-color-priority-1); }
+.io-hue[data-priority="2"] { --io-hue: var(--io-color-priority-2); }
+.io-hue[data-priority="3"] { --io-hue: var(--io-color-priority-3); }
+.io-hue[data-priority="4"] { --io-hue: var(--io-color-priority-4); }
+.io-hue[data-priority="5"] { --io-hue: var(--io-color-priority-5); }

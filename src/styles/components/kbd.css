@@ -1,0 +1,11 @@
+/*
+ * Kbd. Owner: C. React: <Kbd>.
+ *
+ * Markup:   <kbd class="io-kbd" data-size="md">⌘</kbd>   or   <span class="io-kbd-group"><kbd class="io-kbd">⌘</kbd><kbd class="io-kbd">K</kbd></span>
+ * Parts:    io-kbd-group (inline-flex, gap 3px)
+ * Data:     data-size sm | md
+ * Look:     font mono medium text-xs; min-width 20px (md) / 18px (sm); padding 0 5px; radius sm; background surface-soft;
+ *           box-shadow inset 0 -1px 0 var(--io-color-line); color text-muted.
+ */
+
+/* TODO(builder C): implement */

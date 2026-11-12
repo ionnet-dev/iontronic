@@ -1,0 +1,29 @@
+/*
+ * Button. Owner: B (actions & forms). React: <Button>. Reference: `.btn`.
+ *
+ * Markup:
+ *   <button class="io-button io-focus" data-variant="primary" data-size="md" type="button">
+ *     <svg class="io-icon"/> <span class="io-button-label">Restart agent</span>
+ *   </button>
+ *   Loading: data-loading present, <span class="io-button-spinner" aria-hidden="true"/> prepended, label kept for width
+ *   (visibility hidden), aria-busy="true", disabled.
+ *
+ * Parts:    io-button-label, io-button-spinner (CSS-only ring using @keyframes io-spin from base)
+ * Data:     data-variant     primary | secondary | ghost | danger   (default secondary)
+ *             primary   background var(--io-color-accent) then var(--io-gradient-accent-fill); color on-accent; no border
+ *             secondary background surface-soft; color text; no border
+ *             ghost     transparent; color accent; hover color-mix(accent var(--io-tint-hover))
+ *             danger    background bad; color on-solid
+ *           data-size        sm | md | lg  → height var(--io-size-control-<size>); font sm: text-sm, md/lg: text-md;
+ *                                            padding-inline sm 14px, md 18px, lg 22px
+ *           data-icon-only   present → square (width = height), padding 0
+ *           data-full-width  present → width 100% (reference `.btn.wide`)
+ *           data-loading     present → spinner shown
+ *           :disabled / data-disabled → opacity 0.5, cursor not-allowed
+ * Private:  --_bg, --_bg-hover, --_fg, --_height, --_pad
+ * Look:     radius control (pill); font body semibold; gap 8px; line-height 1; white-space nowrap;
+ *           transition background/color/transform (motion fast); :active translateY(1px).
+ *           Below md breakpoint (max-width 47.99rem): min-height var(--io-size-touch) for sm/md.
+ */
+
+/* TODO(builder B): implement */

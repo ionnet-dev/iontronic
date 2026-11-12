@@ -1,0 +1,29 @@
+/*
+ * Dialog and AlertDialog. Owner: C (overlays & feedback). React: <Dialog.*>, <AlertDialog.*> (Base UI Dialog / AlertDialog).
+ *
+ * Markup:
+ *   <div class="io-dialog-backdrop" />                                   (Backdrop: scrim, z overlay)
+ *   <div class="io-dialog-viewport">                                     (Viewport: fixed inset 0, grid center, z modal)
+ *     <div class="io-dialog" data-size="md" data-alert role="dialog">    (Popup)
+ *       <div class="io-dialog-header">
+ *         <div class="io-dialog-heading">
+ *           <h2 class="io-dialog-title io-display" data-size="sm">Scale cluster</h2>
+ *           <p class="io-dialog-description">Changes apply to all regions.</p>
+ *         </div>
+ *         <button class="io-button io-dialog-close" data-variant="ghost" data-icon-only>…</button>
+ *       </div>
+ *       <div class="io-dialog-body">…</div>
+ *       <div class="io-dialog-footer">…buttons…</div>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-dialog-header, io-dialog-heading, io-dialog-title, io-dialog-description (text-muted),
+ *           io-dialog-close, io-dialog-body (overflow auto), io-dialog-footer (flex end, gap 8px)
+ * Data:     io-dialog data-size sm (24rem) | md (32rem) | lg (44rem); data-alert on AlertDialog popups;
+ *           data-starting-style / data-ending-style for enter/exit (opacity + translateY 8px, motion normal)
+ * Look:     background surface-raised; radius sheet (24px); shadow overlay; padding 24px; gap 16px.
+ *           Below md breakpoint (max-width 47.99rem): bottom sheet: align end, full width, radius sheet on top corners
+ *           only, padding-bottom max(24px, env(safe-area-inset-bottom)), enter from translateY(100%).
+ */
+
+/* TODO(builder C): implement */

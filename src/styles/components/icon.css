@@ -1,0 +1,9 @@
+/*
+ * Icon. Owner: A (core). React: <Icon>.
+ *
+ * Markup:   <svg class="io-icon" data-size="md" aria-hidden="true">…</svg>   (Lucide)
+ * Data:     data-size  xs | sm | md | lg | xl   → width/height var(--io-size-icon-<size>); omitted when a number is passed
+ * Notes:    flex: none; stroke: currentColor; stroke-width comes from the prop (default 2, Twilight look).
+ */
+
+/* TODO(builder A): implement */

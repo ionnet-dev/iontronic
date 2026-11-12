@@ -1,0 +1,27 @@
+/*
+ * Focus ring. Owner: A (core). Shared by every group: add `io-focus` to focusable roots, `io-focus-within` to boxes
+ * that wrap a native control (input boxes).
+ *
+ * Classes:
+ *   io-focus          ring on :focus-visible of the element itself
+ *   io-focus-within   ring on the element when a descendant is :focus-visible
+ *
+ * The ring is an outline, so it follows border-radius (pills stay pills). Width var(--io-focus-width),
+ * offset var(--io-focus-offset), colour var(--io-color-focus). Components may override `--_ring-offset` (e.g. 0 for
+ * fields that sit flush in a row).
+ */
+
+:where(:focus-visible) {
+  outline: var(--io-focus-width) solid var(--io-color-focus);
+  outline-offset: var(--io-focus-offset);
+}
+
+.io-focus:focus-visible,
+.io-focus-within:has(:focus-visible) {
+  outline: var(--io-focus-width) solid var(--io-color-focus);
+  outline-offset: var(--_ring-offset, var(--io-focus-offset));
+}
+
+.io-focus-within :focus-visible {
+  outline: none;
+}

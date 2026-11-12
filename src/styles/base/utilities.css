@@ -1,0 +1,22 @@
+/*
+ * Shared utilities. Owner: A (core).
+ *
+ * Classes:
+ *   io-backdrop          background-color var(--io-color-bg); background-image var(--io-gradient-backdrop);
+ *                        background-attachment fixed. Put it on body or on AppShell's root.
+ *   io-visually-hidden   standard screen-reader-only clip
+ *
+ * Keyframes (shared, do not redefine in component files):
+ *   io-spin              0 → 360deg rotate. Used by Button (B) and Spinner (C).
+ *   io-pulse             opacity 1 → 0.4 → 1. Indeterminate progress and skeletons.
+ */
+
+@keyframes io-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes io-pulse {
+  50% { opacity: 0.4; }
+}
+
+/* TODO(builder A): io-backdrop, io-visually-hidden */

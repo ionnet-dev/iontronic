@@ -1,0 +1,28 @@
+/*
+ * Toast. Owner: C. React: <ToastProvider>, useToast() (Base UI Toast). Reference: `.toast`.
+ *
+ * Markup:
+ *   <div class="io-toast-viewport">                                             (fixed; bottom-right desktop,
+ *                                                                               bottom-center above the tab bar on phone)
+ *     <div class="io-toast" data-tone="ok" data-type="loading">                 (Toast.Root)
+ *       <span class="io-toast-icon io-hue" data-tone="ok"><svg class="io-icon"/></span>
+ *       <div class="io-toast-content">
+ *         <div class="io-toast-title">Silenced web-01 for 1 hour</div>
+ *         <div class="io-toast-description">…</div>
+ *       </div>
+ *       <button class="io-toast-action">Undo</button>
+ *       <button class="io-toast-close" aria-label="Dismiss"><svg/></button>
+ *     </div>
+ *   </div>
+ *
+ * Parts:    io-toast-viewport, io-toast-icon (color var(--io-hue); spinner when loading), io-toast-content,
+ *           io-toast-title (semibold), io-toast-description (opacity 0.75, text-sm), io-toast-action
+ *           (font bold, underline, inherits colour, no background), io-toast-close
+ * Data:     data-tone neutral | ok | warn | bad | info; data-type="loading" for promise toasts;
+ *           Base UI: data-swipe-direction, data-expanded, data-limited, data-starting-style, data-ending-style
+ * Private:  --_gap, --_offset (stacking, from Base UI's --toast-index / --toast-offset-y)
+ * Look:     background inverse; color on-inverse; radius card; shadow card; padding 12px 14px 12px 16px; gap 12px;
+ *           text-md; width min(24rem, 100vw - 32px); z toast.
+ */
+
+/* TODO(builder C): implement */

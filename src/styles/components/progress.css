@@ -1,0 +1,17 @@
+/*
+ * Progress. Owner: C. React: <Progress> (Base UI Progress).
+ *
+ * Markup:
+ *   <div class="io-progress io-hue" data-tone="accent" data-size="md" data-indeterminate>
+ *     <div class="io-progress-header"><span class="io-progress-label">Uploading</span><span class="io-progress-value">40%</span></div>
+ *     <div class="io-progress-track"><div class="io-progress-indicator" /></div>
+ *   </div>
+ *
+ * Parts:    io-progress-header (flex space-between, text-sm), io-progress-label, io-progress-value (mono, text-muted),
+ *           io-progress-track (radius full, surface-soft), io-progress-indicator (background var(--io-hue);
+ *           tone accent uses var(--io-gradient-accent-fill))
+ * Data:     data-size sm (4px) | md (8px); data-indeterminate (Base UI) → sliding indicator; data-complete;
+ *           hue trait (default tone accent)
+ */
+
+/* TODO(builder C): implement */
