@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button, Stack, useTheme, type ThemeMode } from "@ionnet/iontronic/react";
 import Core from "./sections/Core";
 import Display from "./sections/Display";
@@ -16,8 +17,16 @@ const SECTIONS = [
 
 const MODES: ThemeMode[] = ["light", "system", "dark"];
 
+// `?only=forms` renders a single section, so headless screenshots can target one group.
+const ONLY = new URLSearchParams(location.search).get("only");
+// `?theme=dark` forces a mode for the same reason (headless browsers start in "system").
+const FORCED_THEME = new URLSearchParams(location.search).get("theme") as ThemeMode | null;
+
 export default function App() {
   const { mode, setMode } = useTheme();
+  useEffect(() => {
+    if (FORCED_THEME && MODES.includes(FORCED_THEME)) setMode(FORCED_THEME);
+  }, [setMode]);
   return (
     <div className="docs io-backdrop">
       <header className="docs-header">
@@ -36,7 +45,7 @@ export default function App() {
         </nav>
       </header>
       <main className="docs-main">
-        {SECTIONS.map(({ id, Component }) => <Component key={id} />)}
+        {SECTIONS.filter(({ id }) => !ONLY || id === ONLY).map(({ id, Component }) => <Component key={id} />)}
       </main>
     </div>
   );
