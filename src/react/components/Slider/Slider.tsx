@@ -34,6 +34,11 @@ export interface SliderProps extends FieldBaseProps {
    */
   format?: (value: number) => string;
   orientation?: "horizontal" | "vertical";
+  /**
+   * Accessible names of the two thumbs of a range slider, appended to the `label` (or `aria-label`) when there is one.
+   * Default is `["Minimum", "Maximum"]`.
+   */
+  rangeLabels?: [string, string];
   name?: string;
   "aria-label"?: string;
   /**
@@ -42,13 +47,18 @@ export interface SliderProps extends FieldBaseProps {
   className?: string;
 }
 
+function rangeThumbName(index: number, base: string | undefined, labels: [string, string]) {
+  const text = labels[index === 0 ? 0 : 1];
+  return base ? `${base} ${text.toLowerCase()}` : text;
+}
+
 /**
  * Picks a number or range by dragging (Base UI Slider).
  *
  * @example <Slider label="Volume" defaultValue={40} showValue format={(v) => `${v}%`} />
  */
 export function Slider(props: SliderProps) {
-  const { value, defaultValue, onValueChange, onValueCommitted, min = 0, max = 100, step = 1, showValue, format, orientation = "horizontal", name, label, description, error, required, disabled, fieldClassName, className, "aria-label": ariaLabel } = props;
+  const { value, defaultValue, onValueChange, onValueCommitted, min = 0, max = 100, step = 1, showValue, format, orientation = "horizontal", name, label, description, error, required, disabled, fieldClassName, className, rangeLabels = ["Minimum", "Maximum"], "aria-label": ariaLabel } = props;
   const initial = value ?? defaultValue ?? min;
   const thumbs = Array.isArray(initial) ? initial.length : 1;
   const slider = (
@@ -88,7 +98,7 @@ export function Slider(props: SliderProps) {
               key={index}
               index={thumbs > 1 ? index : undefined}
               className="io-slider-thumb io-focus"
-              aria-label={thumbs > 1 ? (index === 0 ? "Minimum" : "Maximum") : label == null ? ariaLabel : undefined}
+              aria-label={thumbs > 1 ? rangeThumbName(index, typeof label === "string" ? label : ariaLabel, rangeLabels) : label == null ? ariaLabel : undefined}
             />
           ))}
         </BaseSlider.Track>

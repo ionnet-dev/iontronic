@@ -1,5 +1,6 @@
 import type { ComponentProps, CSSProperties } from "react";
 import { cx } from "../../../cx";
+import { useScrollable } from "../../utils/useScrollable";
 
 /**
  * Props for {@link Table}.
@@ -47,8 +48,20 @@ export interface TableCellAlignProps {
  */
 export function Table(props: TableProps) {
   const { density = "comfortable", interactive, plain, wrapClassName, maxHeight, className, ...rest } = props;
+  const [wrapRef, scrollable] = useScrollable<HTMLDivElement>();
+  const label = rest["aria-label"];
+  const labelledBy = rest["aria-labelledby"];
   return (
-    <div className={cx("io-table-wrap", wrapClassName)} data-plain={plain || undefined} style={maxHeight ? ({ "--_max-height": maxHeight } as CSSProperties) : undefined}>
+    <div
+      ref={wrapRef}
+      className={cx("io-table-wrap io-focus", wrapClassName)}
+      data-plain={plain || undefined}
+      tabIndex={scrollable ? 0 : undefined}
+      role={scrollable && (label || labelledBy) ? "region" : undefined}
+      aria-label={scrollable ? label : undefined}
+      aria-labelledby={scrollable ? labelledBy : undefined}
+      style={maxHeight ? ({ "--_max-height": maxHeight } as CSSProperties) : undefined}
+    >
       <table className={cx("io-table", className)} data-density={density} data-interactive={interactive || undefined} {...rest} />
     </div>
   );

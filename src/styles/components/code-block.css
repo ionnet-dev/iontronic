@@ -79,6 +79,7 @@
   padding: 14px var(--io-space-16);
   max-height: var(--_max-height, none);
   overflow: auto;
+  --_ring-offset: -2px; /* the figure clips overflow, so the focus ring sits inside */
 }
 
 .io-code-block-code {

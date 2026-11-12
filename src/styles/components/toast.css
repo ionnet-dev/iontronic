@@ -227,8 +227,13 @@
 @media (max-width: 47.99rem) {
   .io-toast-viewport {
     right: 50%;
-    bottom: calc(env(safe-area-inset-bottom) + 4.5rem);
+    bottom: calc(env(safe-area-inset-bottom) + var(--io-space-16));
     transform: translateX(50%);
+  }
+
+  /* Lift above the tab bar only when an AppShell has one */
+  :root:has(.io-app-shell[data-has-tab-bar]) .io-toast-viewport {
+    bottom: calc(env(safe-area-inset-bottom) + 4.5rem);
   }
 }
 

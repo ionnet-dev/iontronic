@@ -3,35 +3,42 @@
  * `.msg.sel`, `.unread`.
  *
  * Markup:
- *   <div class="io-list" role="list">
+ *   <div class="io-list" role="list">                      (no role when it holds groups)
  *     <div class="io-list-group" role="group" aria-labelledby="…">
  *       <div class="io-list-group-label">Today</div>
- *       <article class="io-list-item io-focus" role="listitem" data-selected data-unread data-interactive tabindex="0">
- *         <div class="io-list-item-leading"><span class="io-icon-tile io-hue" data-size="md" data-category="1">…</span></div>
- *         <div class="io-list-item-main">
- *           <div class="io-list-item-top">
- *             <span class="io-list-item-title">web-01 is offline</span>
- *             <span class="io-list-item-badges"><span class="io-badge …">Urgent</span></span>
- *           </div>
- *           <p class="io-list-item-description">No heartbeat for more than 5 min.</p>
- *           <div class="io-list-item-meta"><span class="io-mono">grid.alerts</span></div>
+ *       <div class="io-list-group-items" role="list">
+ *         <div class="io-list-entry" role="listitem">          (wrapper; keeps the row's own role: link, button, article)
+ *           <article class="io-list-item io-focus" data-selected data-unread data-interactive>
+ *             (<button type="button"> when the row has onClick, <a href> via `render`; same classes either way)
+ *             <span class="io-list-item-leading"><span class="io-icon-tile io-hue" data-size="md" data-category="1">…</span></span>
+ *             <span class="io-list-item-main">
+ *               <span class="io-list-item-top">
+ *                 <span class="io-list-item-title">web-01 is offline</span>
+ *                 <span class="io-list-item-badges"><span class="io-badge …">Urgent</span></span>
+ *               </span>
+ *               <span class="io-list-item-description">No heartbeat for more than 5 min.</span>
+ *               <span class="io-list-item-meta"><span class="io-mono">grid.alerts</span></span>
+ *             </span>
+ *             <span class="io-list-item-trailing"><time class="io-list-item-time">17:00</time></span>
+ *             <span class="io-list-item-unread" role="img" aria-label="Unread"></span>
+ *           </article>
  *         </div>
- *         <div class="io-list-item-trailing"><time class="io-list-item-time">17:00</time></div>
- *         <span class="io-list-item-unread" aria-label="Unread" />
- *       </article>
+ *       </div>
  *     </div>
  *   </div>
+ *   All row parts are spans (valid inside a button); CSS sets their display.
  *
  * Parts:    io-list (grid gap 6px), io-list-group, io-list-group-label (io-label style, padding 12px 4px 4px),
- *           io-list-item-leading, io-list-item-main (grid gap 3px, min-width 0), io-list-item-top (flex wrap gap 8px),
+ *           io-list-group-items (grid gap 6px), io-list-entry (the listitem wrapper), io-list-item-leading,
+ *           io-list-item-main (grid gap 3px, min-width 0), io-list-item-top (flex wrap gap 8px),
  *           io-list-item-title (text-base semibold), io-list-item-badges (inline-flex gap 6px),
- *           io-list-item-description (margin 0; text-md; text-muted), io-list-item-meta (12.5px ≈ text-sm; text-muted),
+ *           io-list-item-description (text-md; text-muted), io-list-item-meta (text-sm; text-muted),
  *           io-list-item-trailing (grid justify-items end gap 6px), io-list-item-time (mono text-xs text-muted tnum),
  *           io-list-item-unread (9px spark dot; absolute right 16px bottom 18px)
  * Data:     data-selected (background accent-soft), data-unread (shows the dot; title stays semibold),
  *           data-interactive (cursor pointer; hover background surface-soft), data-dense (padding 10px, no description clamp)
- * Look:     grid-template-columns auto minmax(0, 1fr) auto (leading column collapses when empty); gap 14px; padding 14px;
- *           radius row; align-items start; position relative. Description clamps to 2 lines.
+ * Look:     flex row; gap 14px; padding 14px; radius row; align-items start; position relative (leading and trailing
+ *           collapse when absent). Description clamps to 2 lines. A <button> row is reset to look like the article.
  */
 
 .io-list {
@@ -44,6 +51,13 @@
   display: grid;
   gap: var(--io-space-6);
 }
+
+.io-list-group-items {
+  display: grid;
+  gap: var(--io-space-6);
+}
+
+.io-list-entry { min-width: 0; }
 
 .io-list-group-label {
   padding: var(--io-space-12) var(--io-space-4) var(--io-space-4);
@@ -67,6 +81,14 @@
   color: var(--io-color-text);
   text-decoration: none;
   transition: background-color var(--io-motion-duration-fast) var(--io-motion-ease-standard);
+}
+
+button.io-list-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
 }
 
 .io-list-item[data-dense] { padding: var(--io-space-10); }
@@ -105,7 +127,6 @@
 }
 
 .io-list-item-description {
-  margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -122,6 +143,7 @@
 }
 
 .io-list-item-meta {
+  display: block;
   font-size: var(--io-text-sm);
   color: var(--io-color-text-muted);
 }

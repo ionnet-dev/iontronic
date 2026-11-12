@@ -90,15 +90,17 @@ export function RadioGroup<Value extends string = string>(props: RadioGroupProps
  */
 export function Radio<Value extends string = string>(props: RadioProps<Value>) {
   const { value, label, description, disabled, className } = props;
+  const labelId = useId();
+  const descriptionId = useId();
   return (
     <label className={cx("io-check", className)} data-disabled={disabled || undefined}>
-      <BaseRadio.Root className="io-radio io-focus" value={value} disabled={disabled}>
+      <BaseRadio.Root aria-labelledby={label != null ? labelId : undefined} aria-describedby={description != null ? descriptionId : undefined} className="io-radio io-focus" value={value} disabled={disabled}>
         <BaseRadio.Indicator className="io-radio-indicator" />
       </BaseRadio.Root>
       {(label != null || description != null) && (
         <span className="io-check-text">
-          {label != null && <span className="io-check-label">{label}</span>}
-          {description != null && <span className="io-check-description">{description}</span>}
+          {label != null && <span id={labelId} className="io-check-label">{label}</span>}
+          {description != null && <span id={descriptionId} className="io-check-description">{description}</span>}
         </span>
       )}
     </label>

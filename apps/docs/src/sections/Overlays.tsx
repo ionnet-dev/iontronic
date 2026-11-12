@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Archive, BellOff, Check, Clock, Copy, Link, MoreHorizontal, Server, Trash2, TriangleAlert, VolumeX, X } from "@ionnet/iontronic/icons";
 import {
-  AlertDialog, Avatar, Badge, Button, CATEGORIES, Chip, Dialog, Icon, Kbd, Menu, Meter, PRIORITIES, Popover, Progress, Spinner, Stack,
+  AlertDialog, Avatar, Badge, Button, CATEGORIES, Chip, Dialog, Icon, Kbd, Menu, Meter, PRIORITIES, Popover, Progress, Select, Spinner, Stack,
   Tooltip, categoryFor, useToast, type Tone,
 } from "@ionnet/iontronic/react";
 import { Example, Section } from "../docs/Demo";
@@ -53,6 +53,12 @@ function ToastDemo() {
       <Button onClick={() => toast.add({ title: "3 new messages in grid.alerts", tone: "info" })}>Info</Button>
       <Button variant="primary" onClick={() => toast.add({ title: "Silenced web-01 for 1 hour", tone: "ok", action: { label: "Undo", onClick: () => toast.add({ title: "Silence undone" }) } })}>
         With Undo
+      </Button>
+      <Button onClick={() => {
+        toast.add({ id: "sync", title: "Syncing inbox", description: "Fetching 12 messages", tone: "info", timeout: 0 });
+        setTimeout(() => toast.update("sync", { tone: "ok", description: "Done", timeout: 3000 }), 1200);
+      }}>
+        Update in place
       </Button>
       <Button onClick={() => toast.promise(new Promise((resolve) => setTimeout(resolve, 1800)), { loading: "Sending test message", success: "Test message delivered", error: "Delivery failed" })}>
         Promise
@@ -110,6 +116,7 @@ export default function Overlays() {
                   <Chip tone="info">machine:web-01</Chip>
                 </Stack>
                 <span>/var/lib/docker is at 91% (182 GB of 200 GB). Pruning unused images frees about 24 GB.</span>
+                <Select label="Snooze for" defaultValue="1h" options={[{ value: "15m", label: "15 minutes" }, { value: "1h", label: "1 hour" }, { value: "1d", label: "1 day" }]} />
               </Stack>
             </Dialog.Body>
             <Dialog.Footer>

@@ -41,7 +41,7 @@ export namespace ColorX {
   }
 
   /**
-   * Formats as Android `#AARRGGBB` (alpha first), as used in `colors.xml`.
+   * Formats as Android `#AARRGGBB` (alpha first), as used in Android colour resources.
    */
   export function toAndroidHex(hex: string): string {
     return `#${toArgb(hex)}`;

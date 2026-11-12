@@ -59,7 +59,8 @@ function xml(entries: Entry[], theme: "light" | "dark"): string {
  * - `android/IontronicColors.kt`: `package dev.ionnet.iontronic`, `import androidx.compose.ui.graphics.Color`,
  *   `object IontronicColors { object Light { val Bg = Color(0xFFF3F1FB) ... } object Dark { ... } }`. Names are the token
  *   path in PascalCase (`TextMuted`, `Priority5`, `Category3`, `SidebarActiveFg`).
- * - `android/colors.xml` (light, for `res/values/`) and `android/colors-night.xml` (dark, for `res/values-night/`):
+ * - `android/values/iontronic_colors.xml` (light) and `android/values-night/iontronic_colors.xml` (dark), laid out like
+ *   an Android `res/` folder; the file name keeps them from clashing with an app's own `colors.xml`:
  *   `<color name="io_text_muted">#FF66608C</color>`, names snake_case with an `io_` prefix, values `#AARRGGBB`.
  */
 export const androidTarget: TokenTarget = {
@@ -68,8 +69,8 @@ export const androidTarget: TokenTarget = {
     const entries = collect(tokens);
     return [
       { path: "android/IontronicColors.kt", content: kotlin(entries) },
-      { path: "android/colors.xml", content: xml(entries, "light") },
-      { path: "android/colors-night.xml", content: xml(entries, "dark") },
+      { path: "android/values/iontronic_colors.xml", content: xml(entries, "light") },
+      { path: "android/values-night/iontronic_colors.xml", content: xml(entries, "dark") },
     ];
   },
 };

@@ -17,6 +17,7 @@
  *           min-height 100dvh; tab bar hidden.
  *           < md: single column; sidebar hidden; tab bar fixed to the bottom; main gets padding-bottom for the tab bar
  *           plus env(safe-area-inset-bottom); padding-top env(safe-area-inset-top).
+ *           Side padding is max(--_gap, env(safe-area-inset-left/right)) in both layouts (landscape notches).
  */
 
 /*
@@ -27,11 +28,13 @@
 
 .io-app-shell {
   --_gap: var(--io-space-14);
+  --_pad-left: max(var(--_gap), env(safe-area-inset-left));
+  --_pad-right: max(var(--_gap), env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   gap: var(--_gap);
   min-height: var(--_height, 100dvh);
-  padding: max(var(--io-space-12), env(safe-area-inset-top)) var(--_gap) 0;
+  padding: max(var(--io-space-12), env(safe-area-inset-top)) var(--_pad-right) 0 var(--_pad-left);
   color: var(--io-color-text);
 }
 
@@ -55,7 +58,7 @@
   position: sticky;
   bottom: 0;
   z-index: var(--io-z-sticky);
-  margin-inline: calc(var(--_gap) * -1);
+  margin-inline: calc(var(--_pad-left) * -1) calc(var(--_pad-right) * -1);
 }
 
 @media (min-width: 48rem) {
@@ -63,7 +66,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
-    padding: var(--_gap);
+    padding: var(--_gap) var(--_pad-right) var(--_gap) var(--_pad-left);
   }
 
   .io-app-shell:not([data-phone])[data-has-sidebar] {

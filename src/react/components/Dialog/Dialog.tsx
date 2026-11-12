@@ -49,6 +49,10 @@ export interface DialogContentProps extends Omit<BaseDialog.Popup.Props, "classN
    */
   showClose?: boolean;
   /**
+   * Accessible name of the close button. Default is `"Close"`.
+   */
+  closeLabel?: string;
+  /**
    * Element the dialog portals into. Default is `document.body`.
    */
   container?: BaseDialog.Portal.Props["container"];
@@ -75,7 +79,7 @@ export function DialogClose(props: DialogCloseProps) {
  * The portalled popup with backdrop, header and focus trap. Put `Dialog.Body` and `Dialog.Footer` inside it.
  */
 export function DialogContent(props: DialogContentProps) {
-  const { title, description, size = "md", showClose = true, container, className, children, ...rest } = props;
+  const { title, description, size = "md", showClose = true, closeLabel = "Close", container, className, children, ...rest } = props;
   const hasHeader = title != null || description != null;
   return (
     <BaseDialog.Portal container={container}>
@@ -88,7 +92,7 @@ export function DialogContent(props: DialogContentProps) {
                 {title != null && <BaseDialog.Title className="io-dialog-title io-display" data-size="sm">{title}</BaseDialog.Title>}
                 {description != null && <BaseDialog.Description className="io-dialog-description">{description}</BaseDialog.Description>}
               </div>
-              {showClose && <BaseDialog.Close render={<Button variant="ghost" size="sm" iconOnly icon={X} className="io-dialog-close" aria-label="Close" />} />}
+              {showClose && <BaseDialog.Close render={<Button variant="ghost" size="sm" iconOnly icon={X} className="io-dialog-close" aria-label={closeLabel} />} />}
             </div>
           )}
           {children}

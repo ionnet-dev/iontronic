@@ -4,7 +4,7 @@
  * their own root class (e.g. `.io-select-popup { max-height: … }`).
  *
  * Classes:
- *   io-popup-positioner    Base UI Positioner. z-index var(--io-z-dropdown); outline none.
+ *   io-popup-positioner    Base UI Positioner. z-index var(--io-z-toast) so popups portalled from inside a dialog stack above it; outline none.
  *   io-popup               Popup surface: background surface-raised; radius panel; shadow overlay; padding 6px;
  *                          min-width var(--anchor-width); max-height var(--available-height); overflow auto;
  *                          transition opacity/scale on data-starting-style / data-ending-style (motion fast).
@@ -22,7 +22,7 @@
  */
 
 .io-popup-positioner {
-  z-index: var(--io-z-dropdown);
+  z-index: var(--io-z-toast);
   outline: none;
 }
 

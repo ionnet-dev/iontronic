@@ -91,6 +91,14 @@ export interface ToastProviderProps {
    * Default auto-dismiss time in milliseconds. Default is `5000`.
    */
   timeout?: number;
+  /**
+   * Accessible name of each toast's close button. Default is `"Dismiss"`.
+   */
+  dismissLabel?: string;
+  /**
+   * Accessible name of the spinner shown in loading toasts. Default is `"Working"`.
+   */
+  loadingLabel?: string;
 }
 
 /**
@@ -120,8 +128,9 @@ function toneOf(toast: BaseToast.Root.ToastObject<ToastData>): ToastTone {
 /**
  * Renders every open toast inside the portalled viewport.
  */
-function ToastList() {
-  const { toasts } = BaseToast.useToastManager<ToastData>();
+function ToastList(props: { dismissLabel: string; loadingLabel: string }) {
+  const { dismissLabel, loadingLabel } = props;
+  const { toasts, close } = BaseToast.useToastManager<ToastData>();
   return (
     <>
       {toasts.map((toast) => {
@@ -132,15 +141,15 @@ function ToastList() {
             <BaseToast.Content className="io-toast-body">
               {(loading || tone !== "neutral") && (
                 <span className="io-toast-icon io-hue" data-tone={loading ? undefined : tone}>
-                  {loading ? <Spinner size="lg" label="Working" /> : <Icon icon={TONE_ICONS[tone as Exclude<ToastTone, "neutral">]} size="lg" />}
+                  {loading ? <Spinner size="lg" label={loadingLabel} /> : <Icon icon={TONE_ICONS[tone as Exclude<ToastTone, "neutral">]} size="lg" />}
                 </span>
               )}
               <div className="io-toast-content">
                 <BaseToast.Title className="io-toast-title" />
                 <BaseToast.Description className="io-toast-description" />
               </div>
-              {toast.actionProps && <BaseToast.Action className="io-toast-action" />}
-              <BaseToast.Close className="io-toast-close" aria-label="Dismiss"><Icon icon={X} size="sm" /></BaseToast.Close>
+              {toast.actionProps && <BaseToast.Action className="io-toast-action" onClick={() => close(toast.id)} />}
+              <BaseToast.Close className="io-toast-close" aria-label={dismissLabel}><Icon icon={X} size="sm" /></BaseToast.Close>
             </BaseToast.Content>
           </BaseToast.Root>
         );
@@ -153,13 +162,13 @@ function ToastList() {
  * Provides {@link useToast} and renders the toast viewport. `IontronicProvider` includes it.
  */
 export function ToastProvider(props: ToastProviderProps) {
-  const { children, limit = 3, timeout = 5000 } = props;
+  const { children, limit = 3, timeout = 5000, dismissLabel = "Dismiss", loadingLabel = "Working" } = props;
   return (
     <BaseToast.Provider limit={limit} timeout={timeout}>
       {children}
       <BaseToast.Portal>
         <BaseToast.Viewport className="io-toast-viewport">
-          <ToastList />
+          <ToastList dismissLabel={dismissLabel} loadingLabel={loadingLabel} />
         </BaseToast.Viewport>
       </BaseToast.Portal>
     </BaseToast.Provider>
@@ -167,19 +176,19 @@ export function ToastProvider(props: ToastProviderProps) {
 }
 
 /**
- * Converts a partial toast into Base UI's shape.
+ * Converts a partial toast into Base UI's shape. Only keys present in `options` are returned, because Base UI merges
+ * updates over the previous toast. The action closes its toast through `ToastList`.
  */
-function toManagerOptions(options: ToastUpdate, close: (id?: string) => void, getId: () => string) {
-  const { tone, action, title, description, timeout, priority, onClose } = options;
-  return {
-    title,
-    description,
-    timeout,
-    priority,
-    onClose,
-    data: tone ? { tone } : undefined,
-    actionProps: action ? { children: action.label, onClick: () => { action.onClick(); close(getId()); } } : undefined,
-  };
+function toManagerOptions(options: ToastUpdate) {
+  const result: Record<string, unknown> = {};
+  if ("title" in options) result.title = options.title;
+  if ("description" in options) result.description = options.description;
+  if ("timeout" in options) result.timeout = options.timeout;
+  if ("priority" in options) result.priority = options.priority;
+  if ("onClose" in options) result.onClose = options.onClose;
+  if (options.tone) result.data = { tone: options.tone } satisfies ToastData;
+  if (options.action) result.actionProps = { children: options.action.label, onClick: options.action.onClick };
+  return result;
 }
 
 /**
@@ -193,25 +202,22 @@ export function useToast(): ToastApi {
   const manager = BaseToast.useToastManager<ToastData>();
   const { add, close, update, promise } = manager;
   return useMemo<ToastApi>(() => {
-    const normalize = (value: string | ToastUpdate, getId: () => string) => (typeof value === "string" ? { title: value } : toManagerOptions(value, close, getId));
+    const normalize = (value: string | ToastUpdate) => (typeof value === "string" ? { title: value } : toManagerOptions(value));
     return {
       add(options) {
-        let id = options.id ?? "";
-        id = add({ id: options.id, ...toManagerOptions(options, close, () => id) });
-        return id;
+        return add({ id: options.id, ...toManagerOptions(options) });
       },
       close(id) {
         close(id);
       },
       update(id, options) {
-        update(id, toManagerOptions(options, close, () => id));
+        update(id, toManagerOptions(options));
       },
       promise(task, options) {
-        const noId = () => "";
         return promise(task, {
-          loading: normalize(options.loading, noId),
-          success: (value) => normalize(typeof options.success === "function" ? options.success(value) : options.success, noId),
-          error: (error) => normalize(typeof options.error === "function" ? options.error(error) : options.error, noId),
+          loading: normalize(options.loading),
+          success: (value) => normalize(typeof options.success === "function" ? options.success(value) : options.success),
+          error: (error) => normalize(typeof options.error === "function" ? options.error(error) : options.error),
         });
       },
     };

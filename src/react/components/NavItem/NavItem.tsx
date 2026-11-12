@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { useRender } from "@base-ui/react/use-render";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
@@ -47,7 +47,7 @@ export interface NavItemProps extends Omit<useRender.ComponentProps<"a">, "color
  * @example <NavItem label="grid.alerts" category={1} count={3} />
  */
 export function NavItem(props: NavItemProps) {
-  const { render, icon, label, count, hotCount, active, variant, category, color, disabled, className, style, ...rest } = props;
+  const { render, icon, label, count, hotCount, active, variant, category, color, disabled, className, style, href, onClick, ...rest } = props;
   const resolvedVariant = variant ?? (category || color ? "topic" : "default");
   const isTopic = resolvedVariant === "topic";
   return useRender({
@@ -55,6 +55,9 @@ export function NavItem(props: NavItemProps) {
     defaultTagName: "a",
     props: {
       ...rest,
+      href: disabled ? undefined : href,
+      tabIndex: disabled ? -1 : rest.tabIndex,
+      onClick: disabled ? (event: MouseEvent<HTMLAnchorElement>) => event.preventDefault() : onClick,
       ...(isTopic ? hueAttributes({ category, color }, style) : { style }),
       className: cx("io-nav-item io-focus", isTopic && "io-hue", className),
       "data-variant": resolvedVariant,

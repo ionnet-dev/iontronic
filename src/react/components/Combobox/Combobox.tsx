@@ -60,6 +60,14 @@ export interface ComboboxProps<Value> extends FieldBaseProps {
    */
   mono?: boolean;
   name?: string;
+  /**
+   * Accessible name of the clear button. Default is `"Clear"`.
+   */
+  clearLabel?: string;
+  /**
+   * Accessible name of the open-list button. Default is `"Open"`.
+   */
+  openLabel?: string;
   "aria-label"?: string;
   /**
    * Class name for the input box.
@@ -73,7 +81,7 @@ export interface ComboboxProps<Value> extends FieldBaseProps {
  * @example <Combobox label="Topic" mono options={topics.map((t) => ({ value: t, label: t }))} />
  */
 export function Combobox<Value>(props: ComboboxProps<Value>) {
-  const { options, value, defaultValue, onValueChange, inputValue, onInputValueChange, placeholder, emptyText = "No matches", size = "md", mono, name, label, description, error, required, disabled, fieldClassName, className, "aria-label": ariaLabel } = props;
+  const { options, value, defaultValue, onValueChange, inputValue, onInputValueChange, placeholder, emptyText = "No matches", size = "md", mono, name, label, description, error, required, disabled, fieldClassName, className, clearLabel = "Clear", openLabel = "Open", "aria-label": ariaLabel } = props;
   const find = (target: Value | null | undefined) => target === undefined ? undefined : options.find((option) => option.value === target) ?? null;
   const combobox = (
     <BaseCombobox.Root<ComboboxOption<Value>>
@@ -91,8 +99,8 @@ export function Combobox<Value>(props: ComboboxProps<Value>) {
     >
       <BaseCombobox.InputGroup className={cx("io-input io-combobox io-focus-within", className)} data-size={size} data-appearance="outline" data-mono={mono || undefined} data-invalid={error != null || undefined} data-disabled={disabled || undefined}>
         <BaseCombobox.Input className="io-input-control io-combobox-input" placeholder={placeholder} aria-label={ariaLabel} />
-        <BaseCombobox.Clear className="io-combobox-clear" aria-label="Clear"><Icon icon={X} size="sm" /></BaseCombobox.Clear>
-        <BaseCombobox.Trigger className="io-combobox-trigger" aria-label="Open"><Icon icon={ChevronDown} size="md" /></BaseCombobox.Trigger>
+        <BaseCombobox.Clear className="io-combobox-clear" aria-label={clearLabel}><Icon icon={X} size="sm" /></BaseCombobox.Clear>
+        <BaseCombobox.Trigger className="io-combobox-trigger" aria-label={openLabel}><Icon icon={ChevronDown} size="md" /></BaseCombobox.Trigger>
       </BaseCombobox.InputGroup>
       <BaseCombobox.Portal>
         <BaseCombobox.Positioner className="io-popup-positioner" sideOffset={6}>

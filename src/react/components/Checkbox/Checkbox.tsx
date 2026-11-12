@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { Check, Minus } from "lucide-react";
 import { cx } from "../../../cx";
@@ -45,10 +45,14 @@ export interface CheckboxProps {
  */
 export function Checkbox(props: CheckboxProps) {
   const { checked, defaultChecked, onCheckedChange, indeterminate, label, description, placement = "start", disabled, required, name, value, className, "aria-label": ariaLabel } = props;
+  const labelId = useId();
+  const descriptionId = useId();
   return (
     <label className={cx("io-check", className)} data-placement={placement} data-disabled={disabled || undefined}>
       <BaseCheckbox.Root
-        className="io-checkbox io-focus"
+        aria-labelledby={label != null ? labelId : undefined}
+        aria-describedby={description != null ? descriptionId : undefined}
+                className="io-checkbox io-focus"
         checked={checked}
         defaultChecked={defaultChecked}
         onCheckedChange={onCheckedChange ? (next) => onCheckedChange(next) : undefined}
@@ -65,8 +69,8 @@ export function Checkbox(props: CheckboxProps) {
       </BaseCheckbox.Root>
       {(label != null || description != null) && (
         <span className="io-check-text">
-          {label != null && <span className="io-check-label">{label}</span>}
-          {description != null && <span className="io-check-description">{description}</span>}
+          {label != null && <span id={labelId} className="io-check-label">{label}</span>}
+          {description != null && <span id={descriptionId} className="io-check-description">{description}</span>}
         </span>
       )}
     </label>

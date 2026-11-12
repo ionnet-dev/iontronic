@@ -24,8 +24,8 @@ export function Kbd(props: KbdProps) {
   const { keys, size = "md", className, children, ...rest } = props;
   if (keys) {
     return (
-      <span className={cx("io-kbd-group", className)}>
-        {keys.map((key, index) => <kbd key={index} className="io-kbd" data-size={size} {...rest}>{key}</kbd>)}
+      <span className={cx("io-kbd-group", className)} {...rest}>
+        {keys.map((key, index) => <kbd key={index} className="io-kbd" data-size={size}>{key}</kbd>)}
       </span>
     );
   }

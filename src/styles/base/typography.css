@@ -13,16 +13,6 @@
  *   io-truncate         single-line ellipsis (min-width 0)
  */
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--io-font-display);
-  font-weight: var(--io-weight-display);
-  letter-spacing: var(--io-tracking-display);
-  line-height: var(--io-leading-tight);
-}
-
 .io-display {
   --_size: var(--io-text-2xl);
   margin: 0;

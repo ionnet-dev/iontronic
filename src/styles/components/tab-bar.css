@@ -15,13 +15,13 @@
  *           mono 10px; radius full)
  * Data:     io-tab-bar-item data-active (color text)
  * Private:  --_count (number of items; grid-template-columns repeat(var(--_count), 1fr))
- * Look:     background surface; border-top 1px line; padding 10px 8px max(18px, env(safe-area-inset-bottom)).
+ * Look:     background surface; border-top 1px line; padding 10px max(8px, env(safe-area-inset-left/right)) max(18px, env(safe-area-inset-bottom)).
  */
 
 .io-tab-bar {
   display: grid;
   grid-template-columns: repeat(var(--_count, 4), 1fr);
-  padding: var(--io-space-10) var(--io-space-8) max(var(--io-space-18), env(safe-area-inset-bottom));
+  padding: var(--io-space-10) max(var(--io-space-8), env(safe-area-inset-right)) max(var(--io-space-18), env(safe-area-inset-bottom)) max(var(--io-space-8), env(safe-area-inset-left));
   border-top: 1px solid var(--io-color-line);
   background: var(--io-color-surface);
 }

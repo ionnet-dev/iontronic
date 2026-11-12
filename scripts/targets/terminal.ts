@@ -88,6 +88,7 @@ function shell(tree: Tokens): string {
     "#",
     "# Usage:  source iontronic.sh; printf \"${IO_ACCENT}hello${IO_RESET}\\n\"",
     "# Theme:  $IONTRONIC_THEME (light | dark), else $COLORFGBG (background 0-6 or 8 = dark), else dark.",
+    "# Colour: all IO_* vars are empty when NO_COLOR is set or stdout is not a terminal.",
     "# Vars:   IO_<NAME> sets the foreground and IO_BG_<NAME> the background, for TEXT, TEXT_MUTED, TEXT_SUBTLE, ACCENT,",
     "#         SPARK, OK, WARN, BAD, INFO, PRIORITY_1..5 and CATEGORY_1..8. Plus IO_RESET, IO_BOLD, IO_DIM and IO_THEME.",
     "",
@@ -114,6 +115,14 @@ function shell(tree: Tokens): string {
     assign("dark"),
     "fi",
     "",
+    "# No colour when NO_COLOR is set or stdout is not a terminal: every IO_* escape becomes an empty string.",
+    "if [[ -n \"${NO_COLOR:-}\" || ! -t 1 ]]; then",
+    "  for _io_var in IO_RESET IO_BOLD IO_DIM " + vars.flatMap((entry) => [`IO_${entry.name}`, `IO_BG_${entry.name}`]).join(" ") + "; do",
+    "    printf -v \"$_io_var\" ''",
+    "  done",
+    "  unset _io_var",
+    "fi",
+    "",
     "export IO_THEME IO_RESET IO_BOLD IO_DIM",
     "",
   ].join("\n");
@@ -129,7 +138,8 @@ function shell(tree: Tokens): string {
  * - `terminal/iontronic.sh`: sourceable Bash. Picks the palette from `$IONTRONIC_THEME` (`light` | `dark`), else
  *   `$COLORFGBG` (background 0–6 or 8 means dark), else dark. Defines `IO_RESET`, `IO_BOLD`, `IO_DIM` and, for
  *   text, muted, subtle, accent, spark, ok, warn, bad, info, priority 1–5 and category 1–8, a foreground var
- *   (`IO_ACCENT=$'\e[38;2;106;76;255m'`) and a background var (`IO_BG_ACCENT`). Uses no external commands.
+ *   (`IO_ACCENT=$'\e[38;2;106;76;255m'`) and a background var (`IO_BG_ACCENT`). Uses no external commands. Every `IO_*` var is
+ *   empty when `NO_COLOR` is set or stdout isn't a terminal.
  */
 export const terminalTarget: TokenTarget = {
   name: "terminal",

@@ -146,7 +146,7 @@
     transform: translateY(100%);
   }
 
-  .io-dialog-footer > .io-button {
+  .io-dialog-footer > * {
     flex: 1;
   }
 }

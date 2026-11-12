@@ -368,7 +368,7 @@ export default function Display() {
 
       <Example title="ListItem, dense and plain">
         <Stack gap="8" style={WIDE}>
-          <ListItem dense title="Dense row" description="Tighter padding, description is never clamped, so a long line wraps over as many rows as it needs." trailing="12:04" interactive />
+          <ListItem dense title="Dense row" description="Tighter padding, description is never clamped, so a long line wraps over as many rows as it needs." trailing="12:04" onClick={() => undefined} />
           <ListItem icon={Server} tone="info" title="Without description" trailing="11:30" />
           <ListItem leading={<IconTile size="md" tone="spark">AB</IconTile>} title="Custom leading" meta={<span className="io-mono">ab@hostion</span>} badges={<Badge size="sm" tone="info">Bot</Badge>} />
         </Stack>

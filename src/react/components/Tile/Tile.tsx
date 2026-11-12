@@ -32,6 +32,7 @@ export function Tile(props: TileProps) {
       ...rest,
       className: cx("io-tile io-focus", className),
       "data-active": active || undefined,
+      "aria-pressed": !render && active !== undefined ? active : undefined,
       children: (
         <>
           <IconTile icon={icon} size="sm" tone={tone} priority={priority} category={category} color={color} />

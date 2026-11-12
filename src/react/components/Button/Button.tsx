@@ -30,7 +30,7 @@ export interface ButtonProps extends ComponentProps<"button"> {
    */
   iconOnly?: boolean;
   /**
-   * Shows a spinner, sets `aria-busy` and disables the button while keeping its width.
+   * Shows a spinner, sets `aria-busy` and `aria-disabled`, and ignores clicks while keeping its width and focus.
    */
   loading?: boolean;
   /**
@@ -45,7 +45,7 @@ export interface ButtonProps extends ComponentProps<"button"> {
  * @example <Button variant="primary" icon={RotateCw}>Restart agent</Button>
  */
 export function Button(props: ButtonProps) {
-  const { variant = "secondary", size = "md", icon, iconOnly, loading, fullWidth, type = "button", disabled, className, children, ...rest } = props;
+  const { variant = "secondary", size = "md", icon, iconOnly, loading, fullWidth, type = "button", disabled, className, children, onClick, ...rest } = props;
   return (
     <button
       type={type}
@@ -55,8 +55,16 @@ export function Button(props: ButtonProps) {
       data-icon-only={iconOnly || undefined}
       data-loading={loading || undefined}
       data-full-width={fullWidth || undefined}
-      disabled={disabled || loading}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
+      onClick={(event) => {
+        if (loading) {
+          event.preventDefault();
+          return;
+        }
+        onClick?.(event);
+      }}
       {...rest}
     >
       {loading && <span className="io-button-spinner" aria-hidden="true" />}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Check, Copy } from "lucide-react";
 import { cx } from "../../../cx";
+import { useScrollable } from "../../utils/useScrollable";
 import { Icon } from "../Icon/Icon";
 
 /**
@@ -35,6 +36,18 @@ export interface CodeBlockProps {
    * Scrolls vertically past this height (any CSS length).
    */
   maxHeight?: string;
+  /**
+   * Accessible name of the scrollable code region. Default is the title, then the language, then `"Code"`.
+   */
+  label?: string;
+  /**
+   * Accessible name of the copy button. Default is `"Copy code"`.
+   */
+  copyLabel?: string;
+  /**
+   * Accessible name of the copy button after copying. Default is `"Copied"`.
+   */
+  copiedLabel?: string;
   className?: string;
 }
 
@@ -46,7 +59,9 @@ const COPIED_RESET_MS = 1600;
  * @example <CodeBlock title="install.sh" language="bash" code={"npm install @ionnet/iontronic"} />
  */
 export function CodeBlock(props: CodeBlockProps) {
-  const { code, language, title, copyable = true, lineNumbers, wrap, maxHeight, className } = props;
+  const { code, language, title, copyable = true, lineNumbers, wrap, maxHeight, label, copyLabel = "Copy code", copiedLabel = "Copied", className } = props;
+  const [preRef, scrollable] = useScrollable<HTMLPreElement>();
+  const regionLabel = label ?? (typeof title === "string" ? title : language ?? "Code");
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const hasHeader = title != null || language != null || copyable;
@@ -72,13 +87,13 @@ export function CodeBlock(props: CodeBlockProps) {
           {title != null && <span className="io-code-block-title">{title}</span>}
           {language != null && <span className="io-code-block-language">{language}</span>}
           {copyable && (
-            <button type="button" className="io-code-block-copy io-focus" data-copied={copied || undefined} aria-label={copied ? "Copied" : "Copy code"} onClick={copy}>
+            <button type="button" className="io-code-block-copy io-focus" data-copied={copied || undefined} aria-label={copied ? copiedLabel : copyLabel} onClick={copy}>
               <Icon icon={copied ? Check : Copy} size="md" />
             </button>
           )}
         </figcaption>
       )}
-      <pre className="io-code-block-pre" data-line-numbers={lineNumbers || undefined} tabIndex={maxHeight ? 0 : undefined}>
+      <pre ref={preRef} className="io-code-block-pre io-focus" data-line-numbers={lineNumbers || undefined} tabIndex={scrollable ? 0 : undefined} role={scrollable ? "region" : undefined} aria-label={scrollable ? regionLabel : undefined}>
         <code className="io-code-block-code">
           {lines.map((line, index) => (
             <span key={index} className="io-code-block-line">{line}{lineNumbers ? "" : "\n"}</span>

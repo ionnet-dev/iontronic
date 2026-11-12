@@ -1,4 +1,4 @@
-import { useId, type ComponentProps, type ReactNode } from "react";
+import { Children, isValidElement, useId, type ComponentProps, type ReactNode } from "react";
 import { useRender } from "@base-ui/react/use-render";
 import type { LucideIcon } from "lucide-react";
 import { cx } from "../../../cx";
@@ -16,7 +16,8 @@ export interface ListGroupProps extends ComponentProps<"div"> {
 }
 
 /**
- * Props for {@link ListItem}. Renders an `<article>`; pass `render={<a href="…" />}` to make it a link.
+ * Props for {@link ListItem}. The row is an `<article>`; with `onClick` it is a `<button>`, and `render={<a href="…" />}`
+ * makes it a link. It always sits inside a `role="listitem"` wrapper, so the link or button keeps its own role.
  */
 export interface ListItemProps extends Omit<useRender.ComponentProps<"article">, "title" | "color">, HueProps {
   /**
@@ -60,18 +61,24 @@ export interface ListItemProps extends Omit<useRender.ComponentProps<"article">,
    * Hover and pointer affordance. Default is `true` when `onClick` or `render` is set.
    */
   interactive?: boolean;
+  /**
+   * Accessible name of the unread dot. Default is `"Unread"`.
+   */
+  unreadLabel?: string;
 }
 
 /**
- * A vertical list of rows (`role="list"`). Use `ListGroup` for labelled sections.
+ * A vertical list of rows. It is a `role="list"` unless it holds `ListGroup`s, which carry their own lists. Pass `role` to
+ * override.
  */
 export function List(props: ComponentProps<"div">) {
-  const { className, ...rest } = props;
-  return <div role="list" className={cx("io-list", className)} {...rest} />;
+  const { className, children, ...rest } = props;
+  const hasGroups = Children.toArray(children).some((child) => isValidElement(child) && child.type === ListGroup);
+  return <div role={hasGroups ? undefined : "list"} className={cx("io-list", className)} {...rest}>{children}</div>;
 }
 
 /**
- * A labelled section of a {@link List}.
+ * A labelled section of a {@link List}: a `role="group"` named by its label that contains its own list of rows.
  */
 export function ListGroup(props: ListGroupProps) {
   const { label, className, children, ...rest } = props;
@@ -79,7 +86,7 @@ export function ListGroup(props: ListGroupProps) {
   return (
     <div role="group" aria-labelledby={id} className={cx("io-list-group", className)} {...rest}>
       <div id={id} className="io-list-group-label">{label}</div>
-      {children}
+      <div role="list" className="io-list-group-items">{children}</div>
     </div>
   );
 }
@@ -92,40 +99,43 @@ export function ListGroup(props: ListGroupProps) {
  *   description="No heartbeat for more than 5 min." meta={<span className="io-mono">grid.alerts</span>} trailing="17:00" unread selected />
  */
 export function ListItem(props: ListItemProps) {
-  const { render, icon, leading, title, badges, description, meta, trailing, unread, selected, dense, interactive, tone, priority, category, color, className, ...rest } = props;
+  const { render, icon, leading, title, badges, description, meta, trailing, unread, unreadLabel = "Unread", selected, dense, interactive, tone, priority, category, color, className, ...rest } = props;
   const leadingNode = leading ?? (icon && <IconTile icon={icon} size="md" tone={tone} priority={priority} category={category} color={color} />);
-  return useRender({
+  const isButton = !render && Boolean(rest.onClick);
+  const row = useRender({
     render,
-    defaultTagName: "article",
+    defaultTagName: isButton ? "button" : "article",
     props: {
-      role: "listitem",
+      type: isButton ? "button" : undefined,
       ...rest,
       className: cx("io-list-item io-focus", className),
       "data-selected": selected || undefined,
       "data-unread": unread || undefined,
       "data-dense": dense || undefined,
       "data-interactive": (interactive ?? Boolean(rest.onClick || render)) || undefined,
+      "aria-current": selected && (render || isButton) ? "true" : undefined,
       children: (
         <>
-          {leadingNode != null && leadingNode !== false && <div className="io-list-item-leading">{leadingNode}</div>}
-          <div className="io-list-item-main">
-            <div className="io-list-item-top">
+          {leadingNode != null && leadingNode !== false && <span className="io-list-item-leading">{leadingNode}</span>}
+          <span className="io-list-item-main">
+            <span className="io-list-item-top">
               <span className="io-list-item-title">{title}</span>
               {badges != null && <span className="io-list-item-badges">{badges}</span>}
-            </div>
-            {description != null && <p className="io-list-item-description">{description}</p>}
-            {meta != null && <div className="io-list-item-meta">{meta}</div>}
-          </div>
+            </span>
+            {description != null && <span className="io-list-item-description">{description}</span>}
+            {meta != null && <span className="io-list-item-meta">{meta}</span>}
+          </span>
           {trailing != null && (
-            <div className="io-list-item-trailing">
+            <span className="io-list-item-trailing">
               {typeof trailing === "string" || typeof trailing === "number" ? <time className="io-list-item-time">{trailing}</time> : trailing}
-            </div>
+            </span>
           )}
-          {unread && <span className="io-list-item-unread" role="img" aria-label="Unread" />}
+          {unread && <span className="io-list-item-unread" role="img" aria-label={unreadLabel} />}
         </>
       ),
     },
   });
+  return <div role="listitem" className="io-list-entry">{row}</div>;
 }
 
 export default List;
