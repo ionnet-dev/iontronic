@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Button, Stack, useTheme, type ThemeMode } from "@ionnet/iontronic/react";
 import Core from "./sections/Core";
 import Display from "./sections/Display";
@@ -24,7 +24,7 @@ const FORCED_THEME = new URLSearchParams(location.search).get("theme") as ThemeM
 
 export default function App() {
   const { mode, setMode } = useTheme();
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (FORCED_THEME && MODES.includes(FORCED_THEME)) setMode(FORCED_THEME);
   }, [setMode]);
   return (

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useState, type ReactNode } from "react";
 import { applyTheme, resolveTheme, watchSystemTheme, type ResolvedTheme, type ThemeMode } from "../../theme";
 
 /**
@@ -59,7 +59,9 @@ export function ThemeProvider(props: ThemeProviderProps) {
   const [mode, setModeState] = useState<ThemeMode>(() => readStoredMode(storageKey) ?? defaultMode);
   const [resolved, setResolved] = useState<ResolvedTheme>(() => resolveTheme(mode));
 
-  useEffect(() => {
+  // Layout effect, so a stored preference lands before the first paint instead of fading in through component
+  // background transitions. Pair with `getThemeScript()` in <head> to also cover the moment before React loads.
+  useLayoutEffect(() => {
     setResolved(applyTheme(mode));
     if (mode !== "system") return;
     return watchSystemTheme(setResolved);

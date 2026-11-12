@@ -55,3 +55,15 @@ export function watchSystemTheme(callback: (theme: ResolvedTheme) => void): () =
   query.addEventListener("change", listener);
   return () => query.removeEventListener("change", listener);
 }
+
+/**
+ * Returns a tiny inline script that applies the stored theme before the page paints. Put it in a `<script>` tag in
+ * `<head>` (e.g. through Vite's `transformIndexHtml`, or pasted into `index.html`) so a stored dark preference doesn't
+ * flash light while the JS bundle loads.
+ * It reads the same key as `ThemeProvider`, so pass the same `storageKey` if you changed it.
+ * @param storageKey The `localStorage` key holding the preference. Default is `"io-theme"`.
+ */
+export function getThemeScript(storageKey = "io-theme"): string {
+  return `(function(){try{var m=localStorage.getItem(${JSON.stringify(storageKey)});`
+    + `if(m==="light"||m==="dark")document.documentElement.setAttribute(${JSON.stringify(THEME_ATTRIBUTE)},m)}catch(e){}})();`;
+}
