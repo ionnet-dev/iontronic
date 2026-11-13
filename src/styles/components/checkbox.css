@@ -5,8 +5,8 @@
  *             <span class="io-checkbox-indicator"><svg class="io-icon"/></span>
  *           </span>
  * Data:     data-checked / data-unchecked / data-indeterminate / data-disabled / data-invalid (Base UI)
- * Look:     20px square, radius 6px (var(--io-radius-sm)); unchecked: surface + 1.5px line-strong border;
- *           checked/indeterminate: background accent, color on-accent, no border. Indicator icon 14px, stroke 3.
+ * Look:     20px square, radius 6px (var(--io-radius-sm)); unchecked: surface + 1.5px control-border;
+ *           checked/indeterminate: background accent-fill, color on-accent, no border. Indicator icon 14px, stroke 3.
  */
 
 .io-checkbox {
@@ -19,7 +19,7 @@
   height: 20px;
   margin-top: 1px;
   padding: 0;
-  border: 1.5px solid var(--io-color-line-strong);
+  border: 1.5px solid var(--io-color-control-border);
   border-radius: var(--io-radius-sm);
   background: var(--io-color-surface);
   color: var(--io-color-on-accent);
@@ -30,13 +30,13 @@
 }
 
 .io-checkbox:hover:not([data-checked], [data-indeterminate], [data-disabled]) {
-  border-color: var(--io-color-accent);
+  border-color: var(--io-color-accent-fill);
 }
 
 .io-checkbox[data-checked],
 .io-checkbox[data-indeterminate] {
   border-color: transparent;
-  background: var(--io-color-accent);
+  background: var(--io-color-accent-fill);
 }
 
 .io-checkbox[data-invalid]:not([data-checked], [data-indeterminate]) {

@@ -4,7 +4,7 @@
  * Markup:   <span class="io-switch io-focus" data-checked data-size="md"><span class="io-switch-thumb" /></span>
  * Data:     data-checked / data-unchecked / data-disabled (Base UI); data-size sm | md
  * Look:     md track 46×28, thumb 22; sm track 36×22, thumb 16. Radius full.
- *           Off: background line-strong, thumb surface with shadow thumb. On: background accent, thumb on-accent,
+ *           Off: background control-border, thumb surface with shadow thumb. On: background accent, thumb on-accent,
  *           thumb slides right (transform; motion normal, ease spring).
  */
 
@@ -23,7 +23,7 @@
   padding: 0;
   border: 0;
   border-radius: var(--io-radius-full);
-  background: var(--io-color-line-strong);
+  background: var(--io-color-control-border);
   cursor: inherit;
   transition: background-color var(--io-motion-duration-normal) var(--io-motion-ease-standard);
 }

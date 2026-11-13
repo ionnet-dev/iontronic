@@ -4,12 +4,12 @@
  * Markup:   <textarea class="io-textarea io-focus" data-mono data-invalid data-resize="vertical" rows="3"></textarea>
  * Data:     data-resize   none | vertical (default) | auto   (auto = field-sizing: content, no handle)
  *           data-mono, data-invalid, data-disabled   as Input
- * Look:     Input's outline appearance (surface, 1px line, radius field); padding 10px 14px; min-height control-lg;
+ * Look:     Input's outline appearance (surface, 1px control-border, radius field); padding 10px 14px; min-height control-lg;
  *           text-md; leading normal.
  */
 
 .io-textarea {
-  --_border: var(--io-color-line);
+  --_border: var(--io-color-control-border);
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -45,7 +45,7 @@
 }
 
 .io-textarea:hover:not(:disabled, [data-disabled], [data-invalid]) {
-  --_border: var(--io-color-line-strong);
+  --_border: var(--io-color-text-muted);
 }
 
 .io-textarea:focus:not([data-invalid]) {

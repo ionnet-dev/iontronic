@@ -155,7 +155,8 @@
   place-items: center;
   width: var(--io-size-icon-lg);
   height: var(--io-size-icon-lg);
-  color: var(--io-hue);
+  /* Pulled toward on-inverse where the vivid hue is too close to the inverse surface (dark theme) */
+  color: color-mix(in srgb, var(--io-hue) var(--io-tint-inverse), var(--io-color-on-inverse));
 }
 
 .io-toast-content {

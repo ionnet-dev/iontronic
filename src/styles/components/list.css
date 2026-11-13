@@ -34,7 +34,7 @@
  *           io-list-item-title (text-base semibold), io-list-item-badges (inline-flex gap 6px),
  *           io-list-item-description (text-md; text-muted), io-list-item-meta (text-sm; text-muted),
  *           io-list-item-trailing (grid justify-items end gap 6px), io-list-item-time (mono text-xs text-muted tnum),
- *           io-list-item-unread (9px spark dot; absolute right 16px bottom 18px)
+ *           io-list-item-unread (9px spark-mark dot; absolute right 16px bottom 18px)
  * Data:     data-selected (background accent-soft), data-unread (shows the dot; title stays semibold),
  *           data-interactive (cursor pointer; hover background surface-soft), data-dense (padding 10px, no description clamp)
  * Look:     flex row; gap 14px; padding 14px; radius row; align-items start; position relative (leading and trailing
@@ -169,5 +169,5 @@ button.io-list-item {
   width: 9px;
   height: 9px;
   border-radius: var(--io-radius-full);
-  background: var(--io-color-spark);
+  background: var(--io-color-spark-mark);
 }

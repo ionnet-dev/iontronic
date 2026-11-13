@@ -55,8 +55,14 @@ function kitty(palette: TerminalPalette, theme: ResolvedTheme): string {
 
 interface ShellVar {
   name: string;
-  light: string;
-  dark: string;
+  /**
+   * Colour for `IO_<NAME>` (foreground text): the `hueText` variant where the token has one.
+   */
+  fg: { light: string; dark: string };
+  /**
+   * Colour for `IO_BG_<NAME>`: the token itself.
+   */
+  bg: { light: string; dark: string };
 }
 
 const SHELL_COLORS = ["text", "textMuted", "textSubtle", "accent", "spark", "ok", "warn", "bad", "info"] as const;
@@ -64,14 +70,17 @@ const SHELL_COLORS = ["text", "textMuted", "textSubtle", "accent", "spark", "ok"
 function shellVars(tree: Tokens): ShellVar[] {
   const vars: ShellVar[] = [];
   const upper = (key: string) => key.replace(/[A-Z]/g, (char) => `_${char}`).toUpperCase();
+  const hueText = tree.color.hueText;
   for (const key of SHELL_COLORS) {
     const value = tree.color[key];
-    vars.push({ name: upper(key), light: value.light, dark: value.dark });
+    const text = key in hueText ? hueText[key as keyof typeof hueText] : value;
+    vars.push({ name: upper(key), fg: isThemedValue(text) ? text : value, bg: value });
   }
   walkTokens(tree.color, (path, value) => {
     if (path[0] !== "priority" && path[0] !== "category") return;
     if (!isThemedValue(value)) return;
-    vars.push({ name: `${path[0]!.toUpperCase()}_${path[1]}`, light: value.light, dark: value.dark });
+    const group = hueText[path[0]] as Record<string, { light: string; dark: string }>;
+    vars.push({ name: `${path[0]!.toUpperCase()}_${path[1]}`, fg: group[path[1]!] ?? value, bg: value });
   });
   return vars;
 }
@@ -80,8 +89,8 @@ function shell(tree: Tokens): string {
   const vars = shellVars(tree);
   const esc = (hex: string, layer: "fg" | "bg") => `$'\\e[${ColorX.toAnsi(hex, layer)}m'`;
   const assign = (theme: "light" | "dark") => vars.flatMap((entry) => [
-    `  IO_${entry.name}=${esc(entry[theme], "fg")}`,
-    `  IO_BG_${entry.name}=${esc(entry[theme], "bg")}`,
+    `  IO_${entry.name}=${esc(entry.fg[theme], "fg")}`,
+    `  IO_BG_${entry.name}=${esc(entry.bg[theme], "bg")}`,
   ]).join("\n");
   return [
     "# Iontronic Twilight colours for Bash scripts, generated from src/tokens by scripts/build-tokens.ts. Do not edit.",
@@ -91,6 +100,7 @@ function shell(tree: Tokens): string {
     "# Colour: all IO_* vars are empty when NO_COLOR is set or stdout is not a terminal.",
     "# Vars:   IO_<NAME> sets the foreground and IO_BG_<NAME> the background, for TEXT, TEXT_MUTED, TEXT_SUBTLE, ACCENT,",
     "#         SPARK, OK, WARN, BAD, INFO, PRIORITY_1..5 and CATEGORY_1..8. Plus IO_RESET, IO_BOLD, IO_DIM and IO_THEME.",
+    "#         Foregrounds of hues use the text variant (4.5:1 on the background); backgrounds use the vivid hue.",
     "",
     "IO_RESET=$'\\e[0m'",
     "IO_BOLD=$'\\e[1m'",

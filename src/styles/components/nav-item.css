@@ -14,7 +14,7 @@
  *
  * Parts:    io-nav-item-icon, io-nav-item-dot (9px circle, var(--io-hue)), io-nav-item-label (truncate),
  *           io-nav-item-count (margin-left auto on the first count; mono text-xs; tnum; color sidebar-muted;
- *           data-hot → background priority-5, color on-solid, padding 1px 7px, radius full)
+ *           data-hot → background priority-5, color hue-on-solid-priority-5, padding 1px 7px, radius full)
  * Data:     data-active      present → background sidebar-active; color sidebar-active-fg; weight semibold;
  *                            box-shadow inset 3px 0 0 var(--io-color-spark); counts opacity 0.75 (hot stays 1)
  *           data-variant     default (text-base−0.5px ≈ 14.5px, medium) | topic (mono text-sm, padding-block 7px)
@@ -66,7 +66,7 @@
   padding: 1px 7px;
   border-radius: var(--io-radius-full);
   background: var(--io-color-priority-5);
-  color: var(--io-color-on-solid);
+  color: var(--io-color-hue-on-solid-priority-5);
   opacity: 1;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .io-nav-item[data-active] .io-nav-item-count { color: inherit; opacity: 0.75; }
-.io-nav-item[data-active] .io-nav-item-count[data-hot] { color: var(--io-color-on-solid); opacity: 1; }
+.io-nav-item[data-active] .io-nav-item-count[data-hot] { color: var(--io-color-hue-on-solid-priority-5); opacity: 1; }
 
 .io-nav-item[data-disabled] {
   opacity: 0.5;

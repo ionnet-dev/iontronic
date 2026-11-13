@@ -11,8 +11,8 @@
  * Parts:    io-input-control (the native input: no border/background, flex 1, min-width 0, font inherit),
  *           io-input-slot (color text-muted; data-side leading | trailing)
  * Data:     data-size        sm | md | lg  → height control-<size>; text-sm / text-md / text-md
- *           data-appearance  outline (default): background surface; 1px line border; radius field (14px);
- *                                               hover border line-strong; focus border accent
+ *           data-appearance  outline (default): background surface; 1px control-border border; radius field (14px);
+ *                                               hover border text-muted; focus border accent
  *                            soft: background surface-soft; no border; radius control (pill), like `.search`
  *           data-mono        present → control text uses font mono (identifiers such as topics)
  *           data-invalid     present → border bad
@@ -25,7 +25,7 @@
   --_height: var(--io-size-control-md);
   --_pad: 14px;
   --_bg: var(--io-color-surface);
-  --_border: var(--io-color-line);
+  --_border: var(--io-color-control-border);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@
 }
 
 .io-input:hover:not([data-disabled], [data-invalid]) {
-  --_border: var(--io-color-line-strong);
+  --_border: var(--io-color-text-muted);
 }
 
 .io-input[data-appearance="soft"]:hover:not([data-disabled], [data-invalid]) {

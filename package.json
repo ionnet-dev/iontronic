@@ -1,6 +1,6 @@
 {
   "name": "@ionnet/iontronic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Iontronic design system: tokens, framework-agnostic CSS, React components on Base UI, and generated platform themes.",
   "author": "Lucasion",
   "keywords": [
@@ -46,7 +46,8 @@
     "tokens": "tsx scripts/build-tokens.ts",
     "tokens:watch": "tsx watch --clear-screen=false scripts/build-tokens.ts",
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
-    "build": "npm run clean && tsx scripts/build-tokens.ts && tsdown && tsx scripts/build-css.ts",
+    "build": "npm run clean && tsx scripts/build-tokens.ts && npm run contrast && tsdown && tsx scripts/build-css.ts",
+    "contrast": "tsx scripts/contrast.ts",
     "typecheck": "npm run tokens && tsc -p tsconfig.json",
     "typecheck:docs": "npm --prefix apps/docs run typecheck",
     "docs:install": "npm --prefix apps/docs install",

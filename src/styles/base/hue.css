@@ -1,39 +1,47 @@
 /*
  * Hue trait. Owner: A (core). Shared by every group.
  *
- * Any component root that is tinted by a tone, priority or category adds the class `io-hue`. It then reads
- * `var(--io-hue)` in its own CSS (text colour, dot, `color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent)`).
+ * Any component root that is tinted by a tone, priority or category adds the class `io-hue`. It then reads:
+ *   --io-hue           the vivid hue: fills, dots, tints (`color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent)`)
+ *   --io-hue-text      the hue as text or an icon, ≥ 4.5:1 on surfaces and on its own soft tint (`color.hueText`)
+ *   --io-hue-on-solid  text on `var(--io-hue)` as a solid fill, ≥ 4.5:1 (`color.hueOnSolid`)
  *
  * Attributes (set by `hueAttributes()` in React), in increasing precedence:
  *   data-tone="neutral|accent|spark|ok|warn|bad|info"
  *   data-category="1".."8"
  *   data-priority="1".."5"
- *   style="--io-hue: <any CSS colour>"   custom colour, wins over everything
+ *   style="--io-hue: <any CSS colour>"   custom colour, wins over everything. Set --io-hue-text and
+ *                                        --io-hue-on-solid with it, or they keep the neutral/attribute values.
+ *                                        hueAttributes() sets an approximation (CSS can't compute contrast).
  *
  * `.io-hue` resets --io-hue to neutral so an ancestor's hue never leaks in.
  */
 
-.io-hue { --io-hue: var(--io-color-text-muted); }
+.io-hue {
+  --io-hue: var(--io-color-text-muted);
+  --io-hue-text: var(--io-color-hue-text-neutral);
+  --io-hue-on-solid: var(--io-color-hue-on-solid-neutral);
+}
 
-.io-hue[data-tone="neutral"] { --io-hue: var(--io-color-text-muted); }
-.io-hue[data-tone="accent"] { --io-hue: var(--io-color-accent); }
-.io-hue[data-tone="spark"] { --io-hue: var(--io-color-spark); }
-.io-hue[data-tone="ok"] { --io-hue: var(--io-color-ok); }
-.io-hue[data-tone="warn"] { --io-hue: var(--io-color-warn); }
-.io-hue[data-tone="bad"] { --io-hue: var(--io-color-bad); }
-.io-hue[data-tone="info"] { --io-hue: var(--io-color-info); }
+.io-hue[data-tone="neutral"] { --io-hue: var(--io-color-text-muted); --io-hue-text: var(--io-color-hue-text-neutral); --io-hue-on-solid: var(--io-color-hue-on-solid-neutral); }
+.io-hue[data-tone="accent"] { --io-hue: var(--io-color-accent); --io-hue-text: var(--io-color-hue-text-accent); --io-hue-on-solid: var(--io-color-hue-on-solid-accent); }
+.io-hue[data-tone="spark"] { --io-hue: var(--io-color-spark); --io-hue-text: var(--io-color-hue-text-spark); --io-hue-on-solid: var(--io-color-hue-on-solid-spark); }
+.io-hue[data-tone="ok"] { --io-hue: var(--io-color-ok); --io-hue-text: var(--io-color-hue-text-ok); --io-hue-on-solid: var(--io-color-hue-on-solid-ok); }
+.io-hue[data-tone="warn"] { --io-hue: var(--io-color-warn); --io-hue-text: var(--io-color-hue-text-warn); --io-hue-on-solid: var(--io-color-hue-on-solid-warn); }
+.io-hue[data-tone="bad"] { --io-hue: var(--io-color-bad); --io-hue-text: var(--io-color-hue-text-bad); --io-hue-on-solid: var(--io-color-hue-on-solid-bad); }
+.io-hue[data-tone="info"] { --io-hue: var(--io-color-info); --io-hue-text: var(--io-color-hue-text-info); --io-hue-on-solid: var(--io-color-hue-on-solid-info); }
 
-.io-hue[data-category="1"] { --io-hue: var(--io-color-category-1); }
-.io-hue[data-category="2"] { --io-hue: var(--io-color-category-2); }
-.io-hue[data-category="3"] { --io-hue: var(--io-color-category-3); }
-.io-hue[data-category="4"] { --io-hue: var(--io-color-category-4); }
-.io-hue[data-category="5"] { --io-hue: var(--io-color-category-5); }
-.io-hue[data-category="6"] { --io-hue: var(--io-color-category-6); }
-.io-hue[data-category="7"] { --io-hue: var(--io-color-category-7); }
-.io-hue[data-category="8"] { --io-hue: var(--io-color-category-8); }
+.io-hue[data-category="1"] { --io-hue: var(--io-color-category-1); --io-hue-text: var(--io-color-hue-text-category-1); --io-hue-on-solid: var(--io-color-hue-on-solid-category-1); }
+.io-hue[data-category="2"] { --io-hue: var(--io-color-category-2); --io-hue-text: var(--io-color-hue-text-category-2); --io-hue-on-solid: var(--io-color-hue-on-solid-category-2); }
+.io-hue[data-category="3"] { --io-hue: var(--io-color-category-3); --io-hue-text: var(--io-color-hue-text-category-3); --io-hue-on-solid: var(--io-color-hue-on-solid-category-3); }
+.io-hue[data-category="4"] { --io-hue: var(--io-color-category-4); --io-hue-text: var(--io-color-hue-text-category-4); --io-hue-on-solid: var(--io-color-hue-on-solid-category-4); }
+.io-hue[data-category="5"] { --io-hue: var(--io-color-category-5); --io-hue-text: var(--io-color-hue-text-category-5); --io-hue-on-solid: var(--io-color-hue-on-solid-category-5); }
+.io-hue[data-category="6"] { --io-hue: var(--io-color-category-6); --io-hue-text: var(--io-color-hue-text-category-6); --io-hue-on-solid: var(--io-color-hue-on-solid-category-6); }
+.io-hue[data-category="7"] { --io-hue: var(--io-color-category-7); --io-hue-text: var(--io-color-hue-text-category-7); --io-hue-on-solid: var(--io-color-hue-on-solid-category-7); }
+.io-hue[data-category="8"] { --io-hue: var(--io-color-category-8); --io-hue-text: var(--io-color-hue-text-category-8); --io-hue-on-solid: var(--io-color-hue-on-solid-category-8); }
 
-.io-hue[data-priority="1"] { --io-hue: var(--io-color-priority-1); }
-.io-hue[data-priority="2"] { --io-hue: var(--io-color-priority-2); }
-.io-hue[data-priority="3"] { --io-hue: var(--io-color-priority-3); }
-.io-hue[data-priority="4"] { --io-hue: var(--io-color-priority-4); }
-.io-hue[data-priority="5"] { --io-hue: var(--io-color-priority-5); }
+.io-hue[data-priority="1"] { --io-hue: var(--io-color-priority-1); --io-hue-text: var(--io-color-hue-text-priority-1); --io-hue-on-solid: var(--io-color-hue-on-solid-priority-1); }
+.io-hue[data-priority="2"] { --io-hue: var(--io-color-priority-2); --io-hue-text: var(--io-color-hue-text-priority-2); --io-hue-on-solid: var(--io-color-hue-on-solid-priority-2); }
+.io-hue[data-priority="3"] { --io-hue: var(--io-color-priority-3); --io-hue-text: var(--io-color-hue-text-priority-3); --io-hue-on-solid: var(--io-color-hue-on-solid-priority-3); }
+.io-hue[data-priority="4"] { --io-hue: var(--io-color-priority-4); --io-hue-text: var(--io-color-hue-text-priority-4); --io-hue-on-solid: var(--io-color-hue-on-solid-priority-4); }
+.io-hue[data-priority="5"] { --io-hue: var(--io-color-priority-5); --io-hue-text: var(--io-color-hue-text-priority-5); --io-hue-on-solid: var(--io-color-hue-on-solid-priority-5); }

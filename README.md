@@ -40,13 +40,13 @@ default, so allow them for your project's own dependencies first:
 
 ```sh
 echo "allow-git=root" >> .npmrc
-npm install github:ionnet-dev/iontronic#v0.1.0
+npm install github:ionnet-dev/iontronic#v0.1.1
 # React apps also need the peers:
 npm install react react-dom @base-ui/react lucide-react
 ```
 
 npm builds the package on install. A warning that its `prepare` script was blocked is expected: npm already ran the build
-while fetching it. When Iontronic moves to the registry, change the version to `^0.1.0`; your imports stay the same.
+while fetching it. When Iontronic moves to the registry, change the version to `^0.1.1`; your imports stay the same.
 
 ## Usage
 
@@ -119,6 +119,37 @@ Theme any subtree with `data-io-theme="light"` or `"dark"`.
 | `@ionnet/iontronic/icons` | Lucide icons |
 | `@ionnet/iontronic/styles.css` | Fonts, tokens and all component CSS. `styles-no-fonts.css` leaves out the fonts, and `tokens.css` is the variables only |
 | `@ionnet/iontronic/tailwind.css` | Tailwind v4 `@theme` mapping |
+
+## Accessibility
+
+Every colour pairing the components paint meets WCAG 2 AA contrast in both themes:
+
+| Pair | Target |
+| --- | --- |
+| Text, including placeholders, badge text and text on solid fills | 4.5:1 |
+| Large text (24px, or 18.66px bold) | 3:1 |
+| Meaningful marks: form control borders, the off switch track, checked controls, focus rings, unread dots, status and icon-tile glyphs | 3:1 |
+
+`npm run contrast` checks this from `src/tokens`. It simulates the CSS (soft tints, `color-mix()`, gradient stops, hover
+filters) the way browsers paint it, prints a table, and exits non-zero on a failure. `npm run build` runs it, so a token
+change that breaks contrast fails the build.
+
+How the tokens stay readable:
+
+- `color.hueText.*` (`--io-hue-text`) is each tone, priority and category colour darkened (light) or lifted (dark) just
+  enough for 4.5:1 as text, on surfaces and on its own soft tint. The vivid hues stay for fills, dots and tints.
+- `color.hueOnSolid.*` (`--io-hue-on-solid`) picks white or dark text per hue for solid badges, avatars and counts.
+- `color.controlBorder` outlines form controls at 3:1, so `line` can stay a soft divider.
+- `color.accentFill` is the flat primary fill (white text passes); `accent` stays light in dark mode for links.
+
+A custom `color` on a hue-driven component gets an approximate text colour, so check its contrast yourself.
+
+Decorative exemptions (reported by `npm run contrast`, never failed):
+
+- `line`, `lineStrong` and `sidebar.line`: dividers between list rows, table rules, card edges.
+- Category and tone dots beside a text label (chips, topic nav items, timeline, meter legends).
+- The soft input fill (search fields), which the leading icon and the 4.5:1 placeholder identify instead.
+- The logo glyph on `gradient.logoFill` (brand mark), terminal ANSI black, and disabled controls.
 
 ## Coming from Neutronic
 

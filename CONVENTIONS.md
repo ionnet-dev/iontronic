@@ -24,6 +24,8 @@ ownership are in `STRUCTURE.md`.
 - Every `color` leaf is `#rrggbb` or `#rrggbbaa`, so Android and terminal targets can convert it. Gradients are built
   from colour stops in `GRADIENTS`; derived values use `themed()` so they stay literal in CSS.
 - Hue tints are not tokens: mix them in CSS with `color-mix(in srgb, <hue> var(--io-tint-*), transparent)`.
+- Never use a raw hue as text: use `--io-hue-text` / `--io-color-hue-text-*` for text and icons, `--io-hue-on-solid` /
+  `--io-color-hue-on-solid-*` on solid fills, `controlBorder` for form control boundaries. `npm run contrast` must pass.
 - `npm run tokens` writes `src/generated/` (gitignored). Never edit generated files.
 
 ## Styling

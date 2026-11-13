@@ -19,7 +19,8 @@ export interface HueProps {
    */
   category?: Category;
   /**
-   * Any CSS colour. Sets `--io-hue` inline and wins over the other props.
+   * Any CSS colour. Sets `--io-hue` inline and wins over the other props. Its text variant is approximated (mixed toward
+   * `text`), so check contrast yourself; the named hues are guaranteed 4.5:1.
    */
   color?: string;
 }
@@ -35,6 +36,11 @@ export interface HueAttributes {
 }
 
 /**
+ * Share of a custom `color` kept in its text variant; the rest is `--io-color-text`.
+ */
+const CUSTOM_TEXT_SHARE = "65%";
+
+/**
  * Turns {@link HueProps} into the data attributes and inline style read by `base/hue.css`.
  * @param hue The hue props.
  * @param style The component's own `style` prop, merged in.
@@ -44,7 +50,14 @@ export function hueAttributes(hue: HueProps, style?: CSSProperties): HueAttribut
   if (hue.tone) result["data-tone"] = hue.tone;
   if (hue.category) result["data-category"] = hue.category;
   if (hue.priority) result["data-priority"] = hue.priority;
-  if (hue.color) result.style = { ...style, "--io-hue": hue.color } as CSSProperties;
+  if (hue.color) {
+    result.style = {
+      ...style,
+      "--io-hue": hue.color,
+      "--io-hue-text": `color-mix(in oklab, ${hue.color} ${CUSTOM_TEXT_SHARE}, var(--io-color-text))`,
+      "--io-hue-on-solid": "var(--io-color-on-solid)",
+    } as CSSProperties;
+  }
   else if (style) result.style = style;
   return result;
 }

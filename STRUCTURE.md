@@ -13,13 +13,15 @@ tsdown.config.ts          two builds: `.` (neutral) and `./react` + `./icons` (w
 scripts/
   build-tokens.ts         runs every target in TARGETS → src/generated/ (gitignored)
   build-css.ts            bundles styles to dist/*.css, copies src/generated → dist/platforms/
+  contrast.ts             WCAG contrast check of every painted colour pair (`npm run contrast`, part of build)
   targets/                one file per platform output (css, dtcg, tailwind, android, terminal) + registry + ColorX
 src/
   index.ts                `.` barrel: theme, semantic, tokens, cx (no React)
   theme.ts                THEME_ATTRIBUTE, ThemeMode, applyTheme, watchSystemTheme
   semantic.ts             ControlSize, Tone, StatusTone, Priority, Category, PRIORITY_LABELS, categoryFor()
   cx.ts                   class-name joiner
-  tokens/                 token source (the contract): color, gradient, typography, layout, shape, motion, terminal
+  tokens/                 token source (the contract): color, gradient, typography, layout, shape, motion, terminal;
+                          ColorMath (contrast and colour mixing, shared with scripts/contrast.ts)
   generated/              build output (tokens.css, tokens.json, tailwind.css, android/, terminal/). Never edit.
   styles/
     index.css             fonts + no-fonts.css          (frozen)
@@ -66,7 +68,7 @@ src/tokens  ──►  scripts/targets  ──►  src/generated  ──►  src
 | --- | --- | --- |
 | Theme | `data-io-theme="light\|dark"` on any element; absent = `prefers-color-scheme` | `applyTheme()`, `ThemeProvider` (default `"system"`) |
 | Focus ring | `.io-focus`, `.io-focus-within` (`base/focus.css`) | add to focusable roots / input boxes |
-| Hue trait | `.io-hue` + `data-tone` / `data-category` / `data-priority` / `style="--io-hue"` (`base/hue.css`) | `hueAttributes(HueProps)`; CSS reads `var(--io-hue)` |
+| Hue trait | `.io-hue` + `data-tone` / `data-category` / `data-priority` / `style="--io-hue"` (`base/hue.css`) | `hueAttributes(HueProps)`; CSS reads `var(--io-hue)` for fills, `var(--io-hue-text)` for text and icons, `var(--io-hue-on-solid)` for text on a solid hue |
 | Tints | `color-mix(in srgb, var(--io-hue) var(--io-tint-soft\|icon\|urgent\|hover), transparent)` | soft badges, icon tiles, urgent cards |
 | Popup surface | `.io-popup-positioner`, `.io-popup`, `.io-popup-item…` (`components/popup.css`) | Select, Combobox, Menu |
 | Keyframes | `io-spin`, `io-pulse` (`base/utilities.css`) | Button spinner, Spinner, indeterminate progress |
@@ -77,14 +79,14 @@ src/tokens  ──►  scripts/targets  ──►  src/generated  ──►  src
 
 | Group | Keys |
 | --- | --- |
-| `color` | bg, surface, surfaceSoft, surfaceRaised, inverse, onInverse, scrim, backdropStart/Mid/End, line, lineStrong, text, textMuted, textSubtle, accent, accentHover, accentSoft, accentFillStart/End, onAccent, focus, spark, sparkSoft, ok, warn, bad, info, onSolid, `priority.1–5`, `category.1–8`, `sidebar.{bg,fg,muted,hover,active,activeFg,line}` (all `{light,dark}`, all hex) |
+| `color` | bg, surface, surfaceSoft, surfaceRaised, inverse, onInverse, scrim, backdropStart/Mid/End, line, lineStrong, controlBorder, text, textMuted, textSubtle, accent, accentHover, accentSoft, accentFillStart/End, accentFill, onAccent, focus, spark, sparkMark, sparkSoft, ok, warn, bad, info, onSolid, `priority.1–5`, `category.1–8`, `sidebar.{bg,fg,muted,hover,active,activeFg,line}` (all `{light,dark}`, all hex); derived: `hueText.*`, `hueOnSolid.*` (one per tone, priority and category, computed from the palette for 4.5:1) |
 | `gradient` | accentFill, logoFill, backdrop (built from `GRADIENTS` + colour stops) |
 | `font` / `text` / `weight` / `leading` / `tracking` | display, body, mono / 2xs 11, xs 12, sm 13, md 14 (controls), base 15 (body), lg 17, xl 20, 2xl 26, 3xl 30, 4xl 40, 5xl 56 / regular…bold, display 750 / none, tight, snug, normal / display, tight, normal, caps, label |
 | `space` | keys are px: 0 2 4 6 8 10 12 14 16 18 20 24 28 32 40 48 64 80 |
 | `size` | control sm/md/lg 32/40/48, touch 44, icon xs–xl, iconTile sm/md/lg 36/40/56, sidebar 216 |
 | `breakpoint` | sm 640, md 768 (phone layout below), lg 1024, xl 1280 |
 | `radius` | control, chip (pill), field 14, item 12, row 16, panel 16, tile 14, card 20, sheet 24, sm 6, full |
-| `shadow` / `focus` / `tint` | card, overlay, thumb / width, offset / soft 16%, icon 18%, urgent 9%, hover 8% |
+| `shadow` / `focus` / `tint` | card, overlay, thumb / width, offset / soft 16%, icon 18%, urgent 9%, hover 8%, inverse (toast icons, themed) |
 | `motion` / `z` | duration fast/normal/slow, ease standard/out/in/spring / dropdown…tooltip |
 | `terminal` (not CSS) | `terminal.light`, `terminal.dark`: fg/bg/cursor/selection/url/tab bar + 16 ANSI colours |
 
@@ -184,8 +186,8 @@ Exported `Props` interfaces are the contract: builders may add optional props, n
 | Component | `src/styles/components/<kebab>.css` (contract header first) + `src/react/components/<Name>/<Name>.tsx`; add one line to `styles/components.css` and `react/index.ts`; demo in the owning section |
 | Token | add a leaf to the right `src/tokens/<group>.ts` file (colours: `{ light, dark }` hex); run `npm run tokens`; Tailwind/Android/terminal pick it up automatically |
 | Platform output | `scripts/targets/<name>.ts` exporting a `TokenTarget`; register in `scripts/targets/index.ts`; add an export path if it needs one |
-| Tone / hue-driven variant | extend `Tone` in `semantic.ts` + a rule in `base/hue.css`; components get it for free via `io-hue` |
-| Category colour | add `category.9` to `color.ts`, extend `Category`/`CATEGORIES`, add the `hue.css` rule |
+| Tone / hue-driven variant | extend `Tone` in `semantic.ts`, add it to `HUES` in `color.ts`, + a rule in `base/hue.css` (all three vars); components get it for free via `io-hue` |
+| Category colour | add `category.9` to `color.ts` (`hueText`/`hueOnSolid` derive automatically), extend `Category`/`CATEGORIES`, add the `hue.css` rule (`--io-hue`, `--io-hue-text`, `--io-hue-on-solid`); `npm run contrast` |
 | Framework binding (Svelte, plain HTML) | output the same classes/data attributes; no CSS changes |
 | Docs demo | the owning `apps/docs/src/sections/<Group>.tsx` |
 
@@ -196,7 +198,8 @@ npm install                     # root; runs prepare → build
 npm run typecheck               # tokens + tsc for the package
 npm run docs:install            # once
 npm run typecheck:docs
-npm run build                   # clean → tokens → tsdown → css bundle + dist/platforms
+npm run contrast                # WCAG contrast table for both themes; non-zero exit on a failure
+npm run build                   # clean → tokens → contrast → tsdown → css bundle + dist/platforms
 npm pack --dry-run              # only dist/, README.md, package.json
 npm run dev                     # token watcher + playground on http://localhost:5299 (run headless; screenshot both themes)
 ```

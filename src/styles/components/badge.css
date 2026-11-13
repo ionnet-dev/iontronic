@@ -5,9 +5,9 @@
  *           <span class="io-badge io-hue" data-tone="ok" data-appearance="solid"><svg class="io-icon"/>Healthy</span>
  * Data:     hue trait: data-tone (default neutral) | data-priority 1–5 | data-category 1–8 | style --io-hue
  *           data-appearance  soft (default): background color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent);
- *                                            color var(--io-hue)
- *                            solid: background var(--io-hue); color on-solid
- *                            outline: transparent; 1px inset border var(--io-hue); color var(--io-hue)
+ *                                            color var(--io-hue-text)
+ *                            solid: background var(--io-hue); color var(--io-hue-on-solid)
+ *                            outline: transparent; 1px inset border var(--io-hue); color var(--io-hue-text)
  *           data-size        sm (padding 3px 6px) | md (default, padding 5px 8px)
  * Look:     font mono semibold text-2xs; uppercase; tracking caps; leading none; radius chip; inline-flex; gap 4px;
  *           white-space nowrap.
@@ -21,7 +21,7 @@
   box-sizing: border-box;
   padding: var(--_pad);
   background: color-mix(in srgb, var(--io-hue) var(--io-tint-soft), transparent);
-  color: var(--io-hue);
+  color: var(--io-hue-text);
   border-radius: var(--io-radius-chip);
   font-family: var(--io-font-mono);
   font-size: var(--io-text-2xs);
@@ -37,7 +37,7 @@
 
 .io-badge[data-appearance="solid"] {
   background: var(--io-hue);
-  color: var(--io-color-on-solid);
+  color: var(--io-hue-on-solid);
 }
 
 .io-badge[data-appearance="outline"] {

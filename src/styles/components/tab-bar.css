@@ -11,7 +11,7 @@
  *
  * Parts:    io-tab-bar-item (grid, justify-items center, gap 5px, text 11px semibold, color text-muted, min-height touch),
  *           io-tab-bar-icon (icon 22px; active → 52×30 pill, background accent-soft, color accent),
- *           io-tab-bar-label, io-tab-bar-badge (absolute top-right of the icon; background spark; color on-solid;
+ *           io-tab-bar-label, io-tab-bar-badge (absolute top-right of the icon; background spark; color hue-on-solid-spark;
  *           mono 10px; radius full)
  * Data:     io-tab-bar-item data-active (color text)
  * Private:  --_count (number of items; grid-template-columns repeat(var(--_count), 1fr))
@@ -69,7 +69,7 @@
   padding: 2px 4px;
   border-radius: var(--io-radius-full);
   background: var(--io-color-spark);
-  color: var(--io-color-on-solid);
+  color: var(--io-color-hue-on-solid-spark);
   font-family: var(--io-font-mono);
   font-size: 10px;
   font-weight: var(--io-weight-semibold);

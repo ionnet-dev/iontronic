@@ -18,14 +18,14 @@
  * Parts:    io-select-value (truncate; data-placeholder → color text-subtle), io-select-icon (color text-muted),
  *           io-select-popup (scoped popup tweaks only)
  * Data:     data-size sm | md | lg; data-invalid; data-disabled; data-popup-open (Base UI)
- * Look:     Same box as Input outline (surface, 1px line, radius field, height control-<size>, padding-inline 14px);
+ * Look:     Same box as Input outline (surface, 1px control-border, radius field, height control-<size>, padding-inline 14px);
  *           justify space-between; text-md.
  */
 
 .io-select {
   --_height: var(--io-size-control-md);
   --_pad: 14px;
-  --_border: var(--io-color-line);
+  --_border: var(--io-color-control-border);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@
 }
 
 .io-select:hover:not(:disabled, [data-disabled], [data-invalid]) {
-  --_border: var(--io-color-line-strong);
+  --_border: var(--io-color-text-muted);
 }
 
 .io-select[data-popup-open]:not([data-invalid]) {

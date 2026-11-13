@@ -6,7 +6,7 @@
  *           </span>
  * Parts:    io-avatar-image (cover), io-avatar-fallback (initials)
  * Data:     data-size sm (28) | md (38) | lg (48); hue trait (default tone spark)
- * Look:     circle; background var(--io-hue); color on-solid; font display bold; text scales with size.
+ * Look:     circle; background var(--io-hue); color var(--io-hue-on-solid); font display bold; text scales with size.
  */
 
 .io-avatar {
@@ -19,7 +19,7 @@
   height: var(--_size);
   overflow: hidden;
   background: var(--io-hue);
-  color: var(--io-color-on-solid);
+  color: var(--io-hue-on-solid);
   border-radius: var(--io-radius-full);
   font-family: var(--io-font-display);
   font-size: var(--_text);

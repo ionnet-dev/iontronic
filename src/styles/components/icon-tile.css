@@ -6,7 +6,7 @@
  * Data:     data-size  sm | md | lg      → var(--io-size-icon-tile-<size>) square (sm 36, md 40, lg 56)
  *           data-tone / data-category / style --io-hue   (hue trait, see base/hue.css)
  * Look:     border-radius full; background color-mix(in srgb, var(--io-hue) var(--io-tint-icon), transparent);
- *           color var(--io-hue); display grid; place-items center. Icon size: sm/md → icon lg (20), lg → icon xl (24).
+ *           color var(--io-hue-text); display grid; place-items center. Icon size: sm/md → icon lg (20), lg → icon xl (24).
  */
 
 .io-icon-tile {
@@ -18,7 +18,7 @@
   height: var(--_size);
   border-radius: var(--io-radius-full);
   background: color-mix(in srgb, var(--io-hue) var(--io-tint-icon), transparent);
-  color: var(--io-hue);
+  color: var(--io-hue-text);
   font-weight: var(--io-weight-semibold);
 }
 

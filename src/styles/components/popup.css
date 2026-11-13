@@ -78,7 +78,7 @@
 }
 
 .io-popup-item[data-tone="bad"] {
-  color: var(--io-color-bad);
+  color: var(--io-color-hue-text-bad);
 }
 
 .io-popup-item-indicator {

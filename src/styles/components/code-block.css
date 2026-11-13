@@ -72,7 +72,7 @@
   color: var(--io-color-text);
 }
 
-.io-code-block-copy[data-copied] { color: var(--io-color-ok); }
+.io-code-block-copy[data-copied] { color: var(--io-color-hue-text-ok); }
 
 .io-code-block-pre {
   margin: 0;

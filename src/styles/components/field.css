@@ -31,7 +31,7 @@
 
 .io-field-required {
   margin-inline-start: 2px;
-  color: var(--io-color-bad);
+  color: var(--io-color-hue-text-bad);
 }
 
 .io-field-description {
@@ -45,7 +45,7 @@
   margin: 0;
   font-size: var(--io-text-sm);
   line-height: var(--io-leading-snug);
-  color: var(--io-color-bad);
+  color: var(--io-color-hue-text-bad);
 }
 
 .io-field[data-disabled] .io-field-label {

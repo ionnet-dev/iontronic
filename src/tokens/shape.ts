@@ -99,4 +99,9 @@ export const tint = {
    * Hover wash on ghost and transparent controls.
    */
   hover: "8%",
+  /**
+   * Share of the hue in status icons on `inverse` (toasts); the rest is `onInverse`. Below 100% where the vivid hue is
+   * too close to the inverse surface for 3:1.
+   */
+  inverse: { light: "95%", dark: "65%" },
 } as const satisfies TokenTree;

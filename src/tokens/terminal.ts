@@ -34,9 +34,16 @@ const c = (key: keyof typeof color, theme: ResolvedTheme): string => {
   return value[theme];
 };
 
+const text = (key: keyof typeof color.hueText, theme: ResolvedTheme): string => {
+  const value = color.hueText[key];
+  if (!("light" in value)) throw new Error(`Token \`color.hueText.${key}\` is a group, not a colour. Reference a leaf.`);
+  return value[theme];
+};
+
 /**
- * Builds the terminal palette for a theme. Normal ANSI colours come from tokens; the bright row has extra values that
- * are only used here (lifted in dark, deepened in light so they stay readable on the background).
+ * Builds the terminal palette for a theme. Normal ANSI colours are the `hueText` variants (status and accent hues
+ * adjusted to 4.5:1 as text); the bright row has extra values that are only used here (lifted in dark, deepened in
+ * light so they stay readable on the background).
  */
 function palette(theme: ResolvedTheme): TerminalPalette {
   const bright = theme === "dark"
@@ -49,7 +56,7 @@ function palette(theme: ResolvedTheme): TerminalPalette {
     cursorText: c("bg", theme),
     selectionForeground: c("text", theme),
     selectionBackground: c("accentSoft", theme),
-    url: c("info", theme),
+    url: text("info", theme),
     tabBar: {
       background: c("bg", theme),
       activeForeground: c("onAccent", theme),
@@ -59,12 +66,12 @@ function palette(theme: ResolvedTheme): TerminalPalette {
     },
     ansi: [
       theme === "dark" ? c("surfaceSoft", theme) : c("text", theme), // 0 black
-      c("bad", theme), // 1 red
-      c("ok", theme), // 2 green
-      c("warn", theme), // 3 yellow
-      c("info", theme), // 4 blue
-      c("accent", theme), // 5 magenta
-      theme === "dark" ? color.category["4"].dark : "#138a83", // 6 cyan (teal, deepened in light for contrast)
+      text("bad", theme), // 1 red
+      text("ok", theme), // 2 green
+      text("warn", theme), // 3 yellow
+      text("info", theme), // 4 blue
+      text("accent", theme), // 5 magenta
+      color.hueText.category["4"][theme], // 6 cyan (teal)
       c("textMuted", theme), // 7 white
       c("textSubtle", theme), // 8 bright black
       bright[0]!, // 9 bright red

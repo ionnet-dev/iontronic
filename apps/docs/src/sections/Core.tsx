@@ -30,6 +30,7 @@ const SURFACES = [
   ["inverse", vars.color.inverse],
   ["line", vars.color.line],
   ["lineStrong", vars.color.lineStrong],
+  ["controlBorder", vars.color.controlBorder],
 ] as const;
 
 const ACCENT = [
@@ -38,7 +39,9 @@ const ACCENT = [
   ["accentSoft", vars.color.accentSoft],
   ["accentFillStart", vars.color.accentFillStart],
   ["accentFillEnd", vars.color.accentFillEnd],
+  ["accentFill", vars.color.accentFill],
   ["spark", vars.color.spark],
+  ["sparkMark", vars.color.sparkMark],
   ["sparkSoft", vars.color.sparkSoft],
 ] as const;
 
@@ -47,6 +50,10 @@ const STATUS = [
   ["warn", vars.color.warn],
   ["bad", vars.color.bad],
   ["info", vars.color.info],
+  ["hueText.ok", vars.color.hueText.ok],
+  ["hueText.warn", vars.color.hueText.warn],
+  ["hueText.bad", vars.color.hueText.bad],
+  ["hueText.info", vars.color.hueText.info],
 ] as const;
 
 const SIDEBAR = [
